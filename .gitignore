@@ -101,4 +101,7 @@ Thumbs.db
 
 # Temporary files
 *.tmp
-*.temp 
+*.temp
+
+# Cursor logs
+cursor_*.md 
