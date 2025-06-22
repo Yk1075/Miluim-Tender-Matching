@@ -66,8 +66,8 @@ def check_housing_match(profile_housing_need, tender_housing_req):
                 'מחוסרי דיור' not in tender_housing_req and 
                 'חסרי דירה' not in tender_housing_req)
 
-def create_matching_table():
-    """Create matching table based on hard filters"""
+def create_comprehensive_matching_table():
+    """Create comprehensive matching table with detailed information"""
     # Load data
     profiles_df = pd.read_csv('data/csv_output/טבלת הפרופילים.csv')
     tenders_df = pd.read_csv('data/csv_output/טבלת מכרזים ניסיון שני_.csv')
@@ -75,19 +75,33 @@ def create_matching_table():
     # Add profile categories
     profiles_df['קטגוריה'] = profiles_df.apply(get_profile_category, axis=1)
     
-    matches = []
+    successful_matches = []
     
     for _, profile in profiles_df.iterrows():
         profile_id = profile['מספר_פרופיל']
         profile_area = profile['אזור_מועדף']
         profile_category = profile['קטגוריה']
         profile_housing_need = profile['חסר_דיור']
+        profile_disability = profile['סיווג_נכות']
+        profile_miluim_days = profile['ימי_מילואים_מ-7.10.23']
+        profile_active_card = profile['תעודת_מילואים_פעיל']
+        profile_6_years_days = profile['ימי_מילואים_ב-6_שנים']
+        profile_spouse_eligible = profile['בן/בת_זוג_זכאי']
         
         for _, tender in tenders_df.iterrows():
             tender_id = tender['id']
+            tender_number = tender['מספר המכרז']
+            tender_city = tender['עיר']
+            tender_neighborhood = tender['שכונה']
             tender_area = tender['אזור גיאוגרפי ']
+            tender_priority_area = tender['אזור עדיפות']
             tender_eligibility = tender['מי רשאי להגיש']
             tender_housing_req = tender['סטטוס דיור נדרש']
+            tender_plots = tender['מספר מגרשים']
+            tender_disability_plots = tender['כמה מגרשים בעדיפות בהגרלה לנכי צה"ל']
+            tender_miluim_plots = tender['כמה מגרשים בעדיפות בהגרלה לחיילי מילואים']
+            tender_publish_date = tender['תאריך פרסום חוברת']
+            tender_deadline = tender['מועד אחרון להגשת הצעות']
             
             # Apply hard filters
             area_match = check_area_match(profile_area, tender_area)
@@ -97,93 +111,72 @@ def create_matching_table():
             # Calculate final score (all filters must pass)
             final_score = 1.0 if (area_match and eligibility_match and housing_match) else 0.0
             
-            # Only add matches with score > 0 or for comparison purposes
-            if final_score > 0 or True:  # Keep all for comparison
-                matches.append({
-                    'profile_id': profile_id,
-                    'tender_id': tender_id,
+            # Only add successful matches
+            if final_score == 1.0:
+                successful_matches.append({
+                    'מספר_פרופיל': profile_id,
+                    'מספר_מכרז': tender_number,
+                    'עיר': tender_city,
+                    'שכונה': tender_neighborhood,
+                    'אזור_גיאוגרפי': tender_area,
+                    'אזור_עדיפות': tender_priority_area,
+                    'קטגוריית_פרופיל': profile_category,
+                    'חסר_דיור': profile_housing_need,
+                    'סיווג_נכות': profile_disability,
+                    'ימי_מילואים_מ-7.10.23': profile_miluim_days,
+                    'תעודת_מילואים_פעיל': profile_active_card,
+                    'ימי_מילואים_ב-6_שנים': profile_6_years_days,
+                    'בן/בת_זוג_זכאי': profile_spouse_eligible,
+                    'מי_רשאי_להגיש': tender_eligibility,
+                    'סטטוס_דיור_נדרש': tender_housing_req,
+                    'מספר_מגרשים': tender_plots,
+                    'מגרשים_לנכי_צהל': tender_disability_plots,
+                    'מגרשים_לחיילי_מילואים': tender_miluim_plots,
+                    'תאריך_פרסום': tender_publish_date,
+                    'מועד_אחרון_להגשה': tender_deadline,
                     'עובר_אזור': 1.0 if area_match else 0.0,
                     'עובר_זכאות': 1.0 if eligibility_match else 0.0,
                     'עובר_חסר_דיור': 1.0 if housing_match else 0.0,
-                    'score_סופי': final_score
+                    'ציון_סופי': final_score
                 })
     
-    return pd.DataFrame(matches)
-
-def compare_with_manual_table(generated_df, manual_df):
-    """Compare generated matching table with manual table"""
-    # Filter only successful matches (score = 1.0) for comparison
-    generated_matches = generated_df[generated_df['score_סופי'] == 1.0].copy()
-    manual_matches = manual_df[manual_df['score_סופי'] == 1.0].copy()
-    
-    # Create comparison sets
-    generated_pairs = set(zip(generated_matches['profile_id'], generated_matches['tender_id']))
-    manual_pairs = set(zip(manual_matches['profile_id'], manual_matches['tender_id']))
-    
-    # Calculate metrics
-    common_matches = generated_pairs.intersection(manual_pairs)
-    only_generated = generated_pairs - manual_pairs
-    only_manual = manual_pairs - generated_pairs
-    
-    precision = len(common_matches) / len(generated_pairs) if len(generated_pairs) > 0 else 0
-    recall = len(common_matches) / len(manual_pairs) if len(manual_pairs) > 0 else 0
-    f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
-    
-    return {
-        'total_generated_matches': len(generated_pairs),
-        'total_manual_matches': len(manual_pairs),
-        'common_matches': len(common_matches),
-        'only_in_generated': len(only_generated),
-        'only_in_manual': len(only_manual),
-        'precision': precision,
-        'recall': recall,
-        'f1_score': f1_score,
-        'common_pairs': common_matches,
-        'only_generated_pairs': only_generated,
-        'only_manual_pairs': only_manual
-    }
+    return pd.DataFrame(successful_matches)
 
 def main():
-    print("Creating matching table based on hard filters...")
+    print("Creating comprehensive matching table...")
     
-    # Generate matching table
-    generated_matches = create_matching_table()
+    # Generate comprehensive matching table
+    comprehensive_matches = create_comprehensive_matching_table()
     
-    # Save generated matches
-    output_path = 'data/csv_output/generated_matches.csv'
-    generated_matches.to_csv(output_path, index=False, encoding='utf-8-sig')
-    print(f"Generated matching table saved to: {output_path}")
+    # Sort by profile ID and tender number for better organization
+    comprehensive_matches = comprehensive_matches.sort_values(['מספר_פרופיל', 'מספר_מכרז'])
     
-    # Load manual matching table
-    manual_matches = pd.read_csv('data/csv_output/טבלת התאמות_.csv')
+    # Save comprehensive matches
+    output_path = 'data/csv_output/טבלת_התאמות_מקיפה.csv'
+    comprehensive_matches.to_csv(output_path, index=False, encoding='utf-8-sig')
+    print(f"Comprehensive matching table saved to: {output_path}")
     
-    # Compare results
-    comparison = compare_with_manual_table(generated_matches, manual_matches)
+    # Print summary statistics
+    print(f"\n=== SUMMARY STATISTICS ===")
+    print(f"Total successful matches: {len(comprehensive_matches)}")
+    print(f"Unique profiles matched: {comprehensive_matches['מספר_פרופיל'].nunique()}")
+    print(f"Unique tenders matched: {comprehensive_matches['מספר_מכרז'].nunique()}")
     
-    print("\n=== COMPARISON RESULTS ===")
-    print(f"Generated matches: {comparison['total_generated_matches']}")
-    print(f"Manual matches: {comparison['total_manual_matches']}")
-    print(f"Common matches: {comparison['common_matches']}")
-    print(f"Only in generated: {comparison['only_in_generated']}")
-    print(f"Only in manual: {comparison['only_in_manual']}")
-    print(f"\nPrecision: {comparison['precision']:.3f}")
-    print(f"Recall: {comparison['recall']:.3f}")
-    print(f"F1-Score: {comparison['f1_score']:.3f}")
+    # Print matches by profile
+    print(f"\n=== MATCHES BY PROFILE ===")
+    profile_counts = comprehensive_matches['מספר_פרופיל'].value_counts().sort_index()
+    for profile, count in profile_counts.items():
+        print(f"{profile}: {count} matches")
     
-    if comparison['only_generated_pairs']:
-        print(f"\nMatches only in generated algorithm:")
-        for profile, tender in comparison['only_generated_pairs']:
-            print(f"  {profile} -> {tender}")
+    # Print matches by area
+    print(f"\n=== MATCHES BY AREA ===")
+    area_counts = comprehensive_matches['אזור_גיאוגרפי'].value_counts()
+    for area, count in area_counts.items():
+        print(f"{area}: {count} matches")
     
-    if comparison['only_manual_pairs']:
-        print(f"\nMatches only in manual table:")
-        for profile, tender in comparison['only_manual_pairs']:
-            print(f"  {profile} -> {tender}")
-    
-    # Show sample of successful matches
-    successful_matches = generated_matches[generated_matches['score_סופי'] == 1.0]
-    print(f"\nSample of successful matches (first 10):")
-    print(successful_matches.head(10).to_string(index=False))
+    # Print sample of matches
+    print(f"\n=== SAMPLE OF MATCHES (first 10) ===")
+    print(comprehensive_matches[['מספר_פרופיל', 'מספר_מכרז', 'עיר', 'קטגוריית_פרופיל', 'חסר_דיור']].head(10).to_string(index=False))
 
 if __name__ == "__main__":
     main() 
