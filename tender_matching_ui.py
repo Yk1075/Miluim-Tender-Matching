@@ -44,43 +44,49 @@ st.markdown("""
         padding: 2rem;
         margin: -1rem -1rem 2rem -1rem;
         border-radius: 0 0 12px 12px;
+        text-align: center;
     }
     
     .header-title {
         font-size: 1.8rem;
         font-weight: bold;
         margin-bottom: 0.5rem;
+        color: white;
     }
     
     .header-subtitle {
         font-size: 1rem;
         margin-bottom: 1.5rem;
         opacity: 0.9;
+        color: white;
     }
     
-    .info-section {
+    .info-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 1.5rem;
         margin-top: 1rem;
+        text-align: right;
     }
     
-    .info-box {
+    .info-card {
         background: rgba(255,255,255,0.1);
         padding: 1rem;
         border-radius: 8px;
     }
     
-    .info-box h4 {
+    .info-card h4 {
         margin: 0 0 0.5rem 0;
         font-size: 1rem;
         font-weight: bold;
+        color: white;
     }
     
-    .info-box p {
+    .info-card p {
         margin: 0;
         font-size: 0.9rem;
         line-height: 1.4;
+        color: white;
     }
     
     /* Form styling */
@@ -220,7 +226,7 @@ st.markdown("""
     }
     
     @media (max-width: 768px) {
-        .info-section {
+        .info-grid {
             grid-template-columns: 1fr;
         }
         
@@ -304,19 +310,19 @@ def render_tender_card(tender):
     """
 
 def main():
-    # Clean header
+    # Clean header using HTML
     st.markdown("""
     <div class="header-section">
         <div class="header-title">🏠 מילואים וזוכים - מערכת התאמת מכרזים</div>
         <div class="header-subtitle">מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך</div>
         
-        <div class="info-section">
-            <div class="info-box">
+        <div class="info-grid">
+            <div class="info-card">
                 <h4>💡 איך זה עובד?</h4>
                 <p>המערכת בודקת את הזכאות שלך על בסיס ימי המילואים, נכות וסטטוס דיור, ומציגה רק מכרזים רלוונטיים לפרופיל שלך</p>
             </div>
             
-            <div class="info-box">
+            <div class="info-card">
                 <h4>💰 ההטבות העיקריות</h4>
                 <p>• הנחות של 10-35% באזורי עדיפות לאומית<br>
                 • הנחות נוספות של 10-35% ממחיר המגרש<br>
