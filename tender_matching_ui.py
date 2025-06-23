@@ -16,347 +16,217 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Wolt-style CSS design
+# Simple and clean CSS
 st.markdown("""
 <style>
-    /* Import modern font */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-    
-    /* Reset and base styles */
+    /* RTL and font setup */
     * {
         direction: rtl;
         text-align: right;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
     }
     
     .main {
-        background-color: #f8f9fa;
-        padding: 0;
+        background-color: #ffffff;
+        padding: 1rem;
         max-width: 1200px;
         margin: 0 auto;
     }
     
     .stApp {
-        background-color: #f8f9fa;
+        background-color: #f5f5f5;
     }
     
-    /* Header Banner - Wolt style */
-    .wolt-header {
-        background: linear-gradient(135deg, #009de0 0%, #0066cc 100%);
+    /* Clean header */
+    .header-section {
+        background: #1e3a8a;
         color: white;
-        padding: 1.5rem 2rem;
-        margin: -1rem -1rem 1.5rem -1rem;
-        border-radius: 0 0 16px 16px;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        padding: 2rem;
+        margin: -1rem -1rem 2rem -1rem;
+        border-radius: 0 0 12px 12px;
     }
     
     .header-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin: 0 0 0.5rem 0;
-        color: white !important;
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
     }
     
     .header-subtitle {
-        font-size: 0.95rem;
-        margin: 0 0 1rem 0;
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
         opacity: 0.9;
-        color: white !important;
     }
     
-    .info-grid {
+    .info-section {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 1rem;
+        gap: 1.5rem;
         margin-top: 1rem;
     }
     
-    .info-card {
+    .info-box {
         background: rgba(255,255,255,0.1);
         padding: 1rem;
         border-radius: 8px;
-        backdrop-filter: blur(10px);
     }
     
-    .info-card h4 {
-        font-size: 0.9rem;
-        font-weight: 600;
+    .info-box h4 {
         margin: 0 0 0.5rem 0;
-        color: white !important;
+        font-size: 1rem;
+        font-weight: bold;
     }
     
-    .info-card p {
-        font-size: 0.8rem;
+    .info-box p {
         margin: 0;
-        opacity: 0.9;
-        color: white !important;
+        font-size: 0.9rem;
         line-height: 1.4;
     }
     
-    /* Search panel - Wolt style */
-    .search-panel {
+    /* Form styling */
+    .search-container {
         background: white;
-        border-radius: 12px;
-        padding: 1.25rem;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         margin-bottom: 1rem;
-        border: 1px solid #e9ecef;
     }
     
-    .search-panel h3 {
-        font-size: 1rem;
-        font-weight: 600;
-        color: #212529 !important;
-        margin: 0 0 1rem 0;
+    .search-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #1e3a8a;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #e5e7eb;
         padding-bottom: 0.5rem;
-        border-bottom: 1px solid #e9ecef;
     }
     
-    /* Form groups - compact spacing */
-    .form-group {
-        margin-bottom: 0.75rem;
-    }
-    
-    .form-group:last-child {
-        margin-bottom: 0;
-    }
-    
-    /* Labels - Wolt style */
-    .stSelectbox label, .stNumberInput label {
-        font-size: 0.85rem !important;
-        font-weight: 500 !important;
-        color: #495057 !important;
-        margin-bottom: 0.25rem !important;
-    }
-    
-    /* Form inputs - Wolt style */
-    .stSelectbox > div > div, .stNumberInput > div > div > div > input {
-        border: 1px solid #ced4da !important;
-        border-radius: 8px !important;
-        font-size: 0.85rem !important;
-        padding: 0.5rem 0.75rem !important;
-        background: white !important;
-        transition: border-color 0.2s ease !important;
-    }
-    
-    .stSelectbox > div > div:focus-within, .stNumberInput > div > div:focus-within {
-        border-color: #009de0 !important;
-        box-shadow: 0 0 0 2px rgba(0, 157, 224, 0.1) !important;
-    }
-    
-    /* Help text styling */
-    .stTooltipIcon {
-        color: #6c757d !important;
-        font-size: 0.75rem !important;
-    }
-    
-    /* Button - Wolt style */
-    .stButton > button {
-        background: #009de0 !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 10px !important;
-        padding: 0.75rem 1.5rem !important;
-        font-weight: 600 !important;
-        font-size: 0.9rem !important;
-        width: 100% !important;
-        transition: all 0.2s ease !important;
-        box-shadow: 0 2px 8px rgba(0, 157, 224, 0.3) !important;
-    }
-    
-    .stButton > button:hover {
-        background: #0088cc !important;
-        transform: translateY(-1px) !important;
-        box-shadow: 0 4px 12px rgba(0, 157, 224, 0.4) !important;
-    }
-    
-    /* Results area - Wolt style */
-    .results-area {
+    /* Results styling */
+    .results-container {
         background: white;
-        border-radius: 12px;
-        padding: 1.25rem;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        border: 1px solid #e9ecef;
-        min-height: 450px;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        min-height: 400px;
     }
     
-    .results-header {
-        font-size: 1rem;
-        font-weight: 600;
-        color: #212529;
+    .results-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #1e3a8a;
         margin-bottom: 1rem;
+        border-bottom: 2px solid #e5e7eb;
         padding-bottom: 0.5rem;
-        border-bottom: 1px solid #e9ecef;
     }
     
-    /* Tender cards - Pure Wolt style */
+    /* Tender cards */
     .tender-card {
-        background: white;
-        border: 1px solid #e9ecef;
-        border-radius: 12px;
+        background: #f8f9fa;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
         padding: 1rem;
-        margin-bottom: 0.75rem;
-        transition: all 0.2s ease;
-        cursor: pointer;
-        position: relative;
+        margin-bottom: 1rem;
+        transition: box-shadow 0.2s;
     }
     
     .tender-card:hover {
-        box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-        border-color: #009de0;
-        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
     
-    .tender-card-header {
+    .tender-header {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
+        align-items: center;
         margin-bottom: 0.5rem;
     }
     
     .tender-title {
-        font-size: 0.95rem;
-        font-weight: 600;
-        color: #212529;
-        margin: 0;
-        line-height: 1.3;
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #1e3a8a;
     }
     
     .tender-number {
-        font-size: 0.7rem;
-        color: #6c757d;
-        background: #f8f9fa;
-        padding: 0.2rem 0.5rem;
-        border-radius: 6px;
-        font-weight: 500;
-        white-space: nowrap;
+        background: #1e3a8a;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
     }
     
-    .tender-location {
-        font-size: 0.8rem;
-        color: #6c757d;
+    .tender-info {
+        color: #6b7280;
+        font-size: 0.9rem;
         margin-bottom: 0.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
     }
     
     .tender-stats {
         display: flex;
-        gap: 0.75rem;
-        margin-bottom: 0.5rem;
+        gap: 1rem;
         flex-wrap: wrap;
+        margin-bottom: 0.5rem;
     }
     
-    .stat-item {
-        font-size: 0.75rem;
-        color: #6c757d;
-        background: #f8f9fa;
+    .stat {
+        background: #e5e7eb;
         padding: 0.25rem 0.5rem;
-        border-radius: 6px;
-    }
-    
-    .stat-number {
-        font-weight: 600;
-        color: #009de0;
+        border-radius: 4px;
+        font-size: 0.8rem;
     }
     
     .tender-dates {
-        font-size: 0.7rem;
-        color: #6c757d;
-        border-top: 1px solid #f1f3f4;
+        font-size: 0.8rem;
+        color: #6b7280;
+        border-top: 1px solid #e5e7eb;
         padding-top: 0.5rem;
-        line-height: 1.3;
     }
     
-    .priority-badge {
-        position: absolute;
-        top: 0.75rem;
-        left: 0.75rem;
-        font-size: 0.7rem;
-        padding: 0.2rem 0.5rem;
-        border-radius: 6px;
-        font-weight: 500;
-    }
-    
-    .priority-a {
-        background: #e3f2fd;
-        color: #1976d2;
-    }
-    
-    .priority-b {
-        background: #fff3e0;
-        color: #f57c00;
-    }
-    
-    /* Empty state - Wolt style */
+    /* Empty state */
     .empty-state {
         text-align: center;
-        padding: 2rem 1rem;
-        color: #6c757d;
+        padding: 3rem 1rem;
+        color: #6b7280;
     }
     
-    .empty-state-icon {
-        font-size: 2.5rem;
-        margin-bottom: 0.75rem;
-        opacity: 0.6;
+    .empty-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
     }
     
-    .empty-state h3 {
-        font-size: 1rem;
-        font-weight: 600;
-        color: #495057 !important;
-        margin-bottom: 0.5rem;
-    }
-    
-    .empty-state p {
-        font-size: 0.85rem;
-        color: #6c757d !important;
-        margin: 0;
-    }
-    
-    /* Success/Warning messages - Wolt style */
-    .stSuccess {
-        background: #d4edda !important;
-        color: #155724 !important;
-        border: 1px solid #c3e6cb !important;
-        border-radius: 8px !important;
-        padding: 0.75rem !important;
-        font-size: 0.85rem !important;
-        font-weight: 500 !important;
-    }
-    
-    .stWarning {
-        background: #fff3cd !important;
-        color: #856404 !important;
-        border: 1px solid #ffeaa7 !important;
-        border-radius: 8px !important;
-        padding: 0.75rem !important;
-        font-size: 0.85rem !important;
-        font-weight: 500 !important;
-    }
-    
-    /* Hide Streamlit elements */
+    /* Hide streamlit elements */
     .stDeployButton, .stDecoration, #MainMenu, footer {
         display: none !important;
-        visibility: hidden !important;
     }
     
-    /* Mobile responsive */
+    /* Button styling */
+    .stButton > button {
+        background: #1e3a8a !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 6px !important;
+        padding: 0.75rem 1.5rem !important;
+        font-weight: bold !important;
+        width: 100% !important;
+    }
+    
+    .stButton > button:hover {
+        background: #1e40af !important;
+    }
+    
+    /* Form inputs */
+    .stSelectbox label, .stNumberInput label {
+        font-weight: bold !important;
+        color: #374151 !important;
+    }
+    
     @media (max-width: 768px) {
-        .info-grid {
+        .info-section {
             grid-template-columns: 1fr;
         }
         
         .tender-stats {
             flex-direction: column;
-            gap: 0.25rem;
-        }
-        
-        .priority-badge {
-            position: static;
-            margin-top: 0.5rem;
-            display: inline-block;
+            gap: 0.5rem;
         }
     }
 </style>
@@ -404,63 +274,49 @@ def find_matching_tenders(profile_data):
         return pd.DataFrame()
 
 def render_tender_card(tender):
-    """Render a single tender as a Wolt-style card"""
-    priority_class = ""
-    priority_text = ""
-    
+    """Render a single tender card"""
+    priority_badge = ""
     if "א'" in str(tender.get('אזור עדיפות', '')):
-        priority_class = "priority-a"
-        priority_text = "עדיפות א'"
+        priority_badge = "🥇 עדיפות א'"
     elif "ב'" in str(tender.get('אזור עדיפות', '')):
-        priority_class = "priority-b"
-        priority_text = "עדיפות ב'"
+        priority_badge = "🥈 עדיפות ב'"
     
     return f"""
     <div class="tender-card">
-        {f'<div class="priority-badge {priority_class}">{priority_text}</div>' if priority_text else ''}
-        
-        <div class="tender-card-header">
-            <div class="tender-title">{tender['עיר']} • {tender['שכונה']}</div>
+        <div class="tender-header">
+            <div class="tender-title">{tender['עיר']} - {tender['שכונה']}</div>
             <div class="tender-number">#{tender['מספר מכרז']}</div>
         </div>
         
-        <div class="tender-location">
-            📍 {tender['אזור גיאוגרפי']}
-        </div>
+        <div class="tender-info">📍 {tender['אזור גיאוגרפי']}</div>
         
         <div class="tender-stats">
-            <div class="stat-item">
-                <span class="stat-number">{tender['מספר מגרשים']}</span> מגרשים
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">{tender['מגרשים לחיילי מילואים']}</span> מילואים
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">{tender['מגרשים לנכי צה"ל']}</span> נכי צה"ל
-            </div>
+            <div class="stat">🏗️ {tender['מספר מגרשים']} מגרשים</div>
+            <div class="stat">🎖️ {tender['מגרשים לחיילי מילואים']} מילואים</div>
+            <div class="stat">♿ {tender['מגרשים לנכי צה"ל']} נכי צה"ל</div>
+            {f'<div class="stat" style="background: #fef3c7; color: #d97706;">{priority_badge}</div>' if priority_badge else ''}
         </div>
         
         <div class="tender-dates">
-            📅 פורסם: {tender['תאריך פרסום חוברת המכרז']}<br>
-            ⏰ מועד אחרון: {tender['מועד אחרון להגשה']}
+            📅 פורסם: {tender['תאריך פרסום חוברת המכרז']} | ⏰ מועד אחרון: {tender['מועד אחרון להגשה']}
         </div>
     </div>
     """
 
 def main():
-    # Wolt-style Header with system info and benefits
+    # Clean header
     st.markdown("""
-    <div class="wolt-header">
+    <div class="header-section">
         <div class="header-title">🏠 מילואים וזוכים - מערכת התאמת מכרזים</div>
         <div class="header-subtitle">מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך</div>
         
-        <div class="info-grid">
-            <div class="info-card">
+        <div class="info-section">
+            <div class="info-box">
                 <h4>💡 איך זה עובד?</h4>
                 <p>המערכת בודקת את הזכאות שלך על בסיס ימי המילואים, נכות וסטטוס דיור, ומציגה רק מכרזים רלוונטיים לפרופיל שלך</p>
             </div>
             
-            <div class="info-card">
+            <div class="info-box">
                 <h4>💰 ההטבות העיקריות</h4>
                 <p>• הנחות של 10-35% באזורי עדיפות לאומית<br>
                 • הנחות נוספות של 10-35% ממחיר המגרש<br>
@@ -480,10 +336,9 @@ def main():
         st.session_state.matches = pd.DataFrame()
 
     with search_col:
-        st.markdown('<div class="search-panel">', unsafe_allow_html=True)
-        st.markdown('<h3>📋 פרטים אישיים</h3>', unsafe_allow_html=True)
+        st.markdown('<div class="search-container">', unsafe_allow_html=True)
+        st.markdown('<div class="search-title">📋 פרטים אישיים</div>', unsafe_allow_html=True)
         
-        st.markdown('<div class="form-group">', unsafe_allow_html=True)
         days_since_oct = st.number_input(
             "ימי מילואים מ-7.10.23",
             min_value=0,
@@ -491,18 +346,14 @@ def main():
             help="מספר ימי המילואים שביצעת מתאריך 7.10.23 - יש לצרף אישור על שירות של מעל 45 ימים בזמן מלחמת \"חרבות ברזל\" (טופס 3010, סעיף 1.1)",
             key="days_since_oct"
         )
-        st.markdown('</div>', unsafe_allow_html=True)
         
-        st.markdown('<div class="form-group">', unsafe_allow_html=True)
         active_card = st.selectbox(
             "תעודת מילואים פעיל?",
             options=["לא", "כן"],
             help="בחר 'כן' אם יש ברשותך תעודת מילואים פעיל - יש לצרף אישור למשרת מילואים פעיל שש שנתי (סעיף 1.2) או אישור למשרת מילואים פעיל שש שנתי בעבר (סעיף 1.2)",
             key="active_card"
         )
-        st.markdown('</div>', unsafe_allow_html=True)
         
-        st.markdown('<div class="form-group">', unsafe_allow_html=True)
         days_in_6_years = st.number_input(
             "ימי מילואים ב-6 שנים",
             min_value=0,
@@ -510,43 +361,34 @@ def main():
             help="סך ימי המילואים שביצעת ב-6 השנים האחרונות - יש לצרף אישור על שירות של 80 ימי מילואים בתקופה של עד 6 שנים (סעיף 1.3)",
             key="days_in_6_years"
         )
-        st.markdown('</div>', unsafe_allow_html=True)
         
-        st.markdown('<div class="form-group">', unsafe_allow_html=True)
         disability_status = st.selectbox(
             "סיווג נכות",
             options=["אין", "נכות קשה", "100% ומעלה"],
             help="בחר את סיווג הנכות המתאים לך - זה משפיע על הזכאות למכרזים מיוחדים ועל היקף ההטבות",
             key="disability_status"
         )
-        st.markdown('</div>', unsafe_allow_html=True)
         
-        st.markdown('<div class="form-group">', unsafe_allow_html=True)
         housing_status = st.selectbox(
             "חסר/ת דיור?",
             options=["לא", "כן"],
             help="בחר 'כן' אם הינך מוגדר כחסר דיור לפי האתר הממשלתי: https://www.gov.il/he/service/certificate-of-homelessness - זה משפיע על היקף ההטבות שלך",
             key="housing_status"
         )
-        st.markdown('</div>', unsafe_allow_html=True)
         
-        st.markdown('<div class="form-group">', unsafe_allow_html=True)
         preferred_area = st.selectbox(
             "אזור מועדף",
             options=["דרום", "צפון", "ירושלים", "מרכז", "יהודה ושומרון"],
             help="בחר את האזור המועדף עליך למגורים - המערכת תציג רק מכרזים באזור הנבחר",
             key="preferred_area"
         )
-        st.markdown('</div>', unsafe_allow_html=True)
         
-        st.markdown('<div class="form-group">', unsafe_allow_html=True)
         spouse_eligible = st.selectbox(
             "בן/בת זוג זכאי/ת?",
             options=["לא", "כן"],
             help="בחר 'כן' אם בן/בת הזוג זכאי/ת להטבות (גם הוא/היא מילואים או נכה) - זה יכול להכפיל את ההטבות שלכם",
             key="spouse_eligible"
         )
-        st.markdown('</div>', unsafe_allow_html=True)
 
         # Search button
         if st.button("🔍 מצא מכרזים מתאימים", key="search_button"):
@@ -567,11 +409,11 @@ def main():
         st.markdown('</div>', unsafe_allow_html=True)
 
     with results_col:
-        st.markdown('<div class="results-area">', unsafe_allow_html=True)
+        st.markdown('<div class="results-container">', unsafe_allow_html=True)
         
         if st.session_state.search_performed:
             if not st.session_state.matches.empty:
-                st.markdown('<div class="results-header">✅ מכרזים מתאימים לפרופיל שלך</div>', unsafe_allow_html=True)
+                st.markdown('<div class="results-title">✅ מכרזים מתאימים לפרופיל שלך</div>', unsafe_allow_html=True)
                 
                 # Render tender cards
                 for _, tender in st.session_state.matches.iterrows():
@@ -582,7 +424,7 @@ def main():
             else:
                 st.markdown("""
                 <div class="empty-state">
-                    <div class="empty-state-icon">😔</div>
+                    <div class="empty-icon">😔</div>
                     <h3>לא נמצאו מכרזים מתאימים</h3>
                     <p>נסה לשנות את הקריטריונים או לבדוק שוב מאוחר יותר</p>
                 </div>
@@ -590,7 +432,7 @@ def main():
         else:
             st.markdown("""
             <div class="empty-state">
-                <div class="empty-state-icon">🏠</div>
+                <div class="empty-icon">🏠</div>
                 <h3>התחל למצוא את המכרז שלך</h3>
                 <p>מלא את הפרטים בטופס משמאל לקבלת מכרזים מותאמים אישית</p>
             </div>
