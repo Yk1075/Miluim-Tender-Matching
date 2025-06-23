@@ -8,7 +8,7 @@ from create_comprehensive_matches import (
     check_housing_match
 )
 
-# Set page configuration with RTL support
+# Set page configuration
 st.set_page_config(
     page_title="מערכת התאמת מכרזי דיור",
     page_icon="🏠",
@@ -16,269 +16,324 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Modern CSS with professional UX/UI design
+# Clean, minimal CSS design
 st.markdown("""
 <style>
-    /* Base styling */
-    .main {
+    /* Import modern font */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    /* Reset and base styles */
+    * {
         direction: rtl;
         text-align: right;
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        min-height: 100vh;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    }
+    
+    .main {
+        background-color: #f8fafc;
         padding: 0;
+        max-width: 1400px;
+        margin: 0 auto;
     }
     
     .stApp {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        background-color: #f8fafc;
     }
     
-    /* Header styling */
-    .main-header {
-        background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
+    /* Header */
+    .header {
+        background: #1e40af;
         color: white;
-        padding: 2rem 1rem;
+        padding: 1.5rem 2rem;
         margin: -1rem -1rem 2rem -1rem;
-        border-radius: 0 0 20px 20px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         text-align: center;
     }
     
-    .main-header h1 {
-        color: white !important;
-        font-size: 2.5rem;
-        font-weight: 700;
+    .header h1 {
+        font-size: 1.75rem;
+        font-weight: 600;
         margin: 0;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        color: white !important;
     }
     
-    .main-header .subtitle {
-        color: #e8f0fe !important;
-        font-size: 1.2rem;
-        margin-top: 0.5rem;
+    .header p {
+        font-size: 1rem;
+        margin: 0.5rem 0 0 0;
         opacity: 0.9;
+        color: white !important;
     }
     
-    /* Search panel styling */
+    /* Search panel */
     .search-panel {
         background: white;
-        border-radius: 15px;
-        padding: 2rem;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-        border: 1px solid #e0e7ff;
-        margin-bottom: 2rem;
-        position: sticky;
-        top: 2rem;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        margin-bottom: 1rem;
+        border: 1px solid #e5e7eb;
     }
     
     .search-panel h3 {
-        color: #1e40af !important;
-        font-size: 1.5rem;
+        font-size: 1.125rem;
         font-weight: 600;
-        margin-bottom: 1.5rem;
-        text-align: center;
-        border-bottom: 2px solid #e0e7ff;
-        padding-bottom: 1rem;
+        color: #111827 !important;
+        margin: 0 0 1rem 0;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #e5e7eb;
     }
     
-    .form-section {
-        background: #f8fafc;
-        border-radius: 10px;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-        border-left: 4px solid #3b82f6;
-    }
-    
-    .form-section h4 {
-        color: #1e40af !important;
-        font-size: 1.2rem;
-        font-weight: 600;
+    /* Form sections */
+    .form-group {
         margin-bottom: 1rem;
     }
     
-    /* Form elements styling */
-    .stSelectbox label, .stNumberInput label {
-        color: #374151 !important;
-        font-weight: 600;
-        font-size: 0.95rem;
+    .form-group:last-child {
+        margin-bottom: 0;
     }
     
-    .stSelectbox > div > div, .stNumberInput > div > div {
-        background: white;
-        border: 2px solid #e5e7eb;
-        border-radius: 8px;
-        transition: all 0.3s ease;
+    /* Labels */
+    .stSelectbox label, .stNumberInput label {
+        font-size: 0.875rem !important;
+        font-weight: 500 !important;
+        color: #374151 !important;
+        margin-bottom: 0.25rem;
+    }
+    
+    /* Form inputs */
+    .stSelectbox > div > div, .stNumberInput > div > div > div > input {
+        border: 1px solid #d1d5db !important;
+        border-radius: 6px !important;
+        font-size: 0.875rem !important;
+        padding: 0.5rem !important;
+        background: white !important;
     }
     
     .stSelectbox > div > div:focus-within, .stNumberInput > div > div:focus-within {
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 0 1px #3b82f6 !important;
     }
     
-    /* Search button styling */
-    .search-button {
-        margin-top: 2rem;
-    }
-    
+    /* Button */
     .stButton > button {
-        background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+        background: #1e40af !important;
         color: white !important;
-        border: none;
-        border-radius: 12px;
-        padding: 0.8rem 2rem;
-        font-weight: 700;
-        font-size: 1.1rem;
-        width: 100%;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 0.75rem 1.5rem !important;
+        font-weight: 600 !important;
+        font-size: 0.875rem !important;
+        width: 100% !important;
+        transition: background-color 0.2s !important;
     }
     
     .stButton > button:hover {
-        background: linear-gradient(45deg, #1d4ed8, #1e40af);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        background: #1d4ed8 !important;
     }
     
-    /* Results panel styling */
-    .results-panel {
+    /* Results area */
+    .results-area {
         background: white;
-        border-radius: 15px;
-        padding: 2rem;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-        border: 1px solid #e0e7ff;
-        margin-bottom: 2rem;
-        min-height: 400px;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        border: 1px solid #e5e7eb;
+        min-height: 500px;
     }
     
     .results-header {
-        background: linear-gradient(45deg, #10b981, #059669);
-        color: white;
-        padding: 1.5rem;
-        margin: -2rem -2rem 2rem -2rem;
-        border-radius: 15px 15px 0 0;
-        text-align: center;
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #e5e7eb;
     }
     
-    .results-header h3 {
-        color: white !important;
-        font-size: 1.4rem;
+    /* Tender cards - Wolt style */
+    .tender-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+    
+    .tender-card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-color: #3b82f6;
+        transform: translateY(-1px);
+    }
+    
+    .tender-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 0.75rem;
+    }
+    
+    .tender-title {
+        font-size: 1rem;
         font-weight: 600;
+        color: #111827;
         margin: 0;
     }
     
-    .no-results {
+    .tender-number {
+        font-size: 0.75rem;
+        color: #6b7280;
+        background: #f3f4f6;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-weight: 500;
+    }
+    
+    .tender-location {
+        font-size: 0.875rem;
+        color: #374151;
+        margin-bottom: 0.5rem;
+    }
+    
+    .tender-stats {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .stat-item {
+        font-size: 0.75rem;
+        color: #6b7280;
+    }
+    
+    .stat-number {
+        font-weight: 600;
+        color: #1e40af;
+    }
+    
+    .tender-dates {
+        font-size: 0.75rem;
+        color: #6b7280;
+        border-top: 1px solid #f3f4f6;
+        padding-top: 0.75rem;
+    }
+    
+    .priority-badge {
+        display: inline-block;
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-weight: 500;
+        margin-top: 0.5rem;
+    }
+    
+    .priority-a {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+    
+    .priority-b {
+        background: #fef3c7;
+        color: #d97706;
+    }
+    
+    /* Empty state */
+    .empty-state {
         text-align: center;
         padding: 3rem 2rem;
         color: #6b7280;
     }
     
-    .no-results .icon {
-        font-size: 4rem;
+    .empty-state-icon {
+        font-size: 3rem;
         margin-bottom: 1rem;
         opacity: 0.5;
     }
     
-    .waiting-state {
-        text-align: center;
-        padding: 4rem 2rem;
-        color: #6b7280;
+    .empty-state h3 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #374151 !important;
+        margin-bottom: 0.5rem;
     }
     
-    .waiting-state .icon {
-        font-size: 5rem;
-        margin-bottom: 1rem;
-        opacity: 0.3;
+    .empty-state p {
+        font-size: 0.875rem;
+        color: #6b7280 !important;
     }
     
-    /* Table styling */
-    .dataframe {
-        direction: rtl;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    
-    /* Success/Warning messages */
+    /* Success message */
     .stSuccess {
-        background: linear-gradient(45deg, #10b981, #059669);
-        color: white;
-        border-radius: 10px;
-        padding: 1rem;
-        text-align: center;
-        font-weight: 600;
+        background: #dcfce7 !important;
+        color: #166534 !important;
+        border: 1px solid #bbf7d0 !important;
+        border-radius: 8px !important;
+        padding: 0.75rem 1rem !important;
+        font-size: 0.875rem !important;
+        font-weight: 500 !important;
     }
     
+    /* Warning message */
     .stWarning {
-        background: linear-gradient(45deg, #f59e0b, #d97706);
-        color: white;
-        border-radius: 10px;
-        padding: 1rem;
-        text-align: center;
-        font-weight: 600;
+        background: #fef3c7 !important;
+        color: #d97706 !important;
+        border: 1px solid #fde68a !important;
+        border-radius: 8px !important;
+        padding: 0.75rem 1rem !important;
+        font-size: 0.875rem !important;
+        font-weight: 500 !important;
     }
     
-    /* Benefits section styling */
+    /* Benefits section */
     .benefits-section {
         background: white;
-        border-radius: 15px;
-        padding: 2rem;
-        margin-top: 3rem;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-        border: 1px solid #e0e7ff;
-    }
-    
-    .benefits-header {
-        background: linear-gradient(45deg, #8b5cf6, #7c3aed);
-        color: white;
+        border-radius: 12px;
         padding: 1.5rem;
-        margin: -2rem -2rem 2rem -2rem;
-        border-radius: 15px 15px 0 0;
-        text-align: center;
+        margin-top: 2rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        border: 1px solid #e5e7eb;
     }
     
-    .benefits-header h3 {
-        color: white !important;
-        font-size: 1.4rem;
+    .benefits-title {
+        font-size: 1.125rem;
         font-weight: 600;
-        margin: 0;
+        color: #111827;
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #e5e7eb;
     }
     
     .benefits-content {
-        color: #374151 !important;
-        line-height: 1.8;
-        font-size: 0.95rem;
+        font-size: 0.875rem;
+        line-height: 1.6;
+        color: #374151;
     }
     
     .benefits-content strong {
-        color: #1e40af !important;
-        font-weight: 700;
+        font-weight: 600;
+        color: #111827;
     }
     
     .benefits-content em {
-        color: #6b7280 !important;
         font-style: italic;
+        color: #6b7280;
     }
     
-    /* Responsive design */
-    @media (max-width: 768px) {
-        .main-header h1 {
-            font-size: 1.8rem;
-        }
-        
-        .search-panel, .results-panel, .benefits-section {
-            margin: 1rem 0;
-            padding: 1.5rem;
-        }
+    /* Hide Streamlit elements */
+    .stDeployButton {
+        display: none;
     }
     
-    /* RTL support */
-    * {
-        direction: rtl;
-        text-align: right;
+    .stDecoration {
+        display: none;
     }
     
-    .stSelectbox, .stNumberInput {
-        direction: rtl;
-        text-align: right;
+    #MainMenu {
+        visibility: hidden;
+    }
+    
+    footer {
+        visibility: hidden;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -324,19 +379,63 @@ def find_matching_tenders(profile_data):
         st.error(f"אירעה שגיאה בעת חיפוש המכרזים: {str(e)}")
         return pd.DataFrame()
 
+def render_tender_card(tender):
+    """Render a single tender as a Wolt-style card"""
+    priority_class = ""
+    priority_text = ""
+    
+    if "א'" in str(tender.get('אזור עדיפות', '')):
+        priority_class = "priority-a"
+        priority_text = "אזור עדיפות א'"
+    elif "ב'" in str(tender.get('אזור עדיפות', '')):
+        priority_class = "priority-b"
+        priority_text = "אזור עדיפות ב'"
+    
+    return f"""
+    <div class="tender-card">
+        <div class="tender-card-header">
+            <div class="tender-title">{tender['עיר']} - {tender['שכונה']}</div>
+            <div class="tender-number">מכרז {tender['מספר מכרז']}</div>
+        </div>
+        
+        <div class="tender-location">
+            📍 {tender['אזור גיאוגרפי']}
+        </div>
+        
+        <div class="tender-stats">
+            <div class="stat-item">
+                <span class="stat-number">{tender['מספר מגרשים']}</span> מגרשים סה"כ
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">{tender['מגרשים לחיילי מילואים']}</span> למילואים
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">{tender['מגרשים לנכי צה"ל']}</span> לנכי צה"ל
+            </div>
+        </div>
+        
+        <div class="tender-dates">
+            📅 פרסום: {tender['תאריך פרסום חוברת המכרז']} | 
+            ⏰ מועד אחרון: {tender['מועד אחרון להגשה']}
+        </div>
+        
+        {f'<div class="priority-badge {priority_class}">{priority_text}</div>' if priority_text else ''}
+    </div>
+    """
+
 def main():
-    # Main header
+    # Header
     st.markdown("""
-    <div class="main-header">
+    <div class="header">
         <h1>🏠 מילואים וזוכים - מערכת התאמת מכרזים</h1>
-        <div class="subtitle">מצא את המכרז המושלם עבורך בקלות ובמהירות</div>
+        <p>מצא את המכרז המושלם עבורך בקלות ובמהירות</p>
     </div>
     """, unsafe_allow_html=True)
 
-    # Create layout: Search panel (30%) + Results panel (70%)
-    search_col, results_col = st.columns([0.3, 0.7], gap="large")
+    # Layout: Search (30%) + Results (70%)
+    search_col, results_col = st.columns([0.3, 0.7], gap="medium")
 
-    # Initialize session state for search results
+    # Initialize session state
     if 'search_performed' not in st.session_state:
         st.session_state.search_performed = False
     if 'matches' not in st.session_state:
@@ -346,33 +445,36 @@ def main():
         st.markdown('<div class="search-panel">', unsafe_allow_html=True)
         st.markdown('<h3>🔍 טופס חיפוש</h3>', unsafe_allow_html=True)
         
-        # Service and disability section
-        st.markdown('<div class="form-section">', unsafe_allow_html=True)
-        st.markdown('<h4>👨‍💼 פרטי שירות ונכות</h4>', unsafe_allow_html=True)
-        
+        st.markdown('<div class="form-group">', unsafe_allow_html=True)
         days_since_oct = st.number_input(
             "ימי מילואים מ-7.10.23",
             min_value=0,
             value=0,
-            help="מספר ימי המילואים שביצעת מתאריך 7.10.23 - יש לצרף אישור על שירות של מעל 45 ימים בזמן מלחמת \"חרבות ברזל\" (טופס 3010, סעיף 1.1)",
+            help="מספר ימי המילואים שביצעת מתאריך 7.10.23",
             key="days_since_oct"
         )
+        st.markdown('</div>', unsafe_allow_html=True)
         
+        st.markdown('<div class="form-group">', unsafe_allow_html=True)
         active_card = st.selectbox(
             "תעודת מילואים פעיל?",
             options=["לא", "כן"],
-            help="בחר 'כן' אם יש ברשותך תעודת מילואים פעיל - יש לצרף אישור או למשרת מילואים פעיל שש שנתי (סעיף 1.2) אישור למשרת מילואים פעיל שש שנתי בעבר (סעיף 1.2)",
+            help="האם יש ברשותך תעודת מילואים פעיל",
             key="active_card"
         )
+        st.markdown('</div>', unsafe_allow_html=True)
         
+        st.markdown('<div class="form-group">', unsafe_allow_html=True)
         days_in_6_years = st.number_input(
             "ימי מילואים ב-6 שנים",
             min_value=0,
             value=0,
-            help="סך ימי המילואים שביצעת ב-6 השנים האחרונות - יש לצרף אישור על שירות של 80 ימי מילואים בתקופה של עד 6 שנים (סעיף 1.3)",
+            help="סך ימי המילואים ב-6 השנים האחרונות",
             key="days_in_6_years"
         )
+        st.markdown('</div>', unsafe_allow_html=True)
         
+        st.markdown('<div class="form-group">', unsafe_allow_html=True)
         disability_status = st.selectbox(
             "סיווג נכות",
             options=["אין", "נכות קשה", "100% ומעלה"],
@@ -380,37 +482,36 @@ def main():
             key="disability_status"
         )
         st.markdown('</div>', unsafe_allow_html=True)
-
-        # Housing and location section
-        st.markdown('<div class="form-section">', unsafe_allow_html=True)
-        st.markdown('<h4>🏡 העדפות דיור ומיקום</h4>', unsafe_allow_html=True)
         
+        st.markdown('<div class="form-group">', unsafe_allow_html=True)
         housing_status = st.selectbox(
             "חסר/ת דיור?",
             options=["לא", "כן"],
-            help="בחר 'כן' אם הינך מוגדר כחסר דיור לפי האתר הבא https://www.gov.il/he/service/certificate-of-homelessness",
+            help="האם הינך מוגדר כחסר דיור",
             key="housing_status"
         )
+        st.markdown('</div>', unsafe_allow_html=True)
         
+        st.markdown('<div class="form-group">', unsafe_allow_html=True)
         preferred_area = st.selectbox(
             "אזור מועדף",
             options=["דרום", "צפון", "ירושלים", "מרכז", "יהודה ושומרון"],
             help="בחר את האזור המועדף עליך למגורים",
             key="preferred_area"
         )
+        st.markdown('</div>', unsafe_allow_html=True)
         
+        st.markdown('<div class="form-group">', unsafe_allow_html=True)
         spouse_eligible = st.selectbox(
             "בן/בת זוג זכאי/ת?",
             options=["לא", "כן"],
-            help="בחר 'כן' אם בן/בת הזוג זכאי/ת להטבות",
+            help="האם בן/בת הזוג זכאי/ת להטבות",
             key="spouse_eligible"
         )
         st.markdown('</div>', unsafe_allow_html=True)
 
         # Search button
-        st.markdown('<div class="search-button">', unsafe_allow_html=True)
         if st.button("🔎 חפש מכרזים מתאימים", key="search_button"):
-            # Create profile data
             profile_data = {
                 'ימי_מילואים_מ-7.10.23': days_since_oct,
                 'תעודת_מילואים_פעיל': active_card,
@@ -421,61 +522,47 @@ def main():
                 'בן/בת_זוג_זכאי': spouse_eligible
             }
             
-            # Find matching tenders and store in session state
             st.session_state.matches = find_matching_tenders(profile_data)
             st.session_state.search_performed = True
             st.rerun()
         
         st.markdown('</div>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
 
     with results_col:
-        st.markdown('<div class="results-panel">', unsafe_allow_html=True)
+        st.markdown('<div class="results-area">', unsafe_allow_html=True)
         
         if st.session_state.search_performed:
             if not st.session_state.matches.empty:
-                st.markdown("""
-                <div class="results-header">
-                    <h3>✅ מכרזים מתאימים נמצאו!</h3>
-                </div>
-                """, unsafe_allow_html=True)
+                st.markdown('<div class="results-header">✅ נמצאו מכרזים מתאימים</div>', unsafe_allow_html=True)
                 
-                # Display results table
-                st.dataframe(
-                    st.session_state.matches,
-                    use_container_width=True,
-                    hide_index=True
-                )
+                # Render tender cards
+                for _, tender in st.session_state.matches.iterrows():
+                    st.markdown(render_tender_card(tender), unsafe_allow_html=True)
                 
-                st.success(f"🎯 נמצאו {len(st.session_state.matches)} מכרזים מתאימים לפרופיל שלך!")
+                st.success(f"נמצאו {len(st.session_state.matches)} מכרזים מתאימים לפרופיל שלך")
                 
             else:
                 st.markdown("""
-                <div class="no-results">
-                    <div class="icon">😔</div>
+                <div class="empty-state">
+                    <div class="empty-state-icon">😔</div>
                     <h3>לא נמצאו מכרזים מתאימים</h3>
                     <p>נסה לשנות את הקריטריונים ולחפש שוב</p>
                 </div>
                 """, unsafe_allow_html=True)
         else:
             st.markdown("""
-            <div class="waiting-state">
-                <div class="icon">🏠</div>
+            <div class="empty-state">
+                <div class="empty-state-icon">🏠</div>
                 <h3>ברוכים הבאים למערכת התאמת המכרזים</h3>
-                <p>מלא את הפרטים בטופס מימין והקלק על "חפש מכרזים מתאימים"</p>
-                <p>המערכת תציג כאן את כל המכרזים הרלוונטיים עבורך</p>
+                <p>מלא את הפרטים בטופס והקלק על "חפש מכרזים מתאימים"</p>
             </div>
             """, unsafe_allow_html=True)
         
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # Benefits section at the bottom
+    # Benefits section
     st.markdown('<div class="benefits-section">', unsafe_allow_html=True)
-    st.markdown("""
-    <div class="benefits-header">
-        <h3>💰 מידע על ההטבות</h3>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div class="benefits-title">💰 מידע על ההטבות</div>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="benefits-content">
@@ -493,23 +580,21 @@ def main():
     • אזור עדיפות לאומית א': ישלם 21% מערך הקרקע<br>
     • אזור עדיפות לאומית ב': ישלם 41% מערך הקרקע<br><br>
 
-    <em>ההנחה מוגבלת למחירי תקרה של הקרקע. בסעיף א' עד 900,000 ₪ ובסעיף ב' עד 500,000 ₪. על הסכום שמעל התקרה שיעור התשלום הוא 91%.</em><br><br>
+    <em>ההנחה מוגבלת למחירי תקרה של הקרקע. בסעיף א' עד 900,000 ₪ ובסעיף ב' עד 500,000 ₪.</em><br><br>
 
     <strong>💎 הטבה שנייה</strong><br>
-    חיילי המילואים זכאים להנחה נוספת בהתאם לאזור בארץ בו זכו במגרש (עד 100,000 ₪, לא כולל מע"מ):<br><br>
+    חיילי המילואים זכאים להנחה נוספת בהתאם לאזור (עד 100,000 ₪, לא כולל מע"מ):<br><br>
 
-    • באזור עדיפות לאומית א': הנחה של 35% ממחיר המגרש לאחר חישוב הנחת האזור הראשונית<br>
-    • באזור עדיפות לאומית ב': הנחה של 20% ממחיר המגרש לאחר חישוב הנחת האזור הראשונית<br>
+    • באזור עדיפות לאומית א': הנחה של 35%<br>
+    • באזור עדיפות לאומית ב': הנחה של 20%<br>
     • באזורים שאינם אזורי עדיפות לאומית: הנחה של 10%<br><br>
 
-    <em>בני זוג ששניהם משרתי מילואים זכאים יהנו מהנחה כפולה (70%, 40% ו-20%, בהתאמה) אשר לא תעלה על 200,000 ₪ בסה"כ.</em><br><br>
+    <strong>🎖️ נכי צה"ל:</strong><br>
+    • זכאות להשתתף במכרזים ייעודיים<br>
+    • קדימות במכרזי הרשמה והגרלה<br>
+    • נכה בדרגת נכות 100%+ ישלם 31% מערך הקרקע (עד 2,000,000 ש"ח)<br><br>
 
-    <strong>🎖️ נכי צה"ל שעומדים בתנאי הזכאות זכאים להטבות הבאות:</strong><br>
-    • זכאות להשתתף במכרזים ייעודיים לנכי צה"ל<br>
-    • קדימות במכרזים הרשמה והגרלה<br>
-    • נכה בדרגת נכות 100%+ (מיוחדת), ישלם 31% מערך הקרקע. שיעור התשלום המופחת לערך הקרקע יחול ביחס לערך קרקע, לא כולל הוצאות פיתוח ולא כולל מע"מ, עד 2,000,000 שקלים חדשים<br><br>
-
-    <strong>📢 אנא עקבו אחר העדכונים במערכת לקבלת מידע נוסף</strong>
+    <strong>📢 עקבו אחר העדכונים במערכת לקבלת מידע נוסף</strong>
     
     </div>
     """, unsafe_allow_html=True)
