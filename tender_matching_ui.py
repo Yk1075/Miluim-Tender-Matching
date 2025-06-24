@@ -130,35 +130,7 @@ def find_matching_tenders(profile_data):
         return pd.DataFrame()
 
 def render_tender_with_streamlit(tender):
-    """Render tender card with blue background, proper hierarchy and layout"""
-    
-    # Custom CSS for blue card styling
-    st.markdown("""
-    <style>
-    .blue-card {
-        background-color: #f0f8ff;
-        border: 2px solid #1e3a8a;
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin: 1rem 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-        font-size: 1.2rem;
-        font-weight: bold;
-    }
-    .tender-number {
-        color: #1e3a8a;
-    }
-    .location-info {
-        color: #1e3a8a;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+    """Render tender card with proper layout using pure Streamlit"""
     
     # Get location info safely
     city = str(tender.get('עיר', 'לא צוין'))
@@ -176,42 +148,41 @@ def render_tender_with_streamlit(tender):
     
     location_display = ' • '.join(location_parts) if location_parts else 'מיקום לא צוין'
     
-    # Create card header with tender number (right) and location (left)
-    st.markdown(f"""
-    <div class="blue-card">
-        <div class="card-header">
-            <span class="location-info">📍 {location_display}</span>
-            <span class="tender-number">🏆 מכרז #{tender['מספר מכרז']}</span>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    # Create header with columns for proper layout
+    header_col1, header_col2 = st.columns([2, 1])
     
-    # Create the content in expander
-    with st.expander("פרטים נוספים", expanded=True):
+    with header_col1:
+        st.markdown(f"### 📍 {location_display}")
+    
+    with header_col2:
+        st.markdown(f"### 🏆 מכרז #{tender['מספר מכרז']}")
+    
+    # Create main content
+    with st.container():
+        # Plot count prominently  
+        st.markdown(f"## 🏠 **{tender['מספר מגרשים']} יח\"ד**")
         
-        # Row 1: Plot count prominently
-        st.markdown(f"### 🏠 **{tender['מספר מגרשים']} יח\"ד**")
-        
-        # Row 2: Priority status in single column
+        # Priority status
         priority_text = ""
         if "א'" in str(tender.get('אזור עדיפות', '')):
             priority_text = "🔥 עדיפות א'"
+            st.error(priority_text)
         elif "ב'" in str(tender.get('אזור עדיפות', '')):
             priority_text = "⚡ עדיפות ב'"
+            st.warning(priority_text)
         else:
             priority_text = "📋 ללא עדיפות לאומית"
+            st.info(priority_text)
         
-        st.info(priority_text)
-        
-        # Row 3: Timeline in smaller text
+        # Timeline in smaller text
         st.caption(f"📅 פרסום: {tender['תאריך פרסום חוברת המכרז']} • ⏰ מועד אחרון: {tender['מועד אחרון להגשה']}")
         
         # Action button with correct text
         if st.button("🌐 למערכת המכרזים של רמ״י", key=f"btn_{tender['מספר מכרז']}", help="קישור למערכת המכרזים הממשלתית", type="primary"):
             st.success("✅ [פתח את מערכת המכרזים של רמ״י](https://apps.land.gov.il/MichrazimSite/#/search)")
     
-    # Add space between cards
-    st.markdown("---")
+    # Add separator
+    st.divider()
 
 def main():
     # Centered header using CSS with stronger styling
