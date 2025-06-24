@@ -231,6 +231,15 @@ def main():
     h1 {
         text-align: center !important;
     }
+    h3 {
+        text-align: center !important;
+    }
+    .stTitle {
+        text-align: center !important;
+    }
+    .stSubheader {
+        text-align: center !important;
+    }
     </style>
     """, unsafe_allow_html=True)
     
