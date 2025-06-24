@@ -92,9 +92,16 @@ st.markdown("""
         text-align: right;
     }
     
-    /* Only make expander headers larger - just the title */
+    /* Make expander headers larger and bold */
+    .stExpander details summary {
+        font-size: 18px !important;
+        font-weight: bold !important;
+    }
+    
     .stExpander details summary p {
         font-size: 18px !important;
+        font-weight: bold !important;
+        margin: 0 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -159,8 +166,9 @@ def render_tender_with_streamlit(tender):
     
     location_display = ' • '.join(location_parts) if location_parts else 'מיקום לא צוין'
     
-    # Create blue card using expander with larger header
-    with st.expander(f"# 🏆 מכרז #{tender['מספר מכרז']} | 📍 {location_display}", expanded=True):
+    # Create blue card using expander with custom styling
+    header_text = f"🏆 מכרז #{tender['מספר מכרז']} | 📍 {location_display}"
+    with st.expander(header_text, expanded=True):
         
         # Row 1: Priority (RIGHT) and Plot count (LEFT) - same size
         col_left, col_right = st.columns([1, 1])
