@@ -1,167 +1,134 @@
-# IDF Veterans and Reservists Housing Tender Matching System
+# מערכת התאמת מכרזי דיור - מילואים וזוכים 🏠
 
-An automated matching system that connects IDF veterans and reservists with eligible housing tenders based on predefined criteria.
+![APM Law](apm_logo.png)
 
-## 🎯 Project Overview
+## ברוכים הבאים למערכת התאמת מכרזי דיור המתקדמת עבור חיילי מילואים ונכי צה״ל
 
-This system automates the process of matching profiles of IDF veterans and reservists with housing tenders they are eligible for. Instead of manually checking each profile against each tender, the system applies three hard filters to find valid matches automatically.
+מערכת מתקדמת שמתאימה באופן אוטומטי מכרזי דיור של רשות מקרקעי ישראל (רמ״י) לפי הפרופיל האישי שלך.
 
-### Key Features
-- ✅ Automated matching based on area, eligibility, and housing requirements
-- ✅ Processes 20 profiles against 70 tenders (1,400 combinations) in seconds
-- ✅ High accuracy with 92.9% recall rate compared to manual matching
-- ✅ Comprehensive documentation for technical and non-technical users
-- ✅ Excel to CSV conversion utilities
+## 🚀 התחלה מהירה
 
-## 📊 Results Summary
-
-- **Generated Matches:** 63 successful matches
-- **Manual Matches:** 14 matches (test set)
-- **Common Matches:** 13 matches (93% agreement)
-- **Precision:** 20.6%
-- **Recall:** 92.9%
-- **F1-Score:** 33.8%
-
-## 🔧 Setup and Installation
-
-### Prerequisites
-- Python 3.8+
-- Git
-
-### Installation Steps
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/ZacharAdn/TenderMatching.git
-   cd TenderMatching
-   ```
-
-2. **Create and activate virtual environment:**
-   ```bash
-   python3 -m venv manual_venv
-   source manual_venv/bin/activate  # On Windows: manual_venv\Scripts\activate
-   ```
-
-3. **Install required packages:**
-   ```bash
-   pip install pandas openpyxl numpy
-   ```
-
-## 📁 Project Structure
-
-```
-TenderMatching/
-├── data/
-│   ├── טבלת הפרופילים.xlsx          # Profiles Excel file
-│   ├── טבלת מכרזים ניסיון שני_.xlsx   # Tenders Excel file
-│   ├── טבלת התאמות_.xlsx            # Manual matching table (test set)
-│   └── csv_output/
-│       ├── טבלת הפרופילים.csv
-│       ├── טבלת מכרזים ניסיון שני_.csv
-│       ├── טבלת התאמות_.csv
-│       └── generated_matches.csv    # Algorithm output
-├── matching_algorithm.py           # Main matching algorithm
-├── manual_venv/                   # Virtual environment
-├── Matching_System_Documentation.md # Detailed documentation
-└── README.md
-```
-
-## 🚀 Usage
-
-### Step 1: Convert Excel Files to CSV
-The system automatically converts Excel files to CSV format when running the matching algorithm.
-
-### Step 2: Run the Matching Algorithm
+### הפעלת המערכת
 ```bash
-source manual_venv/bin/activate
-python matching_algorithm.py
+git clone https://github.com/Yk1075/Miluim-rami-tenderMatching.git
+cd Miluim-rami-tenderMatching
+pip install -r requirements.txt
+streamlit run tender_matching_ui_new.py
 ```
 
-### Step 3: Review Results
-- Check console output for statistics and comparison results
-- Open `data/csv_output/generated_matches.csv` to see all matches
-- Review matches where `score_סופי = 1.0` for valid matches
+### גישה למערכת
+פתח דפדפן וגש לכתובת: `http://localhost:8501`
 
-## 🔍 Matching Criteria (Hard Filters)
+## ✨ מה המערכת מציעה
 
-### 1. Area Matching Filter 🗺️
-- Profile's preferred area must exactly match tender's geographical area
-- Areas: צפון (North), מרכז (Center), דרום (South), ירושלים (Jerusalem), יהודה ושומרון (Judea & Samaria)
+- 🎯 **התאמה מדויקת** - אלגוריתם מתקדם שמתאים מכרזים לפרופיל שלך
+- 🌍 **ממשק עברי מושלם** - תמיכה RTL מלאה ועיצוב נקי
+- 📱 **מותאם לנייד** - עובד מצוין בכל המכשירים
+- ⚡ **מהיר ויעיל** - תוצאות מיידיות ומדויקות
 
-### 2. Eligibility Filter 👥
-**Profile Categories:**
-- **IDF Veterans (נכי צהל):** Serious disability or 100%+ disability rating
-- **Reservists (חיילי מילואים):** Meet any of:
-  - 45+ days since October 7th, OR
-  - Active reservist card, OR
-  - 80+ days in past 6 years
-- **Other (אחר):** Don't qualify for above categories
+## 💰 ההטבות הזמינות
 
-**Tender Eligibility:**
-- נכי צהל וכוחות הביטחון (Veterans only)
-- חיילי מילואים (Reservists only)
-- נכי צהל וכוחות הביטחון, וחיילי מילואים (Both)
-- כולם (Everyone with priority)
+- **הנחות 10-35%** באזורי עדיפות לאומית
+- **הנחות נוספות 10-35%** ממחיר המגרש
+- **קדימות בהגרלות** למילואים ונכי צה״ל
+- **תנאים מיוחדים** לחסרי דיור
 
-### 3. Housing Status Filter 🏠
-- If profile needs housing (חסר דיור = כן) → Tender must require housing shortage
-- If profile has housing (חסר דיור = לא) → Tender must not require housing shortage
+## 📁 קבצי המערכת
 
-## 📈 Output Format
+### קבצים עיקריים
+- `tender_matching_ui_new.py` - הממשק החדש והמושלם
+- `create_comprehensive_matches.py` - אלגוריתם ההתאמה
+- `test_ui_new.py` - טסטים מקיפים
 
-The generated matching table includes:
+### תיעוד
+- `README_NEW_UI.md` - תיעוד מפורט ומקיף
+- `requirements.txt` - תלותות הפרויקט
 
-| Column | Description |
-|--------|-------------|
-| profile_id | Person's ID (P001, P002, etc.) |
-| tender_id | Tender's ID (m1, m2, etc.) |
-| עובר_אזור | 1.0 = area match, 0.0 = no match |
-| עובר_זכאות | 1.0 = eligible, 0.0 = not eligible |
-| עובר_חסר_דיור | 1.0 = housing match, 0.0 = mismatch |
-| score_סופי | 1.0 = valid match, 0.0 = not a match |
+### נתונים
+- `data/` - מאגר מכרזי רמ״י המעודכן
+- `apm_logo.png` - לוגו החברה
 
-## 📚 Documentation
+## 🧪 הפעלת טסטים
 
-For detailed documentation including technical implementation and non-technical explanations, see:
-- [Complete System Documentation](Matching_System_Documentation.md)
+```bash
+python3 test_ui_new.py
+```
 
-## 🛠️ Technical Details
+תוצאות הטסטים: **9/9 בדיקות עברו בהצלחה ✅**
 
-### Built With
-- **Python 3.8+**
-- **pandas** - Data manipulation and analysis
-- **openpyxl** - Excel file handling
-- **numpy** - Numerical computations
+## 📚 תיעוד מלא
 
-### Key Functions
-- `is_miluim_soldier()` - Determines reservist qualification
-- `get_profile_category()` - Categorizes profiles
-- `check_area_match()` - Validates area compatibility
-- `check_eligibility_match()` - Validates eligibility
-- `check_housing_match()` - Validates housing requirements
-- `create_matching_table()` - Main matching logic
-- `compare_with_manual_table()` - Performance evaluation
+לתיעוד מקיף ומפורט, ראה: **[README_NEW_UI.md](README_NEW_UI.md)**
 
-## 📊 Performance Metrics
+התיעוד המלא כולל:
+- הוראות התקנה מפורטות
+- הסבר על איך המערכת עובדת
+- פתרונות לבעיות נפוצות
+- מידע טכני מקיף
 
-The system demonstrates high recall (92.9%), meaning it successfully identifies almost all manually verified matches while discovering additional valid matches that may have been missed in manual processing.
+## 🔍 איך המערכת עובדת
 
-## 🤝 Contributing
+### שלב 1: הזנת פרטים אישיים
+- ימי מילואים מתאריך 7.10.23
+- תעודת מילואים פעיל
+- ימי מילואים ב-6 שנים
+- סיווג נכות
+- סטטוס חסר דיור
+- אזור מועדף
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+### שלב 2: התאמה אוטומטית
+המערכת מפעילה 3 פילטרים:
+1. **התאמת אזור** - התאמה גיאוגרפית מדויקת
+2. **זכאות** - בדיקת זכאות לפי קטגוריה
+3. **סטטוס דיור** - התאמת דרישות דיור
 
-## 📝 License
+### שלב 3: הצגת תוצאות
+תוצאות מוצגות כקלפי מכרז עם:
+- מספר המכרז ומיקום
+- מספר מגרשים זמינים
+- סטטוס עדיפות לאומית
+- תאריכי פרסום והגשה
+- קישור למערכת רמ״י
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+## ⭐ תכונות מיוחדות במערכת החדשה
 
-## 📞 Contact
+- ✅ ממשק משתמש חדש ונקי לחלוטין
+- ✅ תיקוני RTL מלאים לתצוגה מושלמת
+- ✅ טקסט עזרה מעודכן ומפורט
+- ✅ טסטים מקיפים (9 טסטים שונים)
+- ✅ תמיכה רספונסיבי למובייל
+- ✅ ביצועים משופרים משמעותית
 
-For questions or support, please open an issue in this repository.
+## 📞 צור קשר ותמיכה
+
+לסיוע נוסף ותמיכה:
+- **אימייל**: [yuvalk@apm.law](mailto:yuvalk@apm.law)
+- **תמיכה טכנית**: דרך GitHub Issues
+
+## 🛠️ דרישות טכניות
+
+- Python 3.8+
+- Streamlit >= 1.35.0
+- Pandas >= 2.0.0
+- גישה לאינטרנט לחיבור לרמ״י
+
+## 📈 גרסאות ועדכונים
+
+### גרסה נוכחית - יוני 2024
+- 🎉 מערכת UI חדשה לחלוטין
+- 🔧 אלגוריתם התאמה משופר
+- 🧪 סט טסטים מקיף
+- 📖 תיעוד מלא ומעודכן
+
+### תכונות מתוכננות
+- 🔄 עדכון אוטומטי של מאגר המכרזים
+- 📧 התראות על מכרזים חדשים
+- 📊 דשבורד אישי למעקב
+- 🔔 תזכורות לתאריכי הגשה
 
 ---
 
-**Note:** This system is designed specifically for matching IDF veterans and reservists with housing tenders according to Israeli housing authority criteria. 
+**פותח עבור APM Law | מיועד לחיילי מילואים ונכי צה״ל** 🇮🇱
+
+### רישיון שימוש
+מערכת זו פותחה עבור APM Law ומיועדת לשימוש עבור חיילי מילואים ונכי צה״ל בלבד. 
