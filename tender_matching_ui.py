@@ -85,6 +85,27 @@ st.markdown("""
         font-weight: bold !important;
         color: #374151 !important;
     }
+    
+    /* Expander styling for larger header and blue background */
+    .stExpander > div:first-child {
+        background-color: #f0f8ff !important;
+        border: 2px solid #1e3a8a !important;
+        border-radius: 8px !important;
+    }
+    
+    .stExpander > div:first-child > div > p {
+        font-size: 2rem !important;
+        font-weight: bold !important;
+        color: #1e3a8a !important;
+    }
+    
+    .stExpander > div:last-child {
+        background-color: #f0f8ff !important;
+        border: 2px solid #1e3a8a !important;
+        border-top: none !important;
+        border-radius: 0 0 8px 8px !important;
+        padding: 1rem !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
