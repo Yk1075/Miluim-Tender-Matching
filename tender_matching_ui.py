@@ -288,11 +288,11 @@ def main():
     </style>
     """, unsafe_allow_html=True)
     
-    # הצגת לוגו כתמונה בפינה השמאלית העליונה
+    # הצגת לוגו כתמונה מתוך תיקיית data בפינה השמאלית העליונה
     st.markdown(
         """
         <div style='position:fixed; top:15px; left:15px; z-index:999;'>
-            <img src='apm_logo.png' width='90' height='90' style='border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.18);'/>
+            <img src='data/apm_logo.png' width='90' height='90' style='border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.18);'/>
         </div>
         """,
         unsafe_allow_html=True
