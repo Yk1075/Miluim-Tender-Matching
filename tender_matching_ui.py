@@ -301,14 +301,14 @@ def main():
     st.markdown("""
     <div class="top-left-logo">
         <div class="logo-main">
-            <div class="logo-letter">A</div>
-            <div class="logo-letter">P</div>
             <div class="logo-letter">M</div>
+            <div class="logo-letter">P</div>
+            <div class="logo-letter">A</div>
         </div>
         <div class="logo-second-row">
-            <div class="logo-ampersand">&</div>
-            <div class="logo-ampersand">C</div>
             <div class="logo-ampersand">O</div>
+            <div class="logo-ampersand">C</div>
+            <div class="logo-ampersand">&</div>
         </div>
         <div class="logo-subtitle">AMIT, POLLAK, MATALON</div>
     </div>
