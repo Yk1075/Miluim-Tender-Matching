@@ -191,7 +191,7 @@ def render_tender_with_streamlit(tender):
         date_col_left, date_col_right = st.columns([1, 1])
         
         with date_col_left:
-            st.markdown(f"📅 פרסום: {tender['תאריך פרסום חוברת המכרז']}")
+            st.markdown(f"📅 תאריך פרסום חוברת המכרז: {tender['תאריך פרסום חוברת המכרז']}")
         
         with date_col_right:
             st.markdown(f"⏰ מועד אחרון: {tender['מועד אחרון להגשה']}")
