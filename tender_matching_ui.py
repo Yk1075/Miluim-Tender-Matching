@@ -16,7 +16,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Simple CSS for RTL and basic styling only
+# Simple CSS for RTL and blue theme
 st.markdown("""
 <style>
     * {
@@ -34,99 +34,10 @@ st.markdown("""
         background-color: #f5f5f5;
     }
     
-    /* Custom tender card styling */
-    .tender-card-container {
-        background: #f0f8ff;
-        border: 2px solid #1e3a8a;
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 4px 6px rgba(30, 58, 138, 0.1);
-    }
-    
-    .tender-number-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 0.75rem;
-        padding-bottom: 0.75rem;
-        border-bottom: 1px solid #e2e8f0;
-    }
-    
-    .tender-number {
-        font-size: 1.25rem;
-        font-weight: bold;
-        color: #1e3a8a;
-    }
-    
-    .tender-address {
-        font-size: 1rem;
-        color: #374151;
-    }
-    
-    .priority-stats-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 0.75rem;
-        padding-bottom: 0.75rem;
-        border-bottom: 1px solid #e2e8f0;
-    }
-    
-    .priority-badge-a {
-        background: #fee2e2;
-        color: #dc2626;
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
-        font-weight: bold;
-        font-size: 0.875rem;
-    }
-    
-    .priority-badge-b {
-        background: #fef3c7;
-        color: #d97706;
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
-        font-weight: bold;
-        font-size: 0.875rem;
-    }
-    
-    .stats-info {
-        color: #6b7280;
-        font-size: 0.875rem;
-    }
-    
-    .deadline-action-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .deadline-info {
-        color: #dc2626;
-        font-weight: bold;
-        font-size: 0.9rem;
-    }
-    
-    .action-button {
-        background: #1e3a8a;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 0.5rem 1rem;
-        font-weight: bold;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.875rem;
-        transition: background 0.2s;
-    }
-    
-    .action-button:hover {
-        background: #1e40af;
-        color: white;
-        text-decoration: none;
+    /* Blue theme for info boxes */
+    .stInfo {
+        background-color: #f0f8ff !important;
+        border: 1px solid #1e3a8a !important;
     }
     
     /* Hide streamlit elements */
@@ -198,47 +109,52 @@ def find_matching_tenders(profile_data):
         st.error(f"אירעה שגיאה בעת חיפוש המכרזים: {str(e)}")
         return pd.DataFrame()
 
-def render_improved_tender_card(tender):
-    """Render an improved tender card with the new design"""
-    # Determine priority badge
-    priority_badge = ""
-    priority_class = ""
-    if "א'" in str(tender.get('אזור עדיפות', '')):
-        priority_badge = "🎯 עדיפות א'"
-        priority_class = "priority-badge-a"
-    elif "ב'" in str(tender.get('אזור עדיפות', '')):
-        priority_badge = "🎯 עדיפות ב'"
-        priority_class = "priority-badge-b"
-    else:
-        priority_badge = "🎯 ללא עדיפות מיוחדת"
-        priority_class = "priority-badge-b"
+def render_tender_with_streamlit(tender):
+    """Render tender card using only Streamlit components in blue theme"""
     
-    # Stats summary
-    stats_text = f"📊 {tender['מספר מגרשים']} מגרשים סה\"כ • {tender['מגרשים לחיילי מילואים']} למילואים • {tender['מגרשים לנכי צה\"ל']} לנכי צה\"ל"
-    
-    return f"""
-    <div class="tender-card-container">
-        <!-- שורה 1: מספר מכרז + כתובת מלאה -->
-        <div class="tender-number-row">
-            <div class="tender-number">🏆 מכרז #{tender['מספר מכרז']}</div>
-            <div class="tender-address">📍 {tender['עיר']} • {tender['שכונה']} • {tender['אזור גיאוגרפי']}</div>
+    # Create a container with blue background
+    with st.container():
+        # Add some custom styling for the container
+        st.markdown("""
+        <div style="background: #f0f8ff; border: 2px solid #1e3a8a; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
         </div>
+        """, unsafe_allow_html=True)
         
-        <!-- שורה 2: אזור עדיפות + סטטיסטיקות -->
-        <div class="priority-stats-row">
-            <div class="{priority_class}">{priority_badge}</div>
-            <div class="stats-info">{stats_text}</div>
-        </div>
+        # Row 1: Tender number + Address
+        col1, col2 = st.columns([1, 2])
         
-        <!-- שורה 3: מועד הגשה + קישור המשך -->
-        <div class="deadline-action-row">
-            <div class="deadline-info">⏰ מועד אחרון להגשה: {tender['מועד אחרון להגשה']}</div>
-            <a href="https://apps.land.gov.il/MichrazimSite/#/search" target="_blank" class="action-button">
-                🔗 להגשת המכרז
-            </a>
-        </div>
-    </div>
-    """
+        with col1:
+            st.markdown(f"### 🏆 מכרז #{tender['מספר מכרז']}")
+        
+        with col2:
+            st.markdown(f"### 📍 {tender['עיר']} • {tender['שכונה']} • {tender['אזור גיאוגרפי']}")
+        
+        # Row 2: Priority + Statistics  
+        col3, col4 = st.columns([1, 2])
+        
+        with col3:
+            # Priority badge
+            if "א'" in str(tender.get('אזור עדיפות', '')):
+                st.error("🎯 עדיפות א'")
+            elif "ב'" in str(tender.get('אזור עדיפות', '')):
+                st.warning("🎯 עדיפות ב'")
+            else:
+                st.info("🎯 ללא עדיפות מיוחדת")
+        
+        with col4:
+            st.markdown(f"📊 **{tender['מספר מגרשים']} מגרשים סה\"כ** • {tender['מגרשים לחיילי מילואים']} למילואים • {tender['מגרשים לנכי צה\"ל']} לנכי צה\"ל")
+        
+        # Row 3: Deadline + Action
+        col5, col6 = st.columns([2, 1])
+        
+        with col5:
+            st.markdown(f"⏰ **מועד אחרון להגשה:** {tender['מועד אחרון להגשה']}")
+        
+        with col6:
+            if st.button("🔗 להגשת המכרז", key=f"btn_{tender['מספר מכרז']}", help="קישור לאתר הממשלתי"):
+                st.markdown('<a href="https://apps.land.gov.il/MichrazimSite/#/search" target="_blank">פתח את האתר הממשלתי</a>', unsafe_allow_html=True)
+        
+        st.markdown("---")
 
 def main():
     # Simple header using only Streamlit
@@ -355,12 +271,14 @@ def main():
             if not st.session_state.matches.empty:
                 st.markdown("### ✅ מכרזים מתאימים לפרופיל שלך")
                 
-                # Render improved tender cards
+                # Render tender cards using pure Streamlit
                 for _, tender in st.session_state.matches.iterrows():
-                    st.markdown(render_improved_tender_card(tender), unsafe_allow_html=True)
+                    render_tender_with_streamlit(tender)
                 
                 st.success(f"נמצאו {len(st.session_state.matches)} מכרזים מתאימים לך!")
-                st.info("🔗 **להמשך הליך ההגשה:** היכנסו לקישור הממשלתי המצורף בכל כרטיסיה ועקבו אחר ההוראות. אנו זמינים לסייע לכם במידה ותרצו!")
+                
+                # Government website link
+                st.info("🔗 **להמשך הליך ההגשה:** [לחץ כאן לאתר הממשלתי](https://apps.land.gov.il/MichrazimSite/#/search) ועקוב אחר ההוראות. אנו זמינים לסייע לכם במידה ותרצו!")
                 
             else:
                 st.warning("😔 לא נמצאו מכרזים מתאימים")
