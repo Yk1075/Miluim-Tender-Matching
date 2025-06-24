@@ -1,181 +1,335 @@
-# אסטרטגיית בדיקות - מערכת התאמת מכרזי דיור
+# אסטרטגיית טסטים עבור מערכת התאמת מכרזי דיור
 
-## 1. מטרות הבדיקות
-- וידוא דיוק בתהליך ההתאמה בין פרופילים למכרזים
-- בדיקת תקינות הממשק והחוויה למשתמש
-- אימות חישובי ההטבות והזכאויות
-- וידוא תאימות עם דפדפנים ומכשירים שונים
+## מבוא
+מסמך זה מתאר את אסטרטגיית הטסטים המקיפה עבור מערכת התאמת מכרזי דיור למילואימניקים ונכי צה"ל. המערכת כוללת ממשק UI ב-Streamlit ואלגוריתם התאמה מתקדם.
 
-## 2. סוגי בדיקות
+## 1. סקירה כללית של המערכת
 
-### 2.1 בדיקות יחידה (Unit Tests)
-#### בדיקת פונקציות ההתאמה
+### רכיבי המערכת:
+1. **ממשק משתמש (UI)** - `tender_ui_streamlit.py`
+2. **אלגוריתם התאמה** - `create_comprehensive_matches.py` & `matching_algorithm.py`
+3. **קבצי נתונים** - טבלאות במבנה CSV
+4. **לוגיקת אימות** - פונקציות validation
+
+### פונקציונליות עיקרית:
+- קלט נתוני פרופיל משתמש
+- בדיקת זכאות על פי קריטריונים שונים
+- התאמת מכרזים על פי חוקי עסק
+- הצגת תוצאות בממשק ידידותי
+
+## 2. רמות הטסטים
+
+### 2.1 Unit Tests (טסטי יחידה)
+טסטים על פונקציות בודדות וקטנות.
+
+#### פונקציות לטסט:
+1. `is_miluim_soldier()` - בדיקת זכאות מילואים
+2. `get_profile_category()` - קביעת קטגוריית פרופיל
+3. `check_area_match()` - התאמת אזור גיאוגרפי
+4. `check_eligibility_match()` - בדיקת זכאות למכרז
+5. `check_housing_match()` - בדיקת התאמת סטטוס דיור
+6. `validate_profile_data()` - אימות נתוני קלט
+
+#### מקרי טסט עיקריים:
+- ערכי קלט תקינים
+- ערכי קלט לא תקינים
+- ערכי גבול (boundary values)
+- ערכי null/None
+- מחרוזות ריקות
+
+### 2.2 Integration Tests (טסטי אינטגרציה)
+טסטים על אינטראקציה בין רכיבי המערכת.
+
+#### תרחישי אינטגרציה:
+1. **קריאת נתונים מקבצי CSV**
+   - טעינת קבצי מכרזים
+   - טעינת קבצי פרופילים
+   - טיפול בשגיאות קבצים
+
+2. **זרימת נתונים בין פונקציות**
+   - פרופיל → קטגוריה → התאמה
+   - אימות קלט → חיפוש → הצגת תוצאות
+
+3. **ממשק Streamlit**
+   - session state management
+   - עדכון UI לאחר חיפוש
+   - טיפול בשגיאות ב-UI
+
+### 2.3 End-to-End Tests (טסטי קצה לקצה)
+טסטים על תרחישי שימוש מלאים.
+
+#### תרחישי משתמש עיקריים:
+
+1. **תרחיש 1: חייל מילואים עם זכאות מלאה**
+   - קלט: 60 ימי מילואים מ-7.10.23, אזור דרום
+   - צפוי: מכרזים מתאימים באזור דרום
+   - אימות: הצגת מכרזים עם עדיפות למילואים
+
+2. **תרחיש 2: נכה צה"ל**
+   - קלט: נכות 100%, אזור מרכז
+   - צפוי: מכרזים עם עדיפות לנכי צה"ל
+   - אימות: קדימות בהגרלה
+
+3. **תרחיש 3: חסר דיור**
+   - קלט: סטטוס חסר דיור, אזור צפון
+   - צפוי: מכרזים המיועדים לחסרי דיור
+   - אימות: סינון נכון של מכרזים
+
+4. **תרחיש 4: לא זכאי**
+   - קלט: 0 ימי מילואים, ללא נכות
+   - צפוי: הודעת שגיאה מתאימה
+   - אימות: אי הצגת מכרזים
+
+### 2.4 Performance Tests (טסטי ביצועים)
+טסטים על זמני תגובה וטעינת המערכת.
+
+#### מדדי ביצועים:
+1. **זמן חיפוש מכרזים** - מתחת ל-2 שניות
+2. **זמן טעינת דף** - מתחת לשנייה
+3. **זיכרון שגוי** - מתחת ל-100MB
+4. **טעינת קבצי נתונים** - מתחת ל-500ms
+
+### 2.5 Security Tests (טסטי אבטחה)
+בדיקת אבטחת המערכת.
+
+#### תחומי אבטחה:
+1. **אימות קלט** - XSS, SQL injection
+2. **גישה לקבצים** - path traversal
+3. **הגנה על נתונים אישיים**
+4. **session management**
+
+## 3. טסטים ספציפיים לחוקי עסק
+
+### 3.1 חוקי זכאות מילואים
 ```python
-def test_is_miluim_soldier():
-    # בדיקת תנאי מילואים חרבות ברזל
-    assert is_miluim_soldier(days_since_oct=45, has_active_card=False, days_in_6_years=0) == True
-    assert is_miluim_soldier(days_since_oct=44, has_active_card=False, days_in_6_years=0) == False
-    
-    # בדיקת תנאי תעודת מילואים פעיל
-    assert is_miluim_soldier(days_since_oct=0, has_active_card=True, days_in_6_years=0) == True
-    
-    # בדיקת תנאי 80 ימי מילואים ב-6 שנים
-    assert is_miluim_soldier(days_since_oct=0, has_active_card=False, days_in_6_years=80) == True
-    assert is_miluim_soldier(days_since_oct=0, has_active_card=False, days_in_6_years=79) == False
+# טסט: 45 ימי מילואים מ-7.10.23
+assert is_miluim_soldier(45, False, 0) == True
+assert is_miluim_soldier(44, False, 0) == False
 
-def test_get_profile_category():
-    # בדיקת קטגוריית נכי צה"ל
-    profile_disabled = {
-        'סיווג_נכות': 'נכות קשה',
-        'ימי_מילואים_מ-7.10.23': 0,
-        'תעודת_מילואים_פעיל': 'לא',
-        'ימי_מילואים_ב-6_שנים': 0
-    }
-    assert get_profile_category(profile_disabled) == 'נכי צהל'
-    
-    # בדיקת קטגוריית חיילי מילואים
-    profile_miluim = {
-        'סיווג_נכות': '',
-        'ימי_מילואים_מ-7.10.23': 45,
-        'תעודת_מילואים_פעיל': 'לא',
-        'ימי_מילואים_ב-6_שנים': 0
-    }
-    assert get_profile_category(profile_miluim) == 'חיילי מילואים'
+# טסט: תעודת מילואים פעיל
+assert is_miluim_soldier(0, True, 0) == True
 
-def test_check_area_match():
-    assert check_area_match('דרום', 'דרום') == True
-    assert check_area_match('דרום', 'צפון') == False
-
-def test_check_eligibility_match():
-    # בדיקת התאמה לכולם
-    assert check_eligibility_match('חיילי מילואים', 'כולם') == True
-    assert check_eligibility_match('נכי צהל', 'כולם') == True
-    
-    # בדיקת התאמה ספציפית
-    assert check_eligibility_match('נכי צהל', 'נכי צה"ל') == True
-    assert check_eligibility_match('חיילי מילואים', 'חיילי מילואים') == True
-    
-    # בדיקת אי-התאמה
-    assert check_eligibility_match('חיילי מילואים', 'נכי צה"ל') == False
-
-def test_check_housing_match():
-    # בדיקת התאמה לחסרי דיור
-    assert check_housing_match('כן', 'חסרי דיור') == True
-    assert check_housing_match('לא', 'חסרי דיור') == False
-    
-    # בדיקת מקרים ללא דרישת דיור
-    assert check_housing_match('כן', '') == True
-    assert check_housing_match('לא', '') == True
+# טסט: 80 ימי מילואים ב-6 שנים
+assert is_miluim_soldier(0, False, 80) == True
+assert is_miluim_soldier(0, False, 79) == False
 ```
 
-### 2.2 בדיקות אינטגרציה
+### 3.2 חוקי זכאות נכי צה"ל
 ```python
-def test_comprehensive_matching():
-    # יצירת נתוני בדיקה
-    test_profiles = pd.DataFrame([
-        {
-            'מספר_פרופיל': '001',
-            'ימי_מילואים_מ-7.10.23': 45,
+# טסט: נכות קשה
+profile = {'סיווג_נכות': 'נכות קשה'}
+assert get_profile_category(pd.Series(profile)) == 'נכי צהל'
+
+# טסט: נכות 100%
+profile = {'סיווג_נכות': '100% ומעלה'}
+assert get_profile_category(pd.Series(profile)) == 'נכי צהל'
+```
+
+### 3.3 חוקי התאמת אזורים
+```python
+# טסט: התאמת אזור מדויקת
+assert check_area_match('דרום', 'דרום') == True
+assert check_area_match('דרום', 'צפון') == False
+```
+
+### 3.4 חוקי חסרי דיור
+```python
+# טסט: חסר דיור יכול להגיש למכרזי חסרי דיור
+assert check_housing_match('כן', 'חסרי דיור') == True
+
+# טסט: לא חסר דיור לא יכול להגיש למכרזי חסרי דיור
+assert check_housing_match('לא', 'חסרי דיור') == False
+```
+
+## 4. מתודולוגיית הטסטים
+
+### 4.1 Test-Driven Development (TDD)
+1. כתיבת טסט כושל
+2. כתיבת קוד מינימלי שעובר
+3. רפקטורינג
+4. חזרה על התהליך
+
+### 4.2 Behavior-Driven Development (BDD)
+שימוש בתחביר Given-When-Then:
+
+```gherkin
+Given a user with 60 miluim days from 7.10.23
+When searching for tenders in South area
+Then show relevant tenders with miluim priority
+```
+
+### 4.3 כלים ופריימוורקים
+
+#### כלי טסטים:
+- **pytest** - טסטי Python
+- **unittest** - טסטי יחידה
+- **selenium** - טסטי UI אוטומטיים
+- **locust** - טסטי עומס
+
+#### כלי בדיקת קוד:
+- **black** - פורמט קוד
+- **flake8** - בדיקת סגנון
+- **mypy** - בדיקת סוגים
+- **coverage** - כיסוי טסטים
+
+## 5. תכנון ביצוע הטסטים
+
+### 5.1 סביבות טסט
+1. **Development** - טסטים מקומיים
+2. **Staging** - טסטים מלאים
+3. **Production** - smoke tests
+
+### 5.2 לוח זמנים
+- **שבוע 1**: הכנת infrastructure טסטים
+- **שבוע 2**: כתיבת Unit Tests
+- **שבוע 3**: Integration Tests
+- **שבוע 4**: E2E Tests
+- **שבוע 5**: Performance & Security Tests
+
+### 5.3 קריטריוני הצלחה
+- **כיסוי קוד**: מעל 90%
+- **זמן ביצוע**: מתחת ל-5 דקות
+- **יציבות**: 0% failure rate
+- **תחזוקה**: תיעוד מלא
+
+## 6. ניטור ודיווח
+
+### 6.1 מדדי איכות
+1. **Bug Detection Rate** - מספר באגים שנתגלו
+2. **Test Coverage** - אחוז כיסוי הקוד
+3. **Mean Time to Detect** - זמן ממוצע לגילוי בעיה
+4. **Mean Time to Repair** - זמן ממוצע לתיקון
+
+### 6.2 דוחות טסטים
+- דוח יומי - תוצאות טסטים אוטומטיים
+- דוח שבועי - סיכום מדדי איכות
+- דוח חודשי - ניתוח מגמות
+
+## 7. סיכונים ואסטרטגיות מיטיגציה
+
+### 7.1 סיכונים טכניים
+1. **שינויים בקבצי נתונים** - טסטים עם mock data
+2. **עדכונים ב-Streamlit** - version pinning
+3. **שינויים בחוקי עסק** - טסטים מודולריים
+
+### 7.2 סיכונים עסקיים
+1. **שינויים בחקיקה** - גמישות בקונפיגורציה
+2. **נתונים לא מעודכנים** - אלרטים אוטומטיים
+3. **עומס משתמשים** - טסטי stress
+
+## 8. תחזוקה ועדכון
+
+### 8.1 תחזוקה שוטפת
+- הרצת טסטים יומית
+- עדכון טסטים עם שינויי קוד
+- ניקוי טסטים מיושנים
+
+### 8.2 שיפורים עתידיים
+- אוטומציה מלאה של CI/CD
+- טסטי A/B למשוב משתמשים
+- ניטור performance בזמן אמת
+
+---
+
+## נספחים
+
+### נספח א': דוגמאות קוד טסט
+
+```python
+# test_matching_algorithm.py
+import pytest
+import pandas as pd
+from create_comprehensive_matches import *
+
+class TestMiluimEligibility:
+    def test_45_days_minimum(self):
+        assert is_miluim_soldier(45, False, 0) == True
+        assert is_miluim_soldier(44, False, 0) == False
+    
+    def test_active_card(self):
+        assert is_miluim_soldier(0, True, 0) == True
+    
+    def test_6_years_accumulation(self):
+        assert is_miluim_soldier(0, False, 80) == True
+        assert is_miluim_soldier(0, False, 79) == False
+
+class TestProfileCategory:
+    def test_disabled_veteran(self):
+        profile = pd.Series({'סיווג_נכות': 'נכות קשה'})
+        assert get_profile_category(profile) == 'נכי צהל'
+    
+    def test_miluim_soldier(self):
+        profile = pd.Series({
+            'ימי_מילואים_מ-7.10.23': 50,
             'תעודת_מילואים_פעיל': 'לא',
             'ימי_מילואים_ב-6_שנים': 0,
-            'סיווג_נכות': '',
-            'חסר_דיור': 'כן',
-            'אזור_מועדף': 'דרום',
-            'בן/בת_זוג_זכאי': 'לא'
-        }
-    ])
+            'סיווג_נכות': ''
+        })
+        assert get_profile_category(profile) == 'חיילי מילואים'
+
+class TestAreaMatching:
+    def test_exact_match(self):
+        assert check_area_match('דרום', 'דרום') == True
     
-    test_tenders = pd.DataFrame([
-        {
-            'id': '001',
-            'מספר המכרז': 'T001',
-            'עיר': 'באר שבע',
-            'אזור גיאוגרפי ': 'דרום',
-            'מי רשאי להגיש': 'חיילי מילואים',
-            'סטטוס דיור נדרש': 'חסרי דיור'
-        }
-    ])
+    def test_no_match(self):
+        assert check_area_match('דרום', 'צפון') == False
+
+class TestEligibilityMatching:
+    def test_everyone_eligible(self):
+        assert check_eligibility_match('אחר', 'כולם') == True
     
-    # בדיקת תוצאות ההתאמה
-    matches = create_comprehensive_matching_table(test_profiles, test_tenders)
-    assert len(matches) == 1
-    assert matches.iloc[0]['מספר_מכרז'] == 'T001'
+    def test_miluim_specific(self):
+        assert check_eligibility_match('חיילי מילואים', 'חיילי מילואים') == True
+        assert check_eligibility_match('אחר', 'חיילי מילואים') == False
+
+class TestHousingMatching:
+    def test_housing_shortage_required(self):
+        assert check_housing_match('כן', 'חסרי דיור') == True
+        assert check_housing_match('לא', 'חסרי דיור') == False
+    
+    def test_no_housing_requirement(self):
+        assert check_housing_match('לא', 'לא צוין') == True
+        assert check_housing_match('כן', 'לא צוין') == True
 ```
 
-### 2.3 בדיקות ממשק משתמש (UI Tests)
-```python
-def test_ui_components():
-    # בדיקת טעינת הדף
-    assert st.title.text == "מילואים וזוכים - מערכת התאמה למציאת מכרזים"
+### נספח ב': תצורת CI/CD
+
+```yaml
+# .github/workflows/tests.yml
+name: Tests
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
     
-    # בדיקת שדות הקלט
-    assert st.number_input["ימי_מילואים_מ-7.10.23"].min_value == 0
-    assert st.selectbox["תעודת_מילואים_פעיל"].options == ["כן", "לא"]
-    assert st.selectbox["אזור_מועדף"].options == ["דרום", "צפון", "ירושלים", "מרכז", "יהודה ושומרון"]
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install pytest coverage
     
-    # בדיקת טקסט עזרה
-    assert "טופס 3010" in st.number_input["ימי_מילואים_מ-7.10.23"].help
+    - name: Run tests
+      run: |
+        coverage run -m pytest
+        coverage report
+        coverage html
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v1
 ```
 
-### 2.4 בדיקות קצה (Edge Cases)
-```python
-def test_edge_cases():
-    # בדיקת ערכים גבוליים
-    assert is_miluim_soldier(days_since_oct=44, has_active_card=False, days_in_6_years=79) == False
-    assert is_miluim_soldier(days_since_oct=45, has_active_card=False, days_in_6_years=79) == True
-    
-    # בדיקת ערכים חסרים
-    assert check_housing_match('כן', None) == True
-    assert check_area_match(None, 'דרום') == False
-    
-    # בדיקת מקרי קצה בהטבות
-    test_profile = {
-        'בן/בת_זוג_זכאי': 'כן',
-        'חסר_דיור': 'כן',
-        'אזור_עדיפות': 'א'
-    }
-    benefits = calculate_benefits(test_profile)
-    assert benefits['max_discount'] <= 200000  # בדיקת תקרת הטבה לבני זוג
-```
+### נספח ג': רשימת בדיקה לפני production
 
-## 3. תרחישי בדיקה עיקריים
-
-### 3.1 תרחישי חיילי מילואים
-1. חייל מילואים עם 45+ ימי שירות מ-7.10.23
-2. חייל מילואים עם תעודת מילואים פעיל
-3. חייל מילואים עם 80+ ימי שירות ב-6 שנים
-4. חייל מילואים שאינו עומד באף קריטריון
-
-### 3.2 תרחישי נכי צה"ל
-1. נכה צה"ל עם נכות קשה
-2. נכה צה"ל עם 100% ומעלה
-3. נכה צה"ל שגם משרת במילואים
-
-### 3.3 תרחישי דיור והתאמה
-1. חסר דיור באזור עדיפות א'
-2. חסר דיור באזור עדיפות ב'
-3. לא חסר דיור באזור ללא עדיפות
-4. בני זוג ששניהם משרתי מילואים
-
-## 4. כלי בדיקות
-- pytest לבדיקות יחידה ואינטגרציה
-- Streamlit Testing Tools לבדיקות ממשק
-- Coverage.py למדידת כיסוי הבדיקות
-
-## 5. תהליך הבדיקות
-1. הרצת בדיקות יחידה בכל commit
-2. בדיקות אינטגרציה לפני כל merge
-3. בדיקות UI ידניות בכל גרסה חדשה
-4. בדיקות רגרסיה מלאות לפני כל release
-
-## 6. מדדי הצלחה
-- כיסוי בדיקות של לפחות 90%
-- זמן ריצת כל הבדיקות פחות מ-5 דקות
-- אפס באגים קריטיים בייצור
-- דיוק של 100% בחישובי זכאות והטבות
-
-## 7. תיעוד בדיקות
-- תיעוד מלא של כל מקרי הבדיקה
-- דוחות כיסוי אוטומטיים
-- תיעוד באגים ופתרונם
-- מעקב אחר שיפורים בתהליך הבדיקות 
+- [ ] כל הטסטים עוברים
+- [ ] כיסוי קוד מעל 90%
+- [ ] ביצועים תקינים
+- [ ] בדיקות אבטחה עברו
+- [ ] תיעוד מעודכן
+- [ ] backup נתונים
+- [ ] תכנית rollback 
