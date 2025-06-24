@@ -130,37 +130,87 @@ def find_matching_tenders(profile_data):
         return pd.DataFrame()
 
 def render_tender_with_streamlit(tender):
-    """Render compact tender card with proper visual hierarchy"""
+    """Render tender card with blue background, proper hierarchy and layout"""
     
-    # Create a blue card using expander with proper hierarchy
-    with st.expander(f"🏆 **מכרז #{tender['מספר מכרז']}** | {tender['עיר']}", expanded=True):
+    # Custom CSS for blue card styling
+    st.markdown("""
+    <style>
+    .blue-card {
+        background-color: #f0f8ff;
+        border: 2px solid #1e3a8a;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    .tender-number {
+        color: #1e3a8a;
+    }
+    .location-info {
+        color: #1e3a8a;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    # Get location info safely
+    city = str(tender.get('עיר', 'לא צוין'))
+    neighborhood = str(tender.get('שכונה', ''))
+    area = str(tender.get('אזור גיאוגרפי', ''))
+    
+    # Build location string
+    location_parts = []
+    if neighborhood and neighborhood != 'nan' and neighborhood != 'לא צוין':
+        location_parts.append(neighborhood)
+    if city and city != 'nan' and city != 'לא צוין':
+        location_parts.append(city)
+    if area and area != 'nan' and area != 'לא צוין':
+        location_parts.append(area)
+    
+    location_display = ' • '.join(location_parts) if location_parts else 'מיקום לא צוין'
+    
+    # Create card header with tender number (right) and location (left)
+    st.markdown(f"""
+    <div class="blue-card">
+        <div class="card-header">
+            <span class="location-info">📍 {location_display}</span>
+            <span class="tender-number">🏆 מכרז #{tender['מספר מכרז']}</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Create the content in expander
+    with st.expander("פרטים נוספים", expanded=True):
         
-        # Row 1: Main info - Location with emphasis
-        st.markdown(f"### 📍 {tender['שכונה']} • {tender['אזור גיאוגרפי']}")
+        # Row 1: Plot count prominently
+        st.markdown(f"### 🏠 **{tender['מספר מגרשים']} יח\"ד**")
         
-        # Row 2: Most important info - Priority and Plot count
-        col1, col2 = st.columns([1, 1])
+        # Row 2: Priority status in single column
+        priority_text = ""
+        if "א'" in str(tender.get('אזור עדיפות', '')):
+            priority_text = "🔥 עדיפות א'"
+        elif "ב'" in str(tender.get('אזור עדיפות', '')):
+            priority_text = "⚡ עדיפות ב'"
+        else:
+            priority_text = "📋 ללא עדיפות לאומית"
         
-        with col1:
-            if "א'" in str(tender.get('אזור עדיפות', '')):
-                st.error("🔥 עדיפות א'")
-            elif "ב'" in str(tender.get('אזור עדיפות', '')):
-                st.warning("⚡ עדיפות ב'")
-            else:
-                st.info("📋 רגיל")
+        st.info(priority_text)
         
-        with col2:
-            # Make plot count much more prominent
-            st.markdown(f"### 🏠 **{tender['מספר מגרשים']} מגרשים**")
-        
-        # Row 3: Secondary info - Timeline in smaller text
+        # Row 3: Timeline in smaller text
         st.caption(f"📅 פרסום: {tender['תאריך פרסום חוברת המכרז']} • ⏰ מועד אחרון: {tender['מועד אחרון להגשה']}")
         
-        # Action button
-        if st.button("🌐 להגשת המכרז", key=f"btn_{tender['מספר מכרז']}", help="קישור לאתר הממשלתי", type="primary"):
-            st.success("✅ [פתח את האתר הממשלתי](https://apps.land.gov.il/MichrazimSite/#/search)")
+        # Action button with correct text
+        if st.button("🌐 למערכת המכרזים של רמ״י", key=f"btn_{tender['מספר מכרז']}", help="קישור למערכת המכרזים הממשלתית", type="primary"):
+            st.success("✅ [פתח את מערכת המכרזים של רמ״י](https://apps.land.gov.il/MichrazimSite/#/search)")
     
-    # Add small space between cards
+    # Add space between cards
     st.markdown("---")
 
 def main():
