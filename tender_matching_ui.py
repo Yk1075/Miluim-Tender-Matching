@@ -151,7 +151,7 @@ def find_matching_tenders(profile_data):
         return pd.DataFrame()
 
 def render_tender_with_streamlit(tender):
-    """Render tender card with blue background using custom HTML"""
+    """Render tender card with blue background using expander"""
     
     # Get location info safely
     city = str(tender.get('עיר', ''))
@@ -169,30 +169,8 @@ def render_tender_with_streamlit(tender):
     
     location_display = ' • '.join(location_parts) if location_parts else 'מיקום לא צוין'
     
-    # Create blue card using custom HTML with large header
-    st.markdown(f"""
-    <div style="
-        background-color: #f0f8ff;
-        border: 2px solid #1e3a8a;
-        border-radius: 12px;
-        padding: 20px;
-        margin: 15px 0;
-        direction: rtl;
-        text-align: right;
-    ">
-        <div style="
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #1e3a8a;
-            margin-bottom: 15px;
-            text-align: center;
-        ">
-            🏆 מכרז #{tender['מספר מכרז']} | 📍 {location_display}
-        </div>
-    """, unsafe_allow_html=True)
-    
-    # Now use a container for the content inside the HTML card
-    with st.container():
+    # Create blue card using expander - back to working version
+    with st.expander(f"🏆 מכרז #{tender['מספר מכרז']} | 📍 {location_display}", expanded=True):
         
         # Row 1: Priority (RIGHT) and Plot count (LEFT) - same size
         col_left, col_right = st.columns([1, 1])
@@ -226,9 +204,6 @@ def render_tender_with_streamlit(tender):
         with button_col_left:
             if st.button("🌐 למערכת המכרזים של רמ״י", key=f"btn_{tender['מספר מכרז']}", help="קישור למערכת המכרזים הממשלתית"):
                 st.success("✅ [פתח את מערכת המכרזים של רמ״י](https://apps.land.gov.il/MichrazimSite/#/search)")
-    
-    # Close the HTML card
-    st.markdown("</div>", unsafe_allow_html=True)
 
 def main():
     # Centered header using CSS with stronger styling
