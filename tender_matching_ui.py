@@ -223,11 +223,40 @@ def main():
     header_col1, header_col2, header_col3 = st.columns([1, 3, 1])
     
     with header_col1:
-        # Try to display logo, fallback to text if not found
-        try:
-            st.image("logo.png", width=120)
-        except:
-            st.markdown("**APM & CO**")
+        # Professional APM & CO logo in CSS - matching the original design
+        st.markdown("""
+        <div style="display: flex; align-items: center; margin: 10px 0;">
+            <div style="
+                width: 60px; 
+                height: 60px; 
+                background-color: #2c2c2c; 
+                margin-right: 15px;
+                border-radius: 3px;
+            "></div>
+            <div>
+                <div style="
+                    font-size: 24px; 
+                    font-weight: bold; 
+                    color: #2c2c2c; 
+                    letter-spacing: 3px;
+                    line-height: 1.2;
+                ">APM</div>
+                <div style="
+                    font-size: 24px; 
+                    font-weight: bold; 
+                    color: #2c2c2c; 
+                    letter-spacing: 3px;
+                    line-height: 1.2;
+                ">&amp; CO</div>
+                <div style="
+                    font-size: 11px; 
+                    color: #666; 
+                    margin-top: 2px;
+                    letter-spacing: 2px;
+                ">AMIT, POLLAK, MATALON</div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
     
     with header_col2:
         st.markdown("""
