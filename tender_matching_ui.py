@@ -34,6 +34,101 @@ st.markdown("""
         background-color: #f5f5f5;
     }
     
+    /* Custom tender card styling */
+    .tender-card-container {
+        background: #f0f8ff;
+        border: 2px solid #1e3a8a;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 6px rgba(30, 58, 138, 0.1);
+    }
+    
+    .tender-number-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .tender-number {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #1e3a8a;
+    }
+    
+    .tender-address {
+        font-size: 1rem;
+        color: #374151;
+    }
+    
+    .priority-stats-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .priority-badge-a {
+        background: #fee2e2;
+        color: #dc2626;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.875rem;
+    }
+    
+    .priority-badge-b {
+        background: #fef3c7;
+        color: #d97706;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.875rem;
+    }
+    
+    .stats-info {
+        color: #6b7280;
+        font-size: 0.875rem;
+    }
+    
+    .deadline-action-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .deadline-info {
+        color: #dc2626;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+    
+    .action-button {
+        background: #1e3a8a;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        transition: background 0.2s;
+    }
+    
+    .action-button:hover {
+        background: #1e40af;
+        color: white;
+        text-decoration: none;
+    }
+    
     /* Hide streamlit elements */
     .stDeployButton, .stDecoration, #MainMenu, footer {
         display: none !important;
@@ -102,6 +197,48 @@ def find_matching_tenders(profile_data):
     except Exception as e:
         st.error(f"אירעה שגיאה בעת חיפוש המכרזים: {str(e)}")
         return pd.DataFrame()
+
+def render_improved_tender_card(tender):
+    """Render an improved tender card with the new design"""
+    # Determine priority badge
+    priority_badge = ""
+    priority_class = ""
+    if "א'" in str(tender.get('אזור עדיפות', '')):
+        priority_badge = "🎯 עדיפות א'"
+        priority_class = "priority-badge-a"
+    elif "ב'" in str(tender.get('אזור עדיפות', '')):
+        priority_badge = "🎯 עדיפות ב'"
+        priority_class = "priority-badge-b"
+    else:
+        priority_badge = "🎯 ללא עדיפות מיוחדת"
+        priority_class = "priority-badge-b"
+    
+    # Stats summary
+    stats_text = f"📊 {tender['מספר מגרשים']} מגרשים סה\"כ • {tender['מגרשים לחיילי מילואים']} למילואים • {tender['מגרשים לנכי צה\"ל']} לנכי צה\"ל"
+    
+    return f"""
+    <div class="tender-card-container">
+        <!-- שורה 1: מספר מכרז + כתובת מלאה -->
+        <div class="tender-number-row">
+            <div class="tender-number">🏆 מכרז #{tender['מספר מכרז']}</div>
+            <div class="tender-address">📍 {tender['עיר']} • {tender['שכונה']} • {tender['אזור גיאוגרפי']}</div>
+        </div>
+        
+        <!-- שורה 2: אזור עדיפות + סטטיסטיקות -->
+        <div class="priority-stats-row">
+            <div class="{priority_class}">{priority_badge}</div>
+            <div class="stats-info">{stats_text}</div>
+        </div>
+        
+        <!-- שורה 3: מועד הגשה + קישור המשך -->
+        <div class="deadline-action-row">
+            <div class="deadline-info">⏰ מועד אחרון להגשה: {tender['מועד אחרון להגשה']}</div>
+            <a href="https://apps.land.gov.il/MichrazimSite/#/search" target="_blank" class="action-button">
+                🔗 להגשת המכרז
+            </a>
+        </div>
+    </div>
+    """
 
 def main():
     # Simple header using only Streamlit
@@ -218,49 +355,12 @@ def main():
             if not st.session_state.matches.empty:
                 st.markdown("### ✅ מכרזים מתאימים לפרופיל שלך")
                 
-                # Render tender cards using Streamlit components
+                # Render improved tender cards
                 for _, tender in st.session_state.matches.iterrows():
-                    with st.container():
-                        # Create a nice border using columns
-                        st.markdown(f"""
-                        <div style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; background: #f8f9fa;">
-                        </div>
-                        """, unsafe_allow_html=True)
-                        
-                        col_title, col_number = st.columns([3, 1])
-                        
-                        with col_title:
-                            st.markdown(f"**{tender['עיר']} - {tender['שכונה']}**")
-                        
-                        with col_number:
-                            st.markdown(f"`מכרז #{tender['מספר מכרז']}`")
-                        
-                        st.markdown(f"📍 {tender['אזור גיאוגרפי']}")
-                        
-                        # Stats in columns
-                        stat_col1, stat_col2, stat_col3 = st.columns(3)
-                        
-                        with stat_col1:
-                            st.metric("🏗️ סה\"כ מגרשים", tender['מספר מגרשים'])
-                        
-                        with stat_col2:
-                            st.metric("🎖️ מילואים", tender['מגרשים לחיילי מילואים'])
-                        
-                        with stat_col3:
-                            st.metric("♿ נכי צה\"ל", tender['מגרשים לנכי צה"ל'])
-                        
-                        # Priority badge
-                        if "א'" in str(tender.get('אזור עדיפות', '')):
-                            st.success("🥇 עדיפות א'")
-                        elif "ב'" in str(tender.get('אזור עדיפות', '')):
-                            st.warning("🥈 עדיפות ב'")
-                        
-                        # Dates
-                        st.caption(f"📅 פורסם: {tender['תאריך פרסום חוברת המכרז']} | ⏰ מועד אחרון: {tender['מועד אחרון להגשה']}")
-                        
-                        st.markdown("---")
+                    st.markdown(render_improved_tender_card(tender), unsafe_allow_html=True)
                 
                 st.success(f"נמצאו {len(st.session_state.matches)} מכרזים מתאימים לך!")
+                st.info("🔗 **להמשך הליך ההגשה:** היכנסו לקישור הממשלתי המצורף בכל כרטיסיה ועקבו אחר ההוראות. אנו זמינים לסייע לכם במידה ותרצו!")
                 
             else:
                 st.warning("😔 לא נמצאו מכרזים מתאימים")
