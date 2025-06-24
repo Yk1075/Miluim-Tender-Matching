@@ -130,15 +130,15 @@ def find_matching_tenders(profile_data):
         return pd.DataFrame()
 
 def render_tender_with_streamlit(tender):
-    """Render compact tender card with blue background and essential info only"""
+    """Render compact tender card with proper visual hierarchy"""
     
-    # Create a blue card using expander with improved content
-    with st.expander(f"🏆 מכרז #{tender['מספר מכרז']} • 🏘️ {tender['עיר']}", expanded=True):
+    # Create a blue card using expander with proper hierarchy
+    with st.expander(f"🏆 **מכרז #{tender['מספר מכרז']}** | {tender['עיר']}", expanded=True):
         
-        # Row 1: Location details
-        st.markdown(f"📍 **{tender['שכונה']} • {tender['אזור גיאוגרפי']}**")
+        # Row 1: Main info - Location with emphasis
+        st.markdown(f"### 📍 {tender['שכונה']} • {tender['אזור גיאוגרפי']}")
         
-        # Row 2: Priority and basic stats in columns
+        # Row 2: Most important info - Priority and Plot count
         col1, col2 = st.columns([1, 1])
         
         with col1:
@@ -147,13 +147,14 @@ def render_tender_with_streamlit(tender):
             elif "ב'" in str(tender.get('אזור עדיפות', '')):
                 st.warning("⚡ עדיפות ב'")
             else:
-                st.info("📋 ללא עדיפות מיוחדת")
+                st.info("📋 רגיל")
         
         with col2:
-            st.metric(label="🏠 מגרשים", value=tender['מספר מגרשים'])
+            # Make plot count much more prominent
+            st.markdown(f"### 🏠 **{tender['מספר מגרשים']} מגרשים**")
         
-        # Row 3: Timeline in compact format
-        st.markdown(f"📅 **פרסום:** {tender['תאריך פרסום חוברת המכרז']} • ⏰ **מועד אחרון:** {tender['מועד אחרון להגשה']}")
+        # Row 3: Secondary info - Timeline in smaller text
+        st.caption(f"📅 פרסום: {tender['תאריך פרסום חוברת המכרז']} • ⏰ מועד אחרון: {tender['מועד אחרון להגשה']}")
         
         # Action button
         if st.button("🌐 להגשת המכרז", key=f"btn_{tender['מספר מכרז']}", help="קישור לאתר הממשלתי", type="primary"):
