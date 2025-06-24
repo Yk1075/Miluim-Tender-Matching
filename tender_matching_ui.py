@@ -103,6 +103,51 @@ st.markdown("""
         font-weight: bold !important;
         margin: 0 !important;
     }
+    
+    /* Compact, bold, square APM logo */
+    .top-left-logo {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 999;
+        background: #000;
+        width: 90px;
+        height: 90px;
+        padding: 6px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        font-family: 'Arial', 'Helvetica', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    .logo-main {
+        font-size: 26px;
+        font-weight: 900;
+        color: white;
+        letter-spacing: 6px;
+        margin-bottom: 2px;
+        line-height: 1.1;
+    }
+    .logo-second-row {
+        font-size: 18px;
+        font-weight: 900;
+        color: white;
+        letter-spacing: 6px;
+        margin-bottom: 2px;
+        line-height: 1.1;
+    }
+    .logo-subtitle {
+        font-size: 7px;
+        color: white;
+        font-weight: 400;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        line-height: 1.2;
+        white-space: nowrap;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -240,79 +285,14 @@ def main():
     .stSubheader {
         text-align: center !important;
     }
-    
-    /* Compact square APM logo */
-    .top-left-logo {
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        z-index: 999;
-        background: #000;
-        width: 80px;
-        height: 80px;
-        padding: 8px;
-        border-radius: 6px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        font-family: 'Arial', 'Helvetica', sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-    }
-    
-    .logo-main {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 2px;
-        margin-bottom: 3px;
-    }
-    
-    .logo-letter {
-        font-size: 12px;
-        font-weight: 900;
-        color: white;
-        line-height: 1;
-    }
-    
-    .logo-second-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 2px;
-        margin-bottom: 4px;
-    }
-    
-    .logo-ampersand {
-        font-size: 10px;
-        font-weight: bold;
-        color: white;
-        line-height: 1;
-    }
-    
-    .logo-subtitle {
-        font-size: 5px;
-        color: white;
-        font-weight: normal;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        line-height: 1;
-    }
     </style>
     """, unsafe_allow_html=True)
     
     # Add black APM logo matching uploaded image
     st.markdown("""
     <div class="top-left-logo">
-        <div class="logo-main">
-            <div class="logo-letter">M</div>
-            <div class="logo-letter">P</div>
-            <div class="logo-letter">A</div>
-        </div>
-        <div class="logo-second-row">
-            <div class="logo-ampersand">O</div>
-            <div class="logo-ampersand">C</div>
-            <div class="logo-ampersand">&</div>
-        </div>
+        <div class="logo-main">A P M</div>
+        <div class="logo-second-row">& C O</div>
         <div class="logo-subtitle">AMIT, POLLAK, MATALON</div>
     </div>
     """, unsafe_allow_html=True)
