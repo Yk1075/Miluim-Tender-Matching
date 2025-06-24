@@ -120,7 +120,7 @@ def find_matching_tenders(profile_data):
                     'מגרשים לחיילי מילואים': tender['כמה מגרשים בעדיפות בהגרלה לחיילי מילואים'],
                     'תאריך פרסום חוברת המכרז': tender['תאריך פרסום חוברת'],
                     'מועד אחרון להגשה': tender['מועד אחרון להגשת הצעות'],
-                    'אזור עדיפות': tender.get('אזור עדיפות', 'לא צוין')
+                    'אזור עדיפות': tender['אזור עדיפות']
                 })
         
         return pd.DataFrame(matching_tenders)
@@ -148,8 +148,8 @@ def render_tender_with_streamlit(tender):
     
     location_display = ' • '.join(location_parts) if location_parts else 'מיקום לא צוין'
     
-    # Create blue card using expander with larger header
-    with st.expander(f"## 🏆 מכרז #{tender['מספר מכרז']} | 📍 {location_display}", expanded=True):
+    # Create blue card using expander with much larger header (double size)
+    with st.expander(f"# 🏆 מכרז #{tender['מספר מכרז']} | 📍 {location_display}", expanded=True):
         
         # Row 1: Priority (RIGHT) and Plot count (LEFT) - same size
         col_left, col_right = st.columns([1, 1])
@@ -159,10 +159,11 @@ def render_tender_with_streamlit(tender):
             st.markdown(f"🏠 {tender['מספר מגרשים']}")
         
         with col_right:
-            # Priority on the RIGHT
-            if "א'" in str(tender.get('אזור עדיפות', '')):
+            # Priority on the RIGHT - updated to read from the correct column
+            priority_status = str(tender.get('אזור עדיפות', ''))
+            if priority_status == "A":
                 st.error("🔥 עדיפות א'")
-            elif "ב'" in str(tender.get('אזור עדיפות', '')):
+            elif priority_status == "B":
                 st.warning("⚡ עדיפות ב'")
             else:
                 st.info("📋 ללא עדיפות לאומית")
