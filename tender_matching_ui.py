@@ -219,13 +219,24 @@ def render_tender_with_streamlit(tender):
             """, unsafe_allow_html=True)
 
 def main():
-    # Centered header using CSS - back to working version
+    # Override Streamlit CSS to center everything
     st.markdown("""
-    <div style="text-align: center !important; direction: ltr !important; margin-bottom: 2rem;">
-        <h1 style="color: #1e3a8a; margin-bottom: 0.5rem; text-align: center !important;">🏠 מילואים וזוכים - מערכת התאמת מכרזים</h1>
-        <h3 style="color: #6b7280; font-weight: normal; text-align: center !important;">מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך</h3>
-    </div>
+    <style>
+    .main > div {
+        text-align: center !important;
+    }
+    .stMarkdown > div {
+        text-align: center !important;
+    }
+    h1 {
+        text-align: center !important;
+    }
+    </style>
     """, unsafe_allow_html=True)
+    
+    # Use Streamlit's built-in title and subheader
+    st.title("🏠 מילואים וזוכים - מערכת התאמת מכרזים")
+    st.subheader("מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך")
     
     # Info sections using Streamlit columns
     col1, col2 = st.columns(2)
