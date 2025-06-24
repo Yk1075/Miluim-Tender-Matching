@@ -241,41 +241,41 @@ def main():
         text-align: center !important;
     }
     
-    /* Professional logo in top left corner */
+    /* Logo matching the uploaded image */
     .top-left-logo {
         position: fixed;
         top: 20px;
         left: 20px;
         z-index: 999;
-        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-        padding: 12px 16px;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+        background: #4a6cf7;
+        padding: 8px 16px;
+        border-radius: 20px;
+        box-shadow: 0 4px 12px rgba(74, 108, 247, 0.3);
         color: white;
         font-family: 'Inter', 'Segoe UI', sans-serif;
         display: flex;
         align-items: center;
-        gap: 8px;
-        border: 1px solid rgba(255,255,255,0.2);
+        gap: 10px;
+        border: none;
     }
     
     .logo-icon {
-        width: 24px;
-        height: 24px;
+        width: 28px;
+        height: 28px;
         background: white;
-        border-radius: 4px;
+        border-radius: 6px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 12px;
+        font-size: 16px;
         font-weight: bold;
-        color: #1e3a8a;
+        color: #4a6cf7;
     }
     
     .logo-text {
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 600;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.3px;
     }
     </style>
     """, unsafe_allow_html=True)
