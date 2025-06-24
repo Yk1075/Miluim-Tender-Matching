@@ -81,39 +81,51 @@ st.markdown("""
         display: block !important;
     }
     
-    /* Input container fixes */
-    .stSelectbox > div[data-baseweb="select"] > div,
-    .stNumberInput > div > div > input,
-    .stTextInput > div > div > input {
-        background-color: #ffffff !important;
-        border: 2px solid #e2e8f0 !important;
-        border-radius: 8px !important;
-        padding: 12px 16px !important;
-        font-size: 1rem !important;
-        color: #2d3748 !important;
-        font-weight: 500 !important;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
-        transition: all 0.2s ease !important;
+    /* COMPLETE INPUT FIELD REDESIGN FOR PERFECT CONTRAST */
+    
+    /* All input containers - uniform styling */
+    .stSelectbox > div, .stNumberInput > div {
+        background: white !important;
+        border: 3px solid #4a90e2 !important;
+        border-radius: 12px !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+        margin: 0.5rem 0 !important;
     }
     
-    /* Selectbox specific styling */
+    /* Selectbox complete overhaul */
     .stSelectbox > div[data-baseweb="select"] > div {
-        min-height: 48px !important;
-        background-color: #ffffff !important;
-        border: 2px solid #e2e8f0 !important;
+        background-color: white !important;
+        border: none !important;
+        min-height: 60px !important;
+        padding: 16px 20px !important;
+        font-size: 1.2rem !important;
+        font-weight: 600 !important;
+        color: #1a202c !important;
     }
     
-    /* Dropdown styling */
+    /* Dropdown text */
     .stSelectbox > div[data-baseweb="select"] > div > div {
-        color: #2d3748 !important;
-        font-weight: 500 !important;
-        padding: 8px 12px !important;
+        color: #1a202c !important;
+        font-weight: 600 !important;
+        font-size: 1.1rem !important;
     }
     
-    /* Number input specific */
+    /* Number input overhaul */
     .stNumberInput > div > div > input {
-        background-color: #ffffff !important;
-        color: #2d3748 !important;
+        background-color: white !important;
+        border: none !important;
+        padding: 16px 20px !important;
+        font-size: 1.2rem !important;
+        font-weight: 600 !important;
+        color: #1a202c !important;
+        min-height: 60px !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Input placeholders */
+    .stSelectbox > div[data-baseweb="select"] > div::placeholder,
+    .stNumberInput > div > div > input::placeholder {
+        color: #718096 !important;
         font-weight: 500 !important;
     }
     
@@ -184,20 +196,35 @@ st.markdown("""
         box-shadow: 0 6px 20px rgba(66, 153, 225, 0.6) !important;
     }
     
-    /* Expander styling */
+    /* IMPROVED TENDER CARD STYLING */
     .stExpander {
-        border: 1px solid #e2e8f0 !important;
-        border-radius: 12px !important;
-        margin: 1rem 0 !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+        border: 2px solid #4a90e2 !important;
+        border-radius: 16px !important;
+        margin: 1.5rem 0 !important;
+        box-shadow: 0 6px 20px rgba(74, 144, 226, 0.3) !important;
+        background: white !important;
     }
     
+    /* LARGE TENDER CARD HEADER */
     .stExpander details summary {
-        background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%) !important;
-        padding: 1rem !important;
-        font-weight: 600 !important;
-        color: #2d3748 !important;
-        border-radius: 12px !important;
+        background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%) !important;
+        padding: 1.5rem 2rem !important;
+        font-weight: 700 !important;
+        font-size: 1.4rem !important;
+        color: white !important;
+        border-radius: 14px !important;
+        text-align: center !important;
+        line-height: 1.4 !important;
+        min-height: 70px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    .stExpander details summary:hover {
+        background: linear-gradient(135deg, #357abd 0%, #2c5aa0 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4) !important;
     }
     
     /* Ensure all text is readable */
@@ -316,20 +343,27 @@ def render_tender_card(tender):
         with date_col_right:
             st.markdown(f"⏰ מועד אחרון: {tender['מועד אחרון להגשה']}")
         
-        # Link to ILA system
+        # Link to ILA system - IMPROVED DESIGN
         st.markdown("""
-        <div style="text-align: center; margin-top: 1rem;">
+        <div style="text-align: center; margin: 2rem 0;">
             <a href="https://apps.land.gov.il/MichrazimSite/#/search" target="_blank" style="
                 display: inline-block;
-                padding: 0.75rem 1.5rem;
-                background-color: #1e3a8a;
+                padding: 20px 40px;
+                background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
                 color: white;
                 text-decoration: none;
-                border-radius: 6px;
-                font-weight: bold;
+                border-radius: 16px;
+                font-weight: 700;
+                font-size: 1.3rem;
                 text-align: center;
-            ">
-                🌐 למערכת המכרזים של רמ״י
+                box-shadow: 0 8px 25px rgba(229, 62, 62, 0.4);
+                transition: all 0.3s ease;
+                border: 3px solid #c53030;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            " 
+            onmouseover="this.style.background='linear-gradient(135deg, #c53030 0%, #9c2626 100%)'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 35px rgba(229, 62, 62, 0.6)';"
+            onmouseout="this.style.background='linear-gradient(135deg, #e53e3e 0%, #c53030 100%)'; this.style.transform='translateY(0px)'; this.style.boxShadow='0 8px 25px rgba(229, 62, 62, 0.4)';">
+                🌐 כניסה למערכת המכרזים של רמ״י
             </a>
         </div>
         """, unsafe_allow_html=True)
@@ -380,56 +414,70 @@ def main():
         with st.container():
             st.markdown("### 📋 פרטים אישיים")
             
+            # Days since Oct 7 with clear explanation
+            st.markdown("#### 🗓️ ימי מילואים מ-7.10.23")
             days_since_oct = st.number_input(
-                "🗓️ ימי מילואים מ-7.10.23",
+                "הכנס מספר ימים:",
                 min_value=0,
                 value=0,
-                help="❓ מספר ימי המילואים שביצעת מתאריך 7.10.23. זהו תנאי מרכזי להטבות! \n\n🔍 פרטי ההטבה:\n• מעל 45 ימים = הנחה של 10-35% ממחיר המגרש\n• נדרש אישור רשמי על השירות במלחמת 'חרבות ברזל'\n• ככל שיותר ימים, כך ההנחה גדולה יותר",
                 key="days_since_oct"
             )
+            st.info("💡 **הסבר:** מעל 45 ימים = הנחה של 10-35% ממחיר המגרש. נדרש אישור רשמי על השירות במלחמת 'חרבות ברזל'.")
             
+            # Active card with explanation
+            st.markdown("#### 🪖 תעודת מילואים פעיל")
             active_card = st.selectbox(
-                "🪖 תעודת מילואים פעיל?",
+                "בחר אפשרות:",
                 options=["לא", "כן"],
-                help="❓ האם יש ברשותך תעודת מילואים פעיל? \n\n🔍 מה זה נותן:\n• זכאות מיוחדת למכרזים ייעודיים\n• עדיפות בהגרלות\n• הנחות נוספות במחיר המגרש\n\n📄 אישורים נדרשים:\n• אישור למשרת מילואים פעיל (6 שנים)\n• או אישור למשרת מילואים פעיל בעבר",
                 key="active_card"
             )
+            st.info("💡 **הסבר:** זכאות מיוחדת למכרזים ייעודיים + עדיפות בהגרלות + הנחות נוספות. נדרש אישור למשרת מילואים פעיל.")
             
+            # Days in 6 years with explanation
+            st.markdown("#### 📊 ימי מילואים ב-6 שנים")
             days_in_6_years = st.number_input(
-                "📊 ימי מילואים ב-6 שנים",
+                "הכנס סך הימים במצטבר:",
                 min_value=0,
                 value=0,
-                help="❓ סך כל ימי המילואים שביצעת במצטבר בפרק זמן של עד 6 שנים קלנדריות (מאז 2000). \n\n🔍 הסבר על ההטבות:\n• 50+ ימים = זכאות להנחות מיוחדות\n• 100+ ימים = הנחות משמעותיות במחיר המגרש\n• נחשב הפרק הטוב ביותר של 6 שנים רצופות\n\n💡 דוגמה: שירתת ב-2018, 2019, 2020, 2021, 2022, 2023",
                 key="days_in_6_years"
             )
+            st.info("💡 **הסבר:** 50+ ימים = הנחות מיוחדות | 100+ ימים = הנחות משמעותיות. נחשב הפרק הטוב ביותר של 6 שנים רצופות.")
             
+            # Disability status with explanation
+            st.markdown("#### 🎖️ סיווג נכות")
             disability_status = st.selectbox(
-                "🎖️ סיווג נכות",
+                "בחר סיווג:",
                 options=["אין", "נכות קשה", "100% ומעלה"],
-                help="❓ סיווג הנכות שלך לפי משרד הביטחון. זהו תנאי מרכזי להטבות נכי צה״ל! \n\n🔍 הטבות לפי סיווג:\n• נכות קשה = מגרשים ייעודיים + הנחות של 35%\n• 100% ומעלה = הטבות מקסימליות + עדיפות עליונה\n• מגרשים מיוחדים רק לנכי צה״ל\n\n📄 נדרש: אישור נכות מהמוסד לביטוח לאומי",
                 key="disability_status"
             )
+            st.info("💡 **הסבר:** נכות קשה = מגרשים ייעודיים + הנחות של 35% | 100%+ = הטבות מקסימליות + עדיפות עליונה.")
             
+            # Housing status with explanation
+            st.markdown("#### 🏠 חסר/ת דיור")
             housing_status = st.selectbox(
-                "🏠 חסר/ת דיור?",
+                "בחר מצב:",
                 options=["לא", "כן"],
-                help="❓ האם אתה מוגדר רשמית כחסר דיור? זה מעניק הטבות נוספות משמעותיות! \n\n🔍 מה זה נותן:\n• הנחות נוספות של 10-20% במחיר המגרש\n• עדיפות בהגרלות מיוחדות\n• זכאות למכרזים ייעודיים לחסרי דיור\n\n📄 איך לבדוק:\n• כנס לאתר הממשלתי: gov.il\n• חפש 'אישור חוסר דיור'\n• הגש בקשה אם עדיין לא עשית זאת",
                 key="housing_status"
             )
+            st.info("💡 **הסבר:** הנחות נוספות של 10-20% + עדיפות בהגרלות + זכאות למכרזים ייעודיים. בדוק באתר gov.il.")
             
+            # Preferred area with explanation
+            st.markdown("#### 🗺️ אזור מועדף")
             preferred_area = st.selectbox(
-                "🗺️ אזור מועדף",
+                "בחר אזור:",
                 options=["דרום", "צפון", "ירושלים", "מרכז", "יהודה ושומרון"],
-                help="❓ באיזה אזור בארץ תרצה לגור? המערכת תמצא מכרזים רק באזור שבחרת. \n\n🔍 מידע על האזורים:\n• דרום = באר שבע, אשקלון, נתיבות וסביבה\n• צפון = חיפה, נהריה, כרמיאל וסביבה\n• מרכז = תל אביב, פתח תקווה, ראשון לציון\n• ירושלים = ירושלים ויישובי הסביבה\n• יהודה ושומרון = יישובים מעבר לקו הירוק\n\n💡 טיפ: אזורי עדיפות לאומית (א', ב') מציעים הנחות גדולות יותר!",
                 key="preferred_area"
             )
+            st.info("💡 **הסבר:** אזורי עדיפות לאומית (א', ב') מציעים הנחות גדולות יותר! המערכת תמצא מכרזים רק באזור שבחרת.")
             
+            # Spouse eligibility with explanation
+            st.markdown("#### 💑 בן/בת זוג זכאי/ת")
             spouse_eligible = st.selectbox(
-                "💑 בן/בת זוג זכאי/ת?",
+                "בחר מצב:",
                 options=["לא", "כן"],
-                help="❓ האם בן/בת הזוג שלך גם זכאי/ת להטבות? זה יכול להכפיל את ההטבות! \n\n🔍 מתי בן/בת זוג זכאי/ת:\n• שירת/ה גם כן במילואים (45+ ימים)\n• נכה/נכת צה״ל\n• בעל/ת תעודת מילואים פעיל\n• חסר/ת דיור\n\n💰 הטבות כפולות:\n• הנחות מצטברות (עד 70% במקרים מיוחדים!)\n• עדיפות גבוהה יותר בהגרלות\n• זכאות למכרזים מיוחדים לזוגות זכאים\n\n📄 נדרש: אישורים עבור שני בני הזוג",
                 key="spouse_eligible"
             )
+            st.info("💡 **הסבר:** הטבות כפולות! הנחות מצטברות (עד 70%!) + עדיפות גבוהה בהגרלות + מכרזים מיוחדים לזוגות זכאים.")
 
             st.markdown("---")
             
