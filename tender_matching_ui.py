@@ -148,15 +148,15 @@ def render_tender_with_streamlit(tender):
     
     location_display = ' • '.join(location_parts) if location_parts else 'מיקום לא צוין'
     
-    # Create blue card using expander (this works reliably)
-    with st.expander(f"🏆 מכרז #{tender['מספר מכרז']} | 📍 {location_display}", expanded=True):
+    # Create blue card using expander with larger header
+    with st.expander(f"## 🏆 מכרז #{tender['מספר מכרז']} | 📍 {location_display}", expanded=True):
         
-        # Row 1: Priority (RIGHT) and Plot count (LEFT)
+        # Row 1: Priority (RIGHT) and Plot count (LEFT) - same size
         col_left, col_right = st.columns([1, 1])
         
         with col_left:
-            # Plot count on the LEFT
-            st.markdown(f"### 🏠 {tender['מספר מגרשים']}")
+            # Plot count on the LEFT - same size as priority
+            st.markdown(f"🏠 {tender['מספר מגרשים']}")
         
         with col_right:
             # Priority on the RIGHT
@@ -167,14 +167,14 @@ def render_tender_with_streamlit(tender):
             else:
                 st.info("📋 ללא עדיפות לאומית")
         
-        # Row 2: Dates
+        # Row 2: Dates - same size as plot count and priority
         date_col_left, date_col_right = st.columns([1, 1])
         
         with date_col_left:
-            st.caption(f"📅 פרסום: {tender['תאריך פרסום חוברת המכרז']}")
+            st.markdown(f"📅 פרסום: {tender['תאריך פרסום חוברת המכרז']}")
         
         with date_col_right:
-            st.caption(f"⏰ מועד אחרון: {tender['מועד אחרון להגשה']}")
+            st.markdown(f"⏰ מועד אחרון: {tender['מועד אחרון להגשה']}")
         
         # Row 3: Button on the left side
         button_col_left, button_col_right = st.columns([1, 1])
