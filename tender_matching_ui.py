@@ -219,38 +219,11 @@ def render_tender_with_streamlit(tender):
             """, unsafe_allow_html=True)
 
 def main():
-    # Add CSS to override Streamlit's default styles
-    st.markdown("""
-    <style>
-    .main .block-container {
-        text-align: center !important;
-    }
-    .centered-header {
-        text-align: center !important;
-        width: 100% !important;
-        margin: 0 auto !important;
-        display: block !important;
-    }
-    .centered-header h1 {
-        text-align: center !important;
-        margin: 0 auto !important;
-        width: 100% !important;
-    }
-    .centered-header h3 {
-        text-align: center !important;
-        margin: 0 auto !important;
-        width: 100% !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-    
-    # Centered header with CSS class
-    st.markdown("""
-    <div class="centered-header">
-        <h1 style="color: #1e3a8a; margin-bottom: 0.5rem; text-align: center !important;">🏠 מילואים וזוכים - מערכת התאמת מכרזים</h1>
-        <h3 style="color: #6b7280; font-weight: normal; text-align: center !important;">מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך</h3>
-    </div>
-    """, unsafe_allow_html=True)
+    # Simple centered header using Streamlit columns
+    col1, col2, col3 = st.columns([1, 3, 1])
+    with col2:
+        st.markdown("<h1 style='text-align: center; color: #1e3a8a;'>🏠 מילואים וזוכים - מערכת התאמת מכרזים</h1>", unsafe_allow_html=True)
+        st.markdown("<h3 style='text-align: center; color: #6b7280; font-weight: normal;'>מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך</h3>", unsafe_allow_html=True)
     
     # Info sections using Streamlit columns
     col1, col2 = st.columns(2)
