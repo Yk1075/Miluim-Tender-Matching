@@ -241,28 +241,50 @@ def main():
         text-align: center !important;
     }
     
-    /* Logo in top right corner */
-    .top-right-logo {
+    /* Professional logo in top left corner */
+    .top-left-logo {
         position: fixed;
         top: 20px;
-        right: 20px;
+        left: 20px;
         z-index: 999;
-        background: #f8f9fa;
-        padding: 10px;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        padding: 12px 16px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+        color: white;
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .logo-icon {
+        width: 24px;
+        height: 24px;
+        background: white;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
         font-weight: bold;
         color: #1e3a8a;
+    }
+    
+    .logo-text {
         font-size: 14px;
-        border: 2px solid #1e3a8a;
+        font-weight: 600;
+        letter-spacing: 0.5px;
     }
     </style>
     """, unsafe_allow_html=True)
     
-    # Add logo in top right corner
+    # Add professional logo in top left corner
     st.markdown("""
-    <div class="top-right-logo">
-        🏢 APM & CO
+    <div class="top-left-logo">
+        <div class="logo-icon">A</div>
+        <div class="logo-text">APM & CO</div>
     </div>
     """, unsafe_allow_html=True)
     
