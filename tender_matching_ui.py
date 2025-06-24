@@ -130,45 +130,71 @@ def find_matching_tenders(profile_data):
         return pd.DataFrame()
 
 def render_tender_with_streamlit(tender):
-    """Render tender card with everything contained in one blue card"""
+    """Render tender card with improved visual design and clear hierarchy"""
     
-    # Create a single card container using expander (always expanded)
-    with st.expander(f"🏆 מכרז #{tender['מספר מכרז']} - {tender['עיר']}", expanded=True):
+    # Create a blue-themed card using a container with custom styling
+    with st.container():
+        # Apply blue background styling
+        st.markdown("""
+        <style>
+        .stContainer > div {
+            background-color: #f0f8ff;
+            border: 2px solid #1e3a8a;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        </style>
+        """, unsafe_allow_html=True)
         
-        # Row 1: Full address (already in the expander title, so we add more details)
-        st.markdown(f"### 📍 {tender['שכונה']} • {tender['אזור גיאוגרפי']}")
+        # Row 1: Large header with tender number and city
+        st.markdown(f"## 🏆 מכרז #{tender['מספר מכרז']} • 🏘️ {tender['עיר']}")
         
-        # Row 2: Priority and Statistics in columns
+        # Add visual separator
+        st.markdown("---")
+        
+        # Row 2: Detailed location
+        st.markdown(f"### 📍 {tender['שכונה']} • 🗺️ {tender['אזור גיאוגרפי']}")
+        
+        # Add visual separator
+        st.markdown("---")
+        
+        # Row 3: Priority and Statistics in columns
         col1, col2 = st.columns([1, 2])
         
         with col1:
-            # Priority badge with colors
+            st.markdown("**🎯 סטטוס עדיפות:**")
             if "א'" in str(tender.get('אזור עדיפות', '')):
-                st.error("🎯 עדיפות א'")
+                st.error("🔥 עדיפות א' (גבוהה)")
             elif "ב'" in str(tender.get('אזור עדיפות', '')):
-                st.warning("🎯 עדיפות ב'")
+                st.warning("⚡ עדיפות ב' (בינונית)")
             else:
-                st.info("🎯 ללא עדיפות מיוחדת")
+                st.info("📋 ללא עדיפות מיוחדת")
         
         with col2:
-            # Statistics 
-            st.markdown(f"📊 **{tender['מספר מגרשים']} מגרשים סה\"כ**")
-            st.markdown(f"↗️ מילואים: **{tender['מגרשים לחיילי מילואים']}** • נכי צה\"ל: **{tender['מגרשים לנכי צה\"ל']}**")
+            st.markdown("**📊 פילוח מגרשים:**")
+            st.markdown(f"🏠 **סה\"כ מגרשים:** {tender['מספר מגרשים']}")
+            st.markdown(f"🪖 **למילואים:** {tender['מגרשים לחיילי מילואים']} מגרשים")
+            st.markdown(f"🎖️ **לנכי צה\"ל:** {tender['מגרשים לנכי צה\"ל']} מגרשים")
         
-        # Row 3: Dates and Action
-        st.markdown("---")  # Separator line
+        # Add visual separator
+        st.markdown("---")
         
-        date_col, btn_col = st.columns([3, 1])
+        # Row 4: Timeline and Action
+        timeline_col, action_col = st.columns([2, 1])
         
-        with date_col:
+        with timeline_col:
+            st.markdown("**📅 לוח זמנים:**")
+            st.markdown(f"📤 **תאריך פרסום:** {tender['תאריך פרסום חוברת המכרז']}")
             st.markdown(f"⏰ **מועד אחרון להגשה:** {tender['מועד אחרון להגשה']}")
-            st.markdown(f"📅 **תאריך פרסום:** {tender['תאריך פרסום חוברת המכרז']}")
         
-        with btn_col:
-            if st.button("🔗 להגשת המכרז", key=f"btn_{tender['מספר מכרז']}", help="קישור לאתר הממשלתי", type="primary"):
-                st.success("🔗 [לחץ כאן לאתר הממשלתי](https://apps.land.gov.il/MichrazimSite/#/search)")
+        with action_col:
+            st.markdown("**🔗 פעולות:**")
+            if st.button("🌐 להגשת המכרז", key=f"btn_{tender['מספר מכרז']}", help="קישור לאתר הממשלתי", type="primary"):
+                st.success("✅ [פתח את האתר הממשלתי](https://apps.land.gov.il/MichrazimSite/#/search)")
     
-    st.markdown("---")
+    # Add space between cards
+    st.markdown("<br>", unsafe_allow_html=True)
 
 def main():
     # Centered header using CSS with stronger styling
