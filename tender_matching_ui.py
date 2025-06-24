@@ -219,7 +219,7 @@ def render_tender_with_streamlit(tender):
             """, unsafe_allow_html=True)
 
 def main():
-    # Override Streamlit CSS to center everything
+    # Override Streamlit CSS to center everything + add logo
     st.markdown("""
     <style>
     .main > div {
@@ -240,7 +240,30 @@ def main():
     .stSubheader {
         text-align: center !important;
     }
+    
+    /* Logo in top right corner */
+    .top-right-logo {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 999;
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        font-weight: bold;
+        color: #1e3a8a;
+        font-size: 14px;
+        border: 2px solid #1e3a8a;
+    }
     </style>
+    """, unsafe_allow_html=True)
+    
+    # Add logo in top right corner
+    st.markdown("""
+    <div class="top-right-logo">
+        🏢 APM & CO
+    </div>
     """, unsafe_allow_html=True)
     
     # Use Streamlit's built-in title and subheader
