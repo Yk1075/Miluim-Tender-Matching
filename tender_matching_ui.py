@@ -241,79 +241,76 @@ def main():
         text-align: center !important;
     }
     
-    /* Precise APM logo - matching exact layout */
+    /* Black APM logo - exact match to uploaded image */
     .top-left-logo {
         position: fixed;
         top: 20px;
         left: 20px;
         z-index: 999;
-        background: white;
-        padding: 12px 16px;
-        border-radius: 6px;
-        box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-        border: 1px solid #ddd;
+        background: #000;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.3);
         font-family: 'Arial', 'Helvetica', sans-serif;
         display: flex;
-        align-items: flex-start;
-        gap: 16px;
-    }
-    
-    .logo-text-container {
-        display: flex;
         flex-direction: column;
-        line-height: 1.1;
+        align-items: center;
+        text-align: center;
     }
     
     .logo-main {
-        display: flex;
-        flex-direction: column;
-        font-size: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .logo-letter {
+        font-size: 32px;
         font-weight: 900;
-        color: #000;
-        letter-spacing: 3px;
-        line-height: 0.9;
+        color: white;
+        line-height: 1;
     }
     
-    .logo-line1 {
-        margin-bottom: 1px;
+    .logo-second-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 20px;
     }
     
-    .logo-line2 {
-        font-size: 18px;
-        letter-spacing: 2px;
-    }
-    
-    .logo-square {
-        width: 44px;
-        height: 44px;
-        background: #000;
-        border-radius: 3px;
-        flex-shrink: 0;
-        margin-top: 2px;
+    .logo-ampersand {
+        font-size: 28px;
+        font-weight: bold;
+        color: white;
+        line-height: 1;
     }
     
     .logo-subtitle {
-        font-size: 9px;
-        color: #888;
-        margin-top: 6px;
+        font-size: 11px;
+        color: white;
         font-weight: normal;
-        letter-spacing: 1.5px;
+        letter-spacing: 2px;
         text-transform: uppercase;
+        line-height: 1;
     }
     </style>
     """, unsafe_allow_html=True)
     
-    # Add precise APM logo in top left corner
+    # Add black APM logo matching uploaded image
     st.markdown("""
     <div class="top-left-logo">
-        <div class="logo-text-container">
-            <div class="logo-main">
-                <div class="logo-line1">APM</div>
-                <div class="logo-line2">CO&</div>
-            </div>
-            <div class="logo-subtitle">AMIT, POLLAK, MATALON</div>
+        <div class="logo-main">
+            <div class="logo-letter">A</div>
+            <div class="logo-letter">P</div>
+            <div class="logo-letter">M</div>
         </div>
-        <div class="logo-square"></div>
+        <div class="logo-second-row">
+            <div class="logo-ampersand">&</div>
+            <div class="logo-ampersand">C</div>
+            <div class="logo-ampersand">O</div>
+        </div>
+        <div class="logo-subtitle">AMIT, POLLAK, MATALON</div>
     </div>
     """, unsafe_allow_html=True)
     
