@@ -86,22 +86,28 @@ st.markdown("""
         color: #374151 !important;
     }
     
-    /* Expander styling for larger header and blue background */
-    .stExpander > div:first-child {
-        background-color: #f0f8ff !important;
-        border: 2px solid #1e3a8a !important;
-        border-radius: 8px !important;
-    }
-    
-    .stExpander > div:first-child > div > p {
-        font-size: 2rem !important;
+    /* Expander styling for larger header font - more specific targeting */
+    .stExpander details summary div p {
+        font-size: 1.8rem !important;
         font-weight: bold !important;
-        color: #1e3a8a !important;
+        line-height: 1.3 !important;
     }
     
-    .stExpander > div:last-child {
-        background-color: #f0f8ff !important;
-        border: 2px solid #1e3a8a !important;
+    .stExpander details summary {
+        background-color: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 8px !important;
+        padding: 12px !important;
+    }
+    
+    .stExpander details[open] summary {
+        border-bottom: none !important;
+        border-radius: 8px 8px 0 0 !important;
+    }
+    
+    .stExpander details[open] > div {
+        background-color: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
         border-top: none !important;
         border-radius: 0 0 8px 8px !important;
         padding: 1rem !important;
@@ -328,7 +334,7 @@ def main():
                 st.success(f"נמצאו {len(st.session_state.matches)} מכרזים מתאימים לך!")
                 
                 # Government website link - show prominently at the top
-                st.info("🔗 **להמשך הליך ההגשה:** [לחץ כאן לאתר הממשלתי](https://apps.land.gov.il/MichrazimSite/#/search) ועקוב אחר ההוראות. אנו זמינים לסייע לכם במידה ותרצו!")
+                st.info("🔗 **על מנת להתקדם להגשה יש להכנס למערכת המכרזים של רמ״י ולפתוח את המכרז שבחרתם לפי מספר המכרז שהוצג במערכת. ככל שתרצו לתאם פגישה עם הצוות שלנו להמשך התהליך נשמח לעמוד לשירותכם בכתובת הבאה:** yuvalk@apm.law")
                 
                 st.markdown("---")
                 
