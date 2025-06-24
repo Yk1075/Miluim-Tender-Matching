@@ -16,7 +16,14 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# RTL and styling CSS - COMPLETE REDESIGN
+# RTL and styling CSS - COMPLETE REDESIGN - FORCE UPDATE
+st.markdown("""
+<style>
+    /* FORCE BROWSER REFRESH */
+    .force-refresh { display: none; }
+</style>
+""", unsafe_allow_html=True)
+
 st.markdown("""
 <style>
     /* Import Hebrew font */
