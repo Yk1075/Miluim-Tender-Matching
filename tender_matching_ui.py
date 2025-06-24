@@ -288,14 +288,15 @@ def main():
     </style>
     """, unsafe_allow_html=True)
     
-    # Add black APM logo matching uploaded image
-    st.markdown("""
-    <div class="top-left-logo">
-        <div class="logo-main">A P M</div>
-        <div class="logo-second-row">& C O</div>
-        <div class="logo-subtitle">AMIT, POLLAK, MATALON</div>
-    </div>
-    """, unsafe_allow_html=True)
+    # הצגת לוגו כתמונה בפינה השמאלית העליונה
+    st.markdown(
+        """
+        <div style='position:fixed; top:15px; left:15px; z-index:999;'>
+            <img src='צילום מסך 2025-06-24 ב-10.37.48.png' width='90' height='90' style='border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.18);'/>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
     
     # Use Streamlit's built-in title and subheader
     st.title("🏠 מילואים וזוכים - מערכת התאמת מכרזים")
