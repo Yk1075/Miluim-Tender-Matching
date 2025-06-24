@@ -241,50 +241,71 @@ def main():
         text-align: center !important;
     }
     
-    /* Logo matching the uploaded image */
+    /* Real APM logo - minimalist black and white */
     .top-left-logo {
         position: fixed;
         top: 20px;
         left: 20px;
         z-index: 999;
-        background: #4a6cf7;
-        padding: 8px 16px;
-        border-radius: 20px;
-        box-shadow: 0 4px 12px rgba(74, 108, 247, 0.3);
-        color: white;
-        font-family: 'Inter', 'Segoe UI', sans-serif;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        border: none;
-    }
-    
-    .logo-icon {
-        width: 28px;
-        height: 28px;
         background: white;
-        border-radius: 6px;
+        padding: 12px;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border: 1px solid #e5e5e5;
+        font-family: 'Arial', sans-serif;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-        font-weight: bold;
-        color: #4a6cf7;
+        align-items: flex-start;
+        gap: 12px;
     }
     
-    .logo-text {
-        font-size: 16px;
-        font-weight: 600;
-        letter-spacing: 0.3px;
+    .logo-square {
+        width: 40px;
+        height: 40px;
+        background: #000;
+        border-radius: 2px;
+        flex-shrink: 0;
+    }
+    
+    .logo-text-container {
+        display: flex;
+        flex-direction: column;
+        line-height: 1;
+    }
+    
+    .logo-main {
+        display: flex;
+        flex-direction: column;
+        font-size: 18px;
+        font-weight: bold;
+        color: #000;
+        letter-spacing: 2px;
+    }
+    
+    .logo-line1 {
+        margin-bottom: 2px;
+    }
+    
+    .logo-subtitle {
+        font-size: 8px;
+        color: #666;
+        margin-top: 4px;
+        font-weight: normal;
+        letter-spacing: 1px;
     }
     </style>
     """, unsafe_allow_html=True)
     
-    # Add professional logo in top left corner
+    # Add real APM logo in top left corner
     st.markdown("""
     <div class="top-left-logo">
-        <div class="logo-icon">A</div>
-        <div class="logo-text">APM & CO</div>
+        <div class="logo-square"></div>
+        <div class="logo-text-container">
+            <div class="logo-main">
+                <div class="logo-line1">APM</div>
+                <div>&CO</div>
+            </div>
+            <div class="logo-subtitle">AMIT, POLLAK, MATALON</div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
     
