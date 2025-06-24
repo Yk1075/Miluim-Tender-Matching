@@ -219,56 +219,13 @@ def render_tender_with_streamlit(tender):
             """, unsafe_allow_html=True)
 
 def main():
-    # Header with logo on the left and title in center
-    header_col1, header_col2, header_col3 = st.columns([1, 3, 1])
-    
-    with header_col1:
-        # Professional APM & CO logo in CSS - matching the original design
-        st.markdown("""
-        <div style="display: flex; align-items: center; margin: 10px 0;">
-            <div style="
-                width: 60px; 
-                height: 60px; 
-                background-color: #2c2c2c; 
-                margin-right: 15px;
-                border-radius: 3px;
-            "></div>
-            <div>
-                <div style="
-                    font-size: 24px; 
-                    font-weight: bold; 
-                    color: #2c2c2c; 
-                    letter-spacing: 3px;
-                    line-height: 1.2;
-                ">APM</div>
-                <div style="
-                    font-size: 24px; 
-                    font-weight: bold; 
-                    color: #2c2c2c; 
-                    letter-spacing: 3px;
-                    line-height: 1.2;
-                ">&amp; CO</div>
-                <div style="
-                    font-size: 11px; 
-                    color: #666; 
-                    margin-top: 2px;
-                    letter-spacing: 2px;
-                ">AMIT, POLLAK, MATALON</div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with header_col2:
-        st.markdown("""
-        <div style="text-align: center !important; direction: ltr !important; margin-bottom: 1rem;">
-            <h1 style="color: #1e3a8a; margin-bottom: 0.5rem; text-align: center !important;">🏠 מילואים וזוכים - מערכת התאמת מכרזים</h1>
-            <h3 style="color: #6b7280; font-weight: normal; text-align: center !important;">מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך</h3>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with header_col3:
-        # Empty column for balance
-        st.write("")
+    # Simple centered header without logo
+    st.markdown("""
+    <div style="text-align: center !important; direction: ltr !important; margin-bottom: 2rem;">
+        <h1 style="color: #1e3a8a; margin-bottom: 0.5rem; text-align: center !important;">🏠 מילואים וזוכים - מערכת התאמת מכרזים</h1>
+        <h3 style="color: #6b7280; font-weight: normal; text-align: center !important;">מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Info sections using Streamlit columns
     col1, col2 = st.columns(2)
