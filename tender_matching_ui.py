@@ -130,56 +130,92 @@ def find_matching_tenders(profile_data):
         return pd.DataFrame()
 
 def render_tender_with_streamlit(tender):
-    """Render tender card with proper layout using pure Streamlit"""
+    """Render tender card with blue background and exact layout as requested"""
+    
+    # Custom CSS for blue card styling
+    st.markdown("""
+    <style>
+    .blue-tender-card {
+        background-color: #f0f8ff;
+        border: 2px solid #1e3a8a;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        direction: rtl;
+    }
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #1e3a8a;
+    }
+    .location-left {
+        text-align: right;
+    }
+    .tender-right {
+        text-align: left;
+    }
+    </style>
+    """, unsafe_allow_html=True)
     
     # Get location info safely
-    city = str(tender.get('עיר', 'לא צוין'))
+    city = str(tender.get('עיר', ''))
     neighborhood = str(tender.get('שכונה', ''))
     area = str(tender.get('אזור גיאוגרפי', ''))
     
-    # Build location string
+    # Build location string safely
     location_parts = []
-    if neighborhood and neighborhood != 'nan' and neighborhood != 'לא צוין':
-        location_parts.append(neighborhood)
-    if city and city != 'nan' and city != 'לא צוין':
-        location_parts.append(city)
-    if area and area != 'nan' and area != 'לא צוין':
-        location_parts.append(area)
+    if neighborhood and neighborhood != 'nan' and neighborhood != 'None' and neighborhood.strip():
+        location_parts.append(neighborhood.strip())
+    if city and city != 'nan' and city != 'None' and city.strip():
+        location_parts.append(city.strip())
+    if area and area != 'nan' and area != 'None' and area.strip():
+        location_parts.append(area.strip())
     
     location_display = ' • '.join(location_parts) if location_parts else 'מיקום לא צוין'
     
-    # Create header with columns for proper layout
-    header_col1, header_col2 = st.columns([2, 1])
+    # Create blue card with header
+    st.markdown(f"""
+    <div class="blue-tender-card">
+        <div class="card-header">
+            <div class="location-left">📍 {location_display}</div>
+            <div class="tender-right">🏆 מכרז #{tender['מספר מכרז']}</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
     
-    with header_col1:
-        st.markdown(f"### 📍 {location_display}")
+    # Row 2: Priority (right) and Plot count (left)
+    col_right, col_left = st.columns([1, 1])
     
-    with header_col2:
-        st.markdown(f"### 🏆 מכרז #{tender['מספר מכרז']}")
-    
-    # Create main content
-    with st.container():
-        # Plot count prominently  
-        st.markdown(f"## 🏠 **{tender['מספר מגרשים']} יח\"ד**")
-        
-        # Priority status
-        priority_text = ""
+    with col_right:
+        # Priority without special styling
         if "א'" in str(tender.get('אזור עדיפות', '')):
-            priority_text = "🔥 עדיפות א'"
-            st.error(priority_text)
+            st.markdown("🔥 עדיפות א'")
         elif "ב'" in str(tender.get('אזור עדיפות', '')):
-            priority_text = "⚡ עדיפות ב'"
-            st.warning(priority_text)
+            st.markdown("⚡ עדיפות ב'")
         else:
-            priority_text = "📋 ללא עדיפות לאומית"
-            st.info(priority_text)
-        
-        # Timeline in smaller text
-        st.caption(f"📅 פרסום: {tender['תאריך פרסום חוברת המכרז']} • ⏰ מועד אחרון: {tender['מועד אחרון להגשה']}")
-        
-        # Action button with correct text
-        if st.button("🌐 למערכת המכרזים של רמ״י", key=f"btn_{tender['מספר מכרז']}", help="קישור למערכת המכרזים הממשלתית", type="primary"):
-            st.success("✅ [פתח את מערכת המכרזים של רמ״י](https://apps.land.gov.il/MichrazimSite/#/search)")
+            st.markdown("📋 ללא עדיפות לאומית")
+    
+    with col_left:
+        # Plot count (same size as priority)
+        st.markdown(f"🏠 {tender['מספר מגרשים']} מגרשים")
+    
+    # Row 3: Dates
+    date_col_right, date_col_left = st.columns([1, 1])
+    
+    with date_col_right:
+        st.caption(f"⏰ מועד אחרון: {tender['מועד אחרון להגשה']}")
+    
+    with date_col_left:
+        st.caption(f"📅 פרסום: {tender['תאריך פרסום חוברת המכרז']}")
+    
+    # Row 4: Button
+    if st.button("🌐 למערכת המכרזים של רמ״י", key=f"btn_{tender['מספר מכרז']}", help="קישור למערכת המכרזים הממשלתית", type="primary"):
+        st.success("✅ [פתח את מערכת המכרזים של רמ״י](https://apps.land.gov.il/MichrazimSite/#/search)")
     
     # Add separator
     st.divider()
