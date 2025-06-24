@@ -130,26 +130,15 @@ def find_matching_tenders(profile_data):
         return pd.DataFrame()
 
 def render_tender_with_streamlit(tender):
-    """Render tender card matching our original beautiful 3-row design"""
+    """Render tender card with everything contained in one blue card"""
     
-    # Create the blue card container
-    with st.container():
-        # Add simple CSS only for the info box styling
-        st.markdown("""
-        <style>
-        .stAlert > div {
-            background-color: #f0f8ff !important;
-            border: 2px solid #1e3a8a !important;
-            border-radius: 12px !important;
-            padding: 1.5rem !important;
-        }
-        </style>
-        """, unsafe_allow_html=True)
+    # Create a single card container using expander (always expanded)
+    with st.expander(f"🏆 מכרז #{tender['מספר מכרז']} - {tender['עיר']}", expanded=True):
         
-        # Row 1: Tender number + Full address in blue container
-        st.info(f"🏆 **מכרז #{tender['מספר מכרז']}** • 📍 {tender['עיר']} • {tender['שכונה']} • {tender['אזור גיאוגרפי']}")
+        # Row 1: Full address (already in the expander title, so we add more details)
+        st.markdown(f"### 📍 {tender['שכונה']} • {tender['אזור גיאוגרפי']}")
         
-        # Row 2: Priority badge + Statistics in columns
+        # Row 2: Priority and Statistics in columns
         col1, col2 = st.columns([1, 2])
         
         with col1:
@@ -162,15 +151,14 @@ def render_tender_with_streamlit(tender):
                 st.info("🎯 ללא עדיפות מיוחדת")
         
         with col2:
-            # Statistics with metric for professional look
-            st.metric(
-                label="📊 סטטיסטיקות", 
-                value=f"{tender['מספר מגרשים']} מגרשים",
-                delta=f"מילואים: {tender['מגרשים לחיילי מילואים']} • נכי צה\"ל: {tender['מגרשים לנכי צה\"ל']}"
-            )
+            # Statistics 
+            st.markdown(f"📊 **{tender['מספר מגרשים']} מגרשים סה\"כ**")
+            st.markdown(f"↗️ מילואים: **{tender['מגרשים לחיילי מילואים']}** • נכי צה\"ל: **{tender['מגרשים לנכי צה\"ל']}**")
         
-        # Row 3: Dates and action button
-        date_col, btn_col = st.columns([2, 1])
+        # Row 3: Dates and Action
+        st.markdown("---")  # Separator line
+        
+        date_col, btn_col = st.columns([3, 1])
         
         with date_col:
             st.markdown(f"⏰ **מועד אחרון להגשה:** {tender['מועד אחרון להגשה']}")
@@ -178,7 +166,7 @@ def render_tender_with_streamlit(tender):
         
         with btn_col:
             if st.button("🔗 להגשת המכרז", key=f"btn_{tender['מספר מכרז']}", help="קישור לאתר הממשלתי", type="primary"):
-                st.success("🔗 [לחץ כאן לפתיחת האתר הממשלתי](https://apps.land.gov.il/MichrazimSite/#/search)")
+                st.success("🔗 [לחץ כאן לאתר הממשלתי](https://apps.land.gov.il/MichrazimSite/#/search)")
     
     st.markdown("---")
 
