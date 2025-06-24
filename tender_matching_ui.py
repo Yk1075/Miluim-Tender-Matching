@@ -161,18 +161,18 @@ def render_tender_with_streamlit(tender):
         col_left, col_right = st.columns([1, 1])
         
         with col_left:
-            # Plot count on the LEFT - same size as priority
-            st.markdown(f"🏠 {tender['מספר מגרשים']}")
+            # Plot count on the LEFT - LARGER SIZE
+            st.markdown(f"### 🏠 {tender['מספר מגרשים']}")
         
         with col_right:
-            # Priority on the RIGHT - updated to read from the correct column
+            # Priority on the RIGHT - LARGER SIZE - updated to read from the correct column
             priority_status = str(tender.get('אזור עדיפות', ''))
             if priority_status == "A":
-                st.error("🔥 עדיפות א'")
+                st.error("### 🔥 עדיפות א'")
             elif priority_status == "B":
-                st.warning("⚡ עדיפות ב'")
+                st.warning("### ⚡ עדיפות ב'")
             else:
-                st.info("📋 ללא עדיפות לאומית")
+                st.info("### 📋 ללא עדיפות לאומית")
         
         # Row 2: Dates - same size as plot count and priority
         date_col_left, date_col_right = st.columns([1, 1])
@@ -187,8 +187,23 @@ def render_tender_with_streamlit(tender):
         button_col_left, button_col_right = st.columns([1, 1])
         
         with button_col_left:
-            if st.button("🌐 למערכת המכרזים של רמ״י", key=f"btn_{tender['מספר מכרז']}", help="קישור למערכת המכרזים הממשלתית"):
-                st.success("✅ [פתח את מערכת המכרזים של רמ״י](https://apps.land.gov.il/MichrazimSite/#/search)")
+            # Direct link button - opens immediately without additional clicks
+            st.markdown("""
+            <a href="https://apps.land.gov.il/MichrazimSite/#/search" target="_blank" style="
+                display: inline-block;
+                padding: 0.5rem 1rem;
+                background-color: #1f2937;
+                color: white;
+                text-decoration: none;
+                border-radius: 0.375rem;
+                font-weight: 500;
+                text-align: center;
+                border: none;
+                cursor: pointer;
+            ">
+                🌐 למערכת המכרזים של רמ״י
+            </a>
+            """, unsafe_allow_html=True)
 
 def main():
     # Centered header using CSS with stronger styling
