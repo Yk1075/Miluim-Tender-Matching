@@ -86,31 +86,10 @@ st.markdown("""
         color: #374151 !important;
     }
     
-    /* Expander styling for larger header font - more specific targeting */
-    .stExpander details summary div p {
-        font-size: 1.8rem !important;
-        font-weight: bold !important;
-        line-height: 1.3 !important;
-    }
-    
-    .stExpander details summary {
-        background-color: #f8fafc !important;
-        border: 1px solid #e2e8f0 !important;
-        border-radius: 8px !important;
-        padding: 12px !important;
-    }
-    
-    .stExpander details[open] summary {
-        border-bottom: none !important;
-        border-radius: 8px 8px 0 0 !important;
-    }
-    
-    .stExpander details[open] > div {
-        background-color: #f8fafc !important;
-        border: 1px solid #e2e8f0 !important;
-        border-top: none !important;
-        border-radius: 0 0 8px 8px !important;
-        padding: 1rem !important;
+    /* Simple RTL styling for better Hebrew display */
+    .stApp {
+        direction: rtl;
+        text-align: right;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -175,8 +154,8 @@ def render_tender_with_streamlit(tender):
     
     location_display = ' • '.join(location_parts) if location_parts else 'מיקום לא צוין'
     
-    # Create blue card using expander - back to working version
-    with st.expander(f"🏆 מכרז #{tender['מספר מכרז']} | 📍 {location_display}", expanded=True):
+    # Create blue card using expander with larger header
+    with st.expander(f"# 🏆 מכרז #{tender['מספר מכרז']} | 📍 {location_display}", expanded=True):
         
         # Row 1: Priority (RIGHT) and Plot count (LEFT) - same size
         col_left, col_right = st.columns([1, 1])
