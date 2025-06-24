@@ -130,71 +130,37 @@ def find_matching_tenders(profile_data):
         return pd.DataFrame()
 
 def render_tender_with_streamlit(tender):
-    """Render tender card with improved visual design and clear hierarchy"""
+    """Render compact tender card with blue background and essential info only"""
     
-    # Create a blue-themed card using a container with custom styling
-    with st.container():
-        # Apply blue background styling
-        st.markdown("""
-        <style>
-        .stContainer > div {
-            background-color: #f0f8ff;
-            border: 2px solid #1e3a8a;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-        }
-        </style>
-        """, unsafe_allow_html=True)
+    # Create a blue card using expander with improved content
+    with st.expander(f"🏆 מכרז #{tender['מספר מכרז']} • 🏘️ {tender['עיר']}", expanded=True):
         
-        # Row 1: Large header with tender number and city
-        st.markdown(f"## 🏆 מכרז #{tender['מספר מכרז']} • 🏘️ {tender['עיר']}")
+        # Row 1: Location details
+        st.markdown(f"📍 **{tender['שכונה']} • {tender['אזור גיאוגרפי']}**")
         
-        # Add visual separator
-        st.markdown("---")
-        
-        # Row 2: Detailed location
-        st.markdown(f"### 📍 {tender['שכונה']} • 🗺️ {tender['אזור גיאוגרפי']}")
-        
-        # Add visual separator
-        st.markdown("---")
-        
-        # Row 3: Priority and Statistics in columns
-        col1, col2 = st.columns([1, 2])
+        # Row 2: Priority and basic stats in columns
+        col1, col2 = st.columns([1, 1])
         
         with col1:
-            st.markdown("**🎯 סטטוס עדיפות:**")
             if "א'" in str(tender.get('אזור עדיפות', '')):
-                st.error("🔥 עדיפות א' (גבוהה)")
+                st.error("🔥 עדיפות א'")
             elif "ב'" in str(tender.get('אזור עדיפות', '')):
-                st.warning("⚡ עדיפות ב' (בינונית)")
+                st.warning("⚡ עדיפות ב'")
             else:
                 st.info("📋 ללא עדיפות מיוחדת")
         
         with col2:
-            st.markdown("**📊 פילוח מגרשים:**")
-            st.markdown(f"🏠 **סה\"כ מגרשים:** {tender['מספר מגרשים']}")
-            st.markdown(f"🪖 **למילואים:** {tender['מגרשים לחיילי מילואים']} מגרשים")
-            st.markdown(f"🎖️ **לנכי צה\"ל:** {tender['מגרשים לנכי צה\"ל']} מגרשים")
+            st.metric(label="🏠 מגרשים", value=tender['מספר מגרשים'])
         
-        # Add visual separator
-        st.markdown("---")
+        # Row 3: Timeline in compact format
+        st.markdown(f"📅 **פרסום:** {tender['תאריך פרסום חוברת המכרז']} • ⏰ **מועד אחרון:** {tender['מועד אחרון להגשה']}")
         
-        # Row 4: Timeline and Action
-        timeline_col, action_col = st.columns([2, 1])
-        
-        with timeline_col:
-            st.markdown("**📅 לוח זמנים:**")
-            st.markdown(f"📤 **תאריך פרסום:** {tender['תאריך פרסום חוברת המכרז']}")
-            st.markdown(f"⏰ **מועד אחרון להגשה:** {tender['מועד אחרון להגשה']}")
-        
-        with action_col:
-            st.markdown("**🔗 פעולות:**")
-            if st.button("🌐 להגשת המכרז", key=f"btn_{tender['מספר מכרז']}", help="קישור לאתר הממשלתי", type="primary"):
-                st.success("✅ [פתח את האתר הממשלתי](https://apps.land.gov.il/MichrazimSite/#/search)")
+        # Action button
+        if st.button("🌐 להגשת המכרז", key=f"btn_{tender['מספר מכרז']}", help="קישור לאתר הממשלתי", type="primary"):
+            st.success("✅ [פתח את האתר הממשלתי](https://apps.land.gov.il/MichrazimSite/#/search)")
     
-    # Add space between cards
-    st.markdown("<br>", unsafe_allow_html=True)
+    # Add small space between cards
+    st.markdown("---")
 
 def main():
     # Centered header using CSS with stronger styling
