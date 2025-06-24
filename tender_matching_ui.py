@@ -241,32 +241,35 @@ def main():
         text-align: center !important;
     }
     
-    /* Black APM logo - exact match to uploaded image */
+    /* Compact square APM logo */
     .top-left-logo {
         position: fixed;
-        top: 20px;
-        left: 20px;
+        top: 15px;
+        left: 15px;
         z-index: 999;
         background: #000;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        width: 80px;
+        height: 80px;
+        padding: 8px;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         font-family: 'Arial', 'Helvetica', sans-serif;
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         text-align: center;
     }
     
     .logo-main {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        gap: 15px;
-        margin-bottom: 15px;
+        gap: 2px;
+        margin-bottom: 3px;
     }
     
     .logo-letter {
-        font-size: 32px;
+        font-size: 12px;
         font-weight: 900;
         color: white;
         line-height: 1;
@@ -275,22 +278,22 @@ def main():
     .logo-second-row {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        gap: 15px;
-        margin-bottom: 20px;
+        gap: 2px;
+        margin-bottom: 4px;
     }
     
     .logo-ampersand {
-        font-size: 28px;
+        font-size: 10px;
         font-weight: bold;
         color: white;
         line-height: 1;
     }
     
     .logo-subtitle {
-        font-size: 11px;
+        font-size: 5px;
         color: white;
         font-weight: normal;
-        letter-spacing: 2px;
+        letter-spacing: 0.5px;
         text-transform: uppercase;
         line-height: 1;
     }
