@@ -267,7 +267,7 @@ def render_tender_with_streamlit(tender):
             """, unsafe_allow_html=True)
 
 def main():
-    # Override Streamlit CSS to center everything + add logo
+    # Override Streamlit CSS to center everything
     st.markdown("""
     <style>
     .main > div {
@@ -290,16 +290,6 @@ def main():
     }
     </style>
     """, unsafe_allow_html=True)
-    
-    # הצגת לוגו כתמונה מתוך תיקיית data בפינה השמאלית העליונה
-    st.markdown(
-        """
-        <div style='position:fixed; top:15px; left:15px; z-index:999;'>
-            <img src='data/apm_logo.png' width='90' height='90' style='border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.18);'/>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
     
     # Use Streamlit's built-in title and subheader
     st.title("🏠 מילואים וזוכים - מערכת התאמת מכרזים")
