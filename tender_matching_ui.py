@@ -219,32 +219,36 @@ def render_tender_with_streamlit(tender):
             """, unsafe_allow_html=True)
 
 def main():
-    # Centered header - stronger centering
+    # Add CSS to override Streamlit's default styles
     st.markdown("""
-    <div style="
-        text-align: center !important; 
-        direction: ltr !important; 
-        margin-bottom: 2rem; 
+    <style>
+    .main .block-container {
+        text-align: center !important;
+    }
+    .centered-header {
+        text-align: center !important;
         width: 100% !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-    ">
-        <h1 style="
-            color: #1e3a8a; 
-            margin-bottom: 0.5rem; 
-            text-align: center !important;
-            margin-left: auto !important;
-            margin-right: auto !important;
-        ">🏠 מילואים וזוכים - מערכת התאמת מכרזים</h1>
-        <h3 style="
-            color: #6b7280; 
-            font-weight: normal; 
-            text-align: center !important;
-            margin-left: auto !important;
-            margin-right: auto !important;
-        ">מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך</h3>
+        margin: 0 auto !important;
+        display: block !important;
+    }
+    .centered-header h1 {
+        text-align: center !important;
+        margin: 0 auto !important;
+        width: 100% !important;
+    }
+    .centered-header h3 {
+        text-align: center !important;
+        margin: 0 auto !important;
+        width: 100% !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    # Centered header with CSS class
+    st.markdown("""
+    <div class="centered-header">
+        <h1 style="color: #1e3a8a; margin-bottom: 0.5rem; text-align: center !important;">🏠 מילואים וזוכים - מערכת התאמת מכרזים</h1>
+        <h3 style="color: #6b7280; font-weight: normal; text-align: center !important;">מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך</h3>
     </div>
     """, unsafe_allow_html=True)
     
