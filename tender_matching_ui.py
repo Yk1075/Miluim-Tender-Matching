@@ -361,7 +361,7 @@ def main():
                 st.success(f"נמצאו {len(st.session_state.matches)} מכרזים מתאימים לך!")
                 
                 # Government website link - show prominently at the top
-                st.info("🔗 **על מנת להתקדם להגשה יש להכנס למערכת המכרזים של רמ״י ולפתוח את המכרז שבחרתם לפי מספר המכרז שהוצג במערכת. ככל שתרצו לתאם פגישה עם הצוות שלנו להמשך התהליך נשמח לעמוד לשירותכם בכתובת הבאה:** yuvalk@apm.law")
+                st.info("🔗 **על מנת להתקדם להגשה יש להכנס למערכת המכרזים של רמ״י ולפתוח את המכרז שבחרתם לפי מספר המכרז שהוצג למטה.**\n\n**לסיוע בתהליך המלא אנו מזמינים אתכם ליצור קשר עם הצוות שלנו בכתובת הבאה:** yuvalk@apm.law")
                 
                 st.markdown("---")
                 
