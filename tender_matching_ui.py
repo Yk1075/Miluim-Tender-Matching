@@ -34,6 +34,26 @@ st.markdown("""
         background-color: #f5f5f5;
     }
     
+    /* Force center alignment for header */
+    .center-header {
+        text-align: center !important;
+        direction: ltr !important;
+        width: 100% !important;
+        display: block !important;
+    }
+    
+    .center-header h1 {
+        text-align: center !important;
+        margin: 0 auto !important;
+        display: block !important;
+    }
+    
+    .center-header h3 {
+        text-align: center !important;
+        margin: 0 auto !important;
+        display: block !important;
+    }
+    
     /* Blue theme for info boxes */
     .stInfo {
         background-color: #f0f8ff !important;
@@ -180,11 +200,11 @@ def render_tender_with_streamlit(tender):
     st.markdown("---")
 
 def main():
-    # Centered header using CSS
+    # Centered header using CSS with stronger styling
     st.markdown("""
-    <div style="text-align: center; margin-bottom: 2rem;">
-        <h1 style="color: #1e3a8a; margin-bottom: 0.5rem;">🏠 מילואים וזוכים - מערכת התאמת מכרזים</h1>
-        <h3 style="color: #6b7280; font-weight: normal;">מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך</h3>
+    <div class="center-header" style="text-align: center !important; direction: ltr !important; margin-bottom: 2rem;">
+        <h1 style="color: #1e3a8a; margin-bottom: 0.5rem; text-align: center !important;">🏠 מילואים וזוכים - מערכת התאמת מכרזים</h1>
+        <h3 style="color: #6b7280; font-weight: normal; text-align: center !important;">מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך</h3>
     </div>
     """, unsafe_allow_html=True)
     
