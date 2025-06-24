@@ -110,50 +110,83 @@ def find_matching_tenders(profile_data):
         return pd.DataFrame()
 
 def render_tender_with_streamlit(tender):
-    """Render tender card using only pure Streamlit components"""
+    """Render tender card with beautiful design and reliable rendering"""
     
-    # Create a blue-themed container using Streamlit's built-in styling
-    with st.container():
-        # Use st.info for the blue background theme
-        with st.expander(f"🏆 מכרז #{tender['מספר מכרז']} - {tender['עיר']}", expanded=True):
-            
-            # Row 1: Address
-            st.markdown(f"### 📍 {tender['עיר']} • {tender['שכונה']} • {tender['אזור גיאוגרפי']}")
-            
-            # Row 2: Priority and stats in columns
-            col1, col2 = st.columns([1, 2])
-            
-            with col1:
-                # Priority badge using Streamlit's built-in colored containers
-                if "א'" in str(tender.get('אזור עדיפות', '')):
-                    st.error("🎯 עדיפות א'")
-                elif "ב'" in str(tender.get('אזור עדיפות', '')):
-                    st.warning("🎯 עדיפות ב'")
-                else:
-                    st.info("🎯 ללא עדיפות מיוחדת")
-            
-            with col2:
-                # Stats using metric
-                st.metric(
-                    label="📊 סה\"כ מגרשים", 
-                    value=tender['מספר מגרשים'],
-                    help=f"מילואים: {tender['מגרשים לחיילי מילואים']} • נכי צה\"ל: {tender['מגרשים לנכי צה\"ל']}"
-                )
-            
-            # Row 3: Dates
-            st.markdown(f"⏰ **מועד אחרון להגשה:** {tender['מועד אחרון להגשה']}")
-            st.markdown(f"📅 **תאריך פרסום:** {tender['תאריך פרסום חוברת המכרז']}")
-            
-            # Action button inside the expander
-            if st.button("🔗 להגשת המכרז", key=f"btn_{tender['מספר מכרז']}", help="קישור לאתר הממשלתי"):
-                st.success("🔗 [לחץ כאן לפתיחת האתר הממשלתי](https://apps.land.gov.il/MichrazimSite/#/search)")
+    # Determine priority info
+    priority_text = ""
+    priority_style = ""
+    if "א'" in str(tender.get('אזור עדיפות', '')):
+        priority_text = "🎯 עדיפות א'"
+        priority_style = "background-color: #fee2e2; color: #dc2626; padding: 4px 12px; border-radius: 12px; font-weight: bold;"
+    elif "ב'" in str(tender.get('אזור עדיפות', '')):
+        priority_text = "🎯 עדיפות ב'"
+        priority_style = "background-color: #fef3c7; color: #d97706; padding: 4px 12px; border-radius: 12px; font-weight: bold;"
+    else:
+        priority_text = "🎯 ללא עדיפות מיוחדת"
+        priority_style = "background-color: #e5e7eb; color: #6b7280; padding: 4px 12px; border-radius: 12px; font-weight: bold;"
+    
+    # Create card with simple, reliable CSS
+    card_html = f"""
+    <div style="background: #f0f8ff; border: 2px solid #1e3a8a; border-radius: 12px; padding: 20px; margin: 15px 0; direction: rtl;">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px;">
+            <h3 style="color: #1e3a8a; margin: 0;">🏆 מכרז #{tender['מספר מכרז']}</h3>
+            <h3 style="color: #374151; margin: 0;">📍 {tender['עיר']} • {tender['שכונה']} • {tender['אזור גיאוגרפי']}</h3>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px;">
+            <span style="{priority_style}">{priority_text}</span>
+            <span style="color: #6b7280;">📊 {tender['מספר מגרשים']} מגרשים סה"כ • {tender['מגרשים לחיילי מילואים']} למילואים • {tender['מגרשים לנכי צה"ל']} לנכי צה"ל</span>
+        </div>
+        
+        <div style="margin-bottom: 10px;">
+            <span style="color: #dc2626; font-weight: bold;">⏰ מועד אחרון להגשה: {tender['מועד אחרון להגשה']}</span>
+        </div>
+        
+        <div>
+            <span style="color: #6b7280;">📅 תאריך פרסום: {tender['תאריך פרסום חוברת המכרז']}</span>
+        </div>
+        
+    </div>
+    """
+    
+    # Try to render the beautiful card
+    try:
+        st.markdown(card_html, unsafe_allow_html=True)
+        
+        # Action button
+        if st.button("🔗 להגשת המכרז", key=f"btn_{tender['מספר מכרז']}", help="קישור לאתר הממשלתי"):
+            st.success("🔗 [לחץ כאן לפתיחת האתר הממשלתי](https://apps.land.gov.il/MichrazimSite/#/search)")
+    
+    except:
+        # Fallback to safe Streamlit components if HTML fails
+        st.info(f"""
+**🏆 מכרז #{tender['מספר מכרז']}**
+
+📍 **{tender['עיר']} • {tender['שכונה']} • {tender['אזור גיאוגרפי']}**
+
+{priority_text}
+
+📊 **{tender['מספר מגרשים']} מגרשים סה"כ** • {tender['מגרשים לחיילי מילואים']} למילואים • {tender['מגרשים לנכי צה"ל']} לנכי צה"ל
+
+⏰ **מועד אחרון להגשה:** {tender['מועד אחרון להגשה']}
+
+📅 **תאריך פרסום:** {tender['תאריך פרסום חוברת המכרז']}
+        """)
+        
+        if st.button("🔗 להגשת המכרז", key=f"btn_fallback_{tender['מספר מכרז']}", help="קישור לאתר הממשלתי"):
+            st.success("🔗 [לחץ כאן לפתיחת האתר הממשלתי](https://apps.land.gov.il/MichrazimSite/#/search)")
     
     st.markdown("---")
 
 def main():
-    # Simple header using only Streamlit
-    st.markdown("# 🏠 מילואים וזוכים - מערכת התאמת מכרזים")
-    st.markdown("### מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך")
+    # Centered header using CSS
+    st.markdown("""
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <h1 style="color: #1e3a8a; margin-bottom: 0.5rem;">🏠 מילואים וזוכים - מערכת התאמת מכרזים</h1>
+        <h3 style="color: #6b7280; font-weight: normal;">מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Info sections using Streamlit columns
     col1, col2 = st.columns(2)
