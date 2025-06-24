@@ -19,13 +19,14 @@ st.set_page_config(
 # הצגת לוגו כתמונה מהשורש
 st.image("apm_logo.png", width=90)
 
-# Simple CSS for RTL and blue theme
+    # Simple CSS for RTL and blue theme
 st.markdown("""
 <style>
     * {
         direction: rtl;
         text-align: right;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        color: #262626 !important;
     }
     
     .main {
@@ -35,6 +36,11 @@ st.markdown("""
     
     .stApp {
         background-color: #f5f5f5;
+    }
+    
+    /* Force dark text color for all elements */
+    .stMarkdown, .stMarkdown p, .stMarkdown div, .stInfo, .stInfo p, .stInfo div {
+        color: #262626 !important;
     }
     
     /* Force center alignment for header */
