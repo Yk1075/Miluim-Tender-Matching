@@ -219,11 +219,32 @@ def render_tender_with_streamlit(tender):
             """, unsafe_allow_html=True)
 
 def main():
-    # Simple centered header without logo
+    # Centered header - stronger centering
     st.markdown("""
-    <div style="text-align: center !important; direction: ltr !important; margin-bottom: 2rem;">
-        <h1 style="color: #1e3a8a; margin-bottom: 0.5rem; text-align: center !important;">🏠 מילואים וזוכים - מערכת התאמת מכרזים</h1>
-        <h3 style="color: #6b7280; font-weight: normal; text-align: center !important;">מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך</h3>
+    <div style="
+        text-align: center !important; 
+        direction: ltr !important; 
+        margin-bottom: 2rem; 
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+    ">
+        <h1 style="
+            color: #1e3a8a; 
+            margin-bottom: 0.5rem; 
+            text-align: center !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        ">🏠 מילואים וזוכים - מערכת התאמת מכרזים</h1>
+        <h3 style="
+            color: #6b7280; 
+            font-weight: normal; 
+            text-align: center !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        ">מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך</h3>
     </div>
     """, unsafe_allow_html=True)
     
