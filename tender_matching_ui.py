@@ -130,7 +130,7 @@ def find_matching_tenders(profile_data):
         return pd.DataFrame()
 
 def render_tender_with_streamlit(tender):
-    """Render tender card with everything inside blue background"""
+    """Render tender card with blue background using expander"""
     
     # Get location info safely
     city = str(tender.get('עיר', ''))
@@ -148,49 +148,26 @@ def render_tender_with_streamlit(tender):
     
     location_display = ' • '.join(location_parts) if location_parts else 'מיקום לא צוין'
     
-    # Use container with custom styling to put everything inside blue card
-    with st.container():
-        # Apply blue card styling to the container
-        st.markdown("""
-        <style>
-        .stContainer > div {
-            background-color: #f0f8ff !important;
-            border: 2px solid #1e3a8a !important;
-            border-radius: 12px !important;
-            padding: 1.5rem !important;
-            margin: 1rem 0 !important;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
-            direction: rtl !important;
-        }
-        </style>
-        """, unsafe_allow_html=True)
+    # Create blue card using expander (this works reliably)
+    with st.expander(f"🏆 מכרז #{tender['מספר מכרז']} | 📍 {location_display}", expanded=True):
         
-        # Row 1: Header
-        header_col_left, header_col_right = st.columns([1, 1])
-        
-        with header_col_left:
-            st.markdown(f"### 📍 {location_display}")
-        
-        with header_col_right:
-            st.markdown(f"### 🏆 מכרז #{tender['מספר מכרז']}")
-        
-        # Row 2: Priority (RIGHT) and Plot count (LEFT)
+        # Row 1: Priority (RIGHT) and Plot count (LEFT)
         col_left, col_right = st.columns([1, 1])
         
         with col_left:
             # Plot count on the LEFT
-            st.markdown(f"🏠 {tender['מספר מגרשים']}")
+            st.markdown(f"### 🏠 {tender['מספר מגרשים']}")
         
         with col_right:
             # Priority on the RIGHT
             if "א'" in str(tender.get('אזור עדיפות', '')):
-                st.markdown("🔥 עדיפות א'")
+                st.error("🔥 עדיפות א'")
             elif "ב'" in str(tender.get('אזור עדיפות', '')):
-                st.markdown("⚡ עדיפות ב'")
+                st.warning("⚡ עדיפות ב'")
             else:
-                st.markdown("📋 ללא עדיפות לאומית")
+                st.info("📋 ללא עדיפות לאומית")
         
-        # Row 3: Dates
+        # Row 2: Dates
         date_col_left, date_col_right = st.columns([1, 1])
         
         with date_col_left:
@@ -199,15 +176,12 @@ def render_tender_with_streamlit(tender):
         with date_col_right:
             st.caption(f"⏰ מועד אחרון: {tender['מועד אחרון להגשה']}")
         
-        # Row 4: Button on the left side
+        # Row 3: Button on the left side
         button_col_left, button_col_right = st.columns([1, 1])
         
         with button_col_left:
             if st.button("🌐 למערכת המכרזים של רמ״י", key=f"btn_{tender['מספר מכרז']}", help="קישור למערכת המכרזים הממשלתית"):
                 st.success("✅ [פתח את מערכת המכרזים של רמ״י](https://apps.land.gov.il/MichrazimSite/#/search)")
-    
-    # Add separator
-    st.divider()
 
 def main():
     # Centered header using CSS with stronger styling
@@ -328,14 +302,17 @@ def main():
             if not st.session_state.matches.empty:
                 st.markdown("### ✅ מכרזים מתאימים לפרופיל שלך")
                 
-                # Render tender cards using pure Streamlit
-                for _, tender in st.session_state.matches.iterrows():
-                    render_tender_with_streamlit(tender)
-                
+                # Show messages BEFORE the tender cards
                 st.success(f"נמצאו {len(st.session_state.matches)} מכרזים מתאימים לך!")
                 
-                # Government website link
+                # Government website link - show prominently at the top
                 st.info("🔗 **להמשך הליך ההגשה:** [לחץ כאן לאתר הממשלתי](https://apps.land.gov.il/MichrazimSite/#/search) ועקוב אחר ההוראות. אנו זמינים לסייע לכם במידה ותרצו!")
+                
+                st.markdown("---")
+                
+                # Render tender cards using expander
+                for _, tender in st.session_state.matches.iterrows():
+                    render_tender_with_streamlit(tender)
                 
             else:
                 st.warning("😔 לא נמצאו מכרזים מתאימים")
