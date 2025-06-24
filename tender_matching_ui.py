@@ -16,6 +16,9 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+# הצגת לוגו כתמונה מהשורש
+st.image("apm_logo.png", width=90)
+
 # Simple CSS for RTL and blue theme
 st.markdown("""
 <style>
