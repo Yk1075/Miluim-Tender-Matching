@@ -292,7 +292,7 @@ def main():
     st.markdown(
         """
         <div style='position:fixed; top:15px; left:15px; z-index:999;'>
-            <img src='צילום מסך 2025-06-24 ב-10.37.48.png' width='90' height='90' style='border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.18);'/>
+            <img src='apm_logo.png' width='90' height='90' style='border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.18);'/>
         </div>
         """,
         unsafe_allow_html=True
