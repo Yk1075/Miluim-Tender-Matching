@@ -130,22 +130,30 @@ def find_matching_tenders(profile_data):
         return pd.DataFrame()
 
 def render_tender_with_streamlit(tender):
-    """Render tender card using only safe Streamlit components"""
+    """Render tender card matching our original beautiful 3-row design"""
     
-    # Create a clean card using only Streamlit components
+    # Create the blue card container
     with st.container():
-        # Use st.info for blue background theme
-        st.info(f"""
-**🏆 מכרז #{tender['מספר מכרז']}**
-
-📍 **{tender['עיר']} • {tender['שכונה']} • {tender['אזור גיאוגרפי']}**
-        """)
+        # Add simple CSS only for the info box styling
+        st.markdown("""
+        <style>
+        .stAlert > div {
+            background-color: #f0f8ff !important;
+            border: 2px solid #1e3a8a !important;
+            border-radius: 12px !important;
+            padding: 1.5rem !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
         
-        # Priority and stats in columns
+        # Row 1: Tender number + Full address in blue container
+        st.info(f"🏆 **מכרז #{tender['מספר מכרז']}** • 📍 {tender['עיר']} • {tender['שכונה']} • {tender['אזור גיאוגרפי']}")
+        
+        # Row 2: Priority badge + Statistics in columns
         col1, col2 = st.columns([1, 2])
         
         with col1:
-            # Priority badge using Streamlit's colored containers
+            # Priority badge with colors
             if "א'" in str(tender.get('אזור עדיפות', '')):
                 st.error("🎯 עדיפות א'")
             elif "ב'" in str(tender.get('אזור עדיפות', '')):
@@ -154,19 +162,23 @@ def render_tender_with_streamlit(tender):
                 st.info("🎯 ללא עדיפות מיוחדת")
         
         with col2:
+            # Statistics with metric for professional look
             st.metric(
-                label="📊 סה\"כ מגרשים", 
-                value=tender['מספר מגרשים'],
-                help=f"מילואים: {tender['מגרשים לחיילי מילואים']} • נכי צה\"ל: {tender['מגרשים לנכי צה\"ל']}"
+                label="📊 סטטיסטיקות", 
+                value=f"{tender['מספר מגרשים']} מגרשים",
+                delta=f"מילואים: {tender['מגרשים לחיילי מילואים']} • נכי צה\"ל: {tender['מגרשים לנכי צה\"ל']}"
             )
         
-        # Dates info
-        st.markdown(f"⏰ **מועד אחרון להגשה:** {tender['מועד אחרון להגשה']}")
-        st.markdown(f"📅 **תאריך פרסום:** {tender['תאריך פרסום חוברת המכרז']}")
+        # Row 3: Dates and action button
+        date_col, btn_col = st.columns([2, 1])
         
-        # Action button
-        if st.button("🔗 להגשת המכרז", key=f"btn_{tender['מספר מכרז']}", help="קישור לאתר הממשלתי"):
-            st.success("🔗 [לחץ כאן לפתיחת האתר הממשלתי](https://apps.land.gov.il/MichrazimSite/#/search)")
+        with date_col:
+            st.markdown(f"⏰ **מועד אחרון להגשה:** {tender['מועד אחרון להגשה']}")
+            st.markdown(f"📅 **תאריך פרסום:** {tender['תאריך פרסום חוברת המכרז']}")
+        
+        with btn_col:
+            if st.button("🔗 להגשת המכרז", key=f"btn_{tender['מספר מכרז']}", help="קישור לאתר הממשלתי", type="primary"):
+                st.success("🔗 [לחץ כאן לפתיחת האתר הממשלתי](https://apps.land.gov.il/MichrazimSite/#/search)")
     
     st.markdown("---")
 
