@@ -542,9 +542,9 @@ def main():
                 
                 # Government website link - show prominently at the top
                 st.info("""
-🔗 **על מנת להתקדם להגשה יש להכנס למערכת המכרזים של רמ״י ולפתוח את המכרז שבחרתם לפי מספר המכרז שהוצג למטה.**
+שימוש לב, להגשה יש להכנס למערכת https://apps.land.gov.il/MichrazimSite/#/search ולפתוח את המכרז שבחרתם לפי מספר המכרז שהוצג למטה (בחיפוש אנא הזינו רק את ה-3 ספרות הראשונות במספר המכרז).
 
-**לסיוע בתהליך המלא אנו מזמינים אתכם ליצור קשר עם הצוות שלנו בכתובת:** yuvalk@apm.law
+תודה בשם כולנו על השירות וההקרבה והמון בהצלחה!
 """)
                 
                 st.markdown("---")
