@@ -17,9 +17,13 @@ st.set_page_config(
 )
 
 # הצגת לוגו כתמונה מהשורש
-st.image("apm_logo.png", width=90)
+try:
+    st.image("apm_logo.png", width=90)
+except:
+    # אם אין לוגו, הצג כותרת
+    st.markdown("### APM משרד עורכי דין")
 
-    # Simple CSS for RTL and blue theme
+# Simple CSS for RTL and blue theme
 st.markdown("""
 <style>
     * {
@@ -113,56 +117,51 @@ st.markdown("""
         margin: 0 !important;
     }
     
-    /* Compact, bold, square APM logo */
-    .top-left-logo {
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        z-index: 999;
-        background: #000;
-        width: 90px;
-        height: 90px;
-        padding: 6px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-        font-family: 'Arial', 'Helvetica', sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
+    /* Success message styling */
+    .stSuccess {
+        background-color: #dcfce7 !important;
+        border: 1px solid #16a34a !important;
     }
-    .logo-main {
-        font-size: 26px;
-        font-weight: 900;
-        color: white;
-        letter-spacing: 6px;
-        margin-bottom: 2px;
-        line-height: 1.1;
+    
+    /* Warning message styling */
+    .stWarning {
+        background-color: #fef3c7 !important;
+        border: 1px solid #d97706 !important;
     }
-    .logo-second-row {
-        font-size: 18px;
-        font-weight: 900;
-        color: white;
-        letter-spacing: 6px;
-        margin-bottom: 2px;
-        line-height: 1.1;
-    }
-    .logo-subtitle {
-        font-size: 7px;
-        color: white;
-        font-weight: 400;
-        letter-spacing: 1.2px;
-        text-transform: uppercase;
-        line-height: 1.2;
-        white-space: nowrap;
+    
+    /* Error message styling */
+    .stError {
+        background-color: #fee2e2 !important;
+        border: 1px solid #dc2626 !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
+def validate_profile_data(profile_data):
+    """Validate profile data and return error messages if any"""
+    errors = []
+    
+    # Check required fields
+    if not profile_data.get('אזור_מועדף'):
+        errors.append("יש לבחור אזור מועדף")
+    
+    # Check logical consistency
+    if (profile_data.get('ימי_מילואים_מ-7.10.23', 0) == 0 and 
+        profile_data.get('תעודת_מילואים_פעיל') == 'לא' and 
+        profile_data.get('ימי_מילואים_ב-6_שנים', 0) == 0 and
+        profile_data.get('סיווג_נכות') == 'אין'):
+        errors.append("על פי הנתונים שהזנת, אינך זכאי להטבות מכרזי דיור מיוחדים")
+    
+    return errors
+
 def find_matching_tenders(profile_data):
     """Find tenders that match the user profile"""
     try:
+        # Validate profile data
+        validation_errors = validate_profile_data(profile_data)
+        if validation_errors:
+            return pd.DataFrame(), validation_errors
+        
         # Load tender data
         tenders_df = pd.read_csv('data/csv_output/טבלת מכרזים ניסיון שני_.csv')
         
@@ -192,14 +191,17 @@ def find_matching_tenders(profile_data):
                     'מגרשים לחיילי מילואים': tender['כמה מגרשים בעדיפות בהגרלה לחיילי מילואים'],
                     'תאריך פרסום חוברת המכרז': tender['תאריך פרסום חוברת'],
                     'מועד אחרון להגשה': tender['מועד אחרון להגשת הצעות'],
-                    'אזור עדיפות': tender['אזור עדיפות']
+                    'אזור עדיפות': tender['אזור עדיפות'],
+                    'מי רשאי להגיש': tender['מי רשאי להגיש'],
+                    'סטטוס דיור נדרש': tender['סטטוס דיור נדרש']
                 })
         
-        return pd.DataFrame(matching_tenders)
+        return pd.DataFrame(matching_tenders), []
         
+    except FileNotFoundError as e:
+        return pd.DataFrame(), [f"קובץ הנתונים לא נמצא: {str(e)}"]
     except Exception as e:
-        st.error(f"אירעה שגיאה בעת חיפוש המכרזים: {str(e)}")
-        return pd.DataFrame()
+        return pd.DataFrame(), [f"אירעה שגיאה בעת חיפוש המכרזים: {str(e)}"]
 
 def render_tender_with_streamlit(tender):
     """Render tender card with blue background using expander"""
@@ -229,7 +231,7 @@ def render_tender_with_streamlit(tender):
         
         with col_left:
             # Plot count on the LEFT - normal size
-            st.markdown(f"🏠 {tender['מספר מגרשים']}")
+            st.markdown(f"🏠 **מספר מגרשים:** {tender['מספר מגרשים']}")
         
         with col_right:
             # Priority on the RIGHT - normal size
@@ -241,21 +243,48 @@ def render_tender_with_streamlit(tender):
             else:
                 st.info("📋 ללא עדיפות לאומית")
         
-        # Row 2: Dates - same size as plot count and priority
+        # Row 2: Special plots info
+        special_col_left, special_col_right = st.columns([1, 1])
+        
+        with special_col_left:
+            miluim_plots = tender.get('מגרשים לחיילי מילואים', 0)
+            if miluim_plots and str(miluim_plots) != 'nan' and str(miluim_plots) != '0':
+                st.success(f"🎖️ מגרשים למילואים: {miluim_plots}")
+        
+        with special_col_right:
+            disability_plots = tender.get('מגרשים לנכי צה"ל', 0)
+            if disability_plots and str(disability_plots) != 'nan' and str(disability_plots) != '0':
+                st.success(f"🏅 מגרשים לנכי צה"ל: {disability_plots}")
+        
+        # Row 3: Dates - same size as plot count and priority
         date_col_left, date_col_right = st.columns([1, 1])
         
         with date_col_left:
-            st.markdown(f"📅 תאריך פרסום חוברת המכרז: {tender['תאריך פרסום חוברת המכרז']}")
+            publish_date = tender.get('תאריך פרסום חוברת המכרז', 'לא צוין')
+            st.markdown(f"📅 **תאריך פרסום חוברת:** {publish_date}")
         
         with date_col_right:
-            st.markdown(f"⏰ מועד אחרון: {tender['מועד אחרון להגשה']}")
+            deadline = tender.get('מועד אחרון להגשה', 'לא צוין')
+            st.markdown(f"⏰ **מועד אחרון:** {deadline}")
         
-        # Row 3: Button on the left side
+        # Row 4: Eligibility and housing requirements
+        req_col_left, req_col_right = st.columns([1, 1])
+        
+        with req_col_left:
+            eligibility = tender.get('מי רשאי להגיש', 'לא צוין')
+            st.markdown(f"👥 **זכאות:** {eligibility}")
+        
+        with req_col_right:
+            housing_req = tender.get('סטטוס דיור נדרש', 'לא צוין')
+            if housing_req and str(housing_req) != 'nan':
+                st.markdown(f"🏠 **דרישת דיור:** {housing_req}")
+        
+        # Row 5: Button on the left side
         button_col_left, button_col_right = st.columns([1, 1])
         
         with button_col_left:
             # Direct link button - opens immediately without additional clicks
-            st.markdown("""
+            st.markdown(f"""
             <a href="https://apps.land.gov.il/MichrazimSite/#/search" target="_blank" style="
                 display: inline-block;
                 padding: 0.5rem 1rem;
@@ -267,10 +296,41 @@ def render_tender_with_streamlit(tender):
                 text-align: center;
                 border: none;
                 cursor: pointer;
+                width: 100%;
             ">
                 🌐 למערכת המכרזים של רמ״י
             </a>
             """, unsafe_allow_html=True)
+
+def show_profile_summary(profile_data):
+    """Show a summary of the user's profile"""
+    st.markdown("### 📋 סיכום הפרופיל שלך")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("**פרטי שירות:**")
+        st.write(f"• ימי מילואים מ-7.10.23: {profile_data.get('ימי_מילואים_מ-7.10.23', 0)}")
+        st.write(f"• תעודת מילואים פעיל: {profile_data.get('תעודת_מילואים_פעיל', 'לא')}")
+        st.write(f"• ימי מילואים ב-6 שנים: {profile_data.get('ימי_מילואים_ב-6_שנים', 0)}")
+        st.write(f"• סיווג נכות: {profile_data.get('סיווג_נכות', 'אין')}")
+    
+    with col2:
+        st.markdown("**העדפות אישיות:**")
+        st.write(f"• אזור מועדף: {profile_data.get('אזור_מועדף', 'לא נבחר')}")
+        st.write(f"• חסר/ת דיור: {profile_data.get('חסר_דיור', 'לא')}")
+        st.write(f"• בן/בת זוג זכאי/ת: {profile_data.get('בן/בת_זוג_זכאי', 'לא')}")
+    
+    # Determine profile category
+    profile_series = pd.Series(profile_data)
+    category = get_profile_category(profile_series)
+    
+    if category == 'נכי צהל':
+        st.success(f"✅ **קטגוריה:** {category} - זכאי להטבות מיוחדות!")
+    elif category == 'חיילי מילואים':
+        st.success(f"✅ **קטגוריה:** {category} - זכאי להטבות מילואים!")
+    else:
+        st.warning(f"⚠️ **קטגוריה:** {category} - ייתכן ולא תהיה זכאי להטבות מיוחדות")
 
 def main():
     # Override Streamlit CSS to center everything
@@ -306,22 +366,31 @@ def main():
     
     with col1:
         st.info("""
-איך זה עובד? 
-על בסיס תנאי הזכאות והמכרזים שפורסמו על ידי רשות מקרקעי ישראל המערכת יודעת להתאים לך את מכרזים ייעודיים עם התאמה מקסימלית. פשוט עונים על השאלות מטה והמכרזים הרלוונטים כבר יעלו לפניכם כך שתוכלו להתקדם מבלי לבזבז זמן חשוב על נבירה באתר של רמ״י. 
+**איך זה עובד?**
 
-שימו לב, במרבית המכרזים הפרטים המלאים יופיעו בחוברת המכרז- כך ששווה במציאת המכרזים הרלוונטים לשים לכם תזכורת לתאריך פרסום החוברת ותאריך ההגשה האחרון שלא תפספסו! 
+על בסיס תנאי הזכאות והמכרזים שפורסמו על ידי רשות מקרקעי ישראל המערכת יודעת להתאים לך את המכרזים הייעודיים עם התאמה מקסימלית. 
+
+פשוט עונים על השאלות מטה והמכרזים הרלוונטים כבר יעלו לפניכם כך שתוכלו להתקדם מבלי לבזבז זמן חשוב על נבירה באתר של רמ״י.
+
+**שימו לב:** במרבית המכרזים הפרטים המלאים יופיעו בחוברת המכרז - כך ששווה במציאת המכרזים הרלוונטים לשים לכם תזכורת לתאריך פרסום החוברת ותאריך ההגשה האחרון שלא תפספסו!
 """)
     
     with col2:
         st.info("""
-        **💰 ההטבות העיקריות**
-        
-        • הנחות של 10-35% באזורי עדיפות לאומית
-        
-        • הנחות נוספות של 10-35% ממחיר המגרש
-        
-        • קדימות בהגרלות למילואים ונכי צה"ל
-        """)
+**💰 ההטבות העיקריות**
+
+• הנחות של 10-35% באזורי עדיפות לאומית
+
+• הנחות נוספות של 10-35% ממחיר המגרש
+
+• קדימות בהגרלות למילואים ונכי צה"ל
+
+• אפשרות לרכישת מגרשים בתנאים מועדפים
+
+**📞 צריכים עזרה?**
+
+צוות המשרד זמין לליווי בכל התהליך - yuvalk@apm.law
+""")
 
     st.markdown("---")
 
@@ -333,59 +402,73 @@ def main():
         st.session_state.search_performed = False
     if 'matches' not in st.session_state:
         st.session_state.matches = pd.DataFrame()
+    if 'profile_data' not in st.session_state:
+        st.session_state.profile_data = {}
+    if 'validation_errors' not in st.session_state:
+        st.session_state.validation_errors = []
 
     with search_col:
         with st.container():
             st.markdown("### 📋 פרטים אישיים")
             
+            # Service details section
+            st.markdown("#### 🎖️ פרטי שירות")
+            
             days_since_oct = st.number_input(
                 "ימי מילואים מ-7.10.23",
                 min_value=0,
-                value=0,
-                help="מספר ימי המילואים שביצעת מתאריך 7.10.23, שים לב כי בהגשת המכרז יהיה עליך לצרף אישור על שירות של מעל 45 ימים בזמן מלחמת 'חרבות ברזל'.",
+                value=st.session_state.profile_data.get('ימי_מילואים_מ-7.10.23', 0),
+                help="מספר ימי המילואים שביצעת מתאריך 7.10.23. נדרשים לפחות 45 ימים לזכאות.",
                 key="days_since_oct"
             )
             
             active_card = st.selectbox(
                 "תעודת מילואים פעיל?",
                 options=["לא", "כן"],
-                help="בחר 'כן' אם יש ברשותך תעודת מילואים פעיל, שים לב כי בהגשת המכרז יהיה עליך לצרף אישור למשרת מילואים פעיל שש שנתי או אישור למשרת מילואים פעיל שש שנתי בעבר.",
+                index=0 if st.session_state.profile_data.get('תעודת_מילואים_פעיל', 'לא') == 'לא' else 1,
+                help="בחר 'כן' אם יש ברשותך תעודת מילואים פעיל תקפה.",
                 key="active_card"
             )
             
             days_in_6_years = st.number_input(
                 "ימי מילואים ב-6 שנים",
                 min_value=0,
-                value=0,
-                help="סך ימי המילואים שביצעת במצטבר (מאז שנת 2000), בפרק זמן של עד 6 שנים קלנדריות.",
+                value=st.session_state.profile_data.get('ימי_מילואים_ב-6_שנים', 0),
+                help="סך ימי המילואים שביצעת במצטבר בפרק זמן של עד 6 שנים קלנדריות. נדרשים לפחות 80 ימים לזכאות.",
                 key="days_in_6_years"
             )
             
             disability_status = st.selectbox(
                 "סיווג נכות",
                 options=["אין", "נכות קשה", "100% ומעלה"],
-                help="בחר את סיווג הנכות המתאים לך - זה משפיע על הזכאות למכרזים מיוחדים ועל היקף ההטבות",
+                index=["אין", "נכות קשה", "100% ומעלה"].index(st.session_state.profile_data.get('סיווג_נכות', 'אין')),
+                help="בחר את סיווג הנכות המתאים לך - זה משפיע על הזכאות למכרזים מיוחדים.",
                 key="disability_status"
             )
+            
+            st.markdown("#### 🏠 העדפות דיור")
             
             housing_status = st.selectbox(
                 "חסר/ת דיור?",
                 options=["לא", "כן"],
-                help="בחר 'כן' אם הינך מוגדר כחסר דיור לפי האתר הממשלתי: https://www.gov.il/he/service/certificate-of-homelessness - זה משפיע על היקף ההטבות שלך",
+                index=0 if st.session_state.profile_data.get('חסר_דיור', 'לא') == 'לא' else 1,
+                help="בחר 'כן' אם הינך מוגדר כחסר דיור לפי הגדרות רמ״י.",
                 key="housing_status"
             )
             
             preferred_area = st.selectbox(
                 "אזור מועדף",
                 options=["דרום", "צפון", "ירושלים", "מרכז", "יהודה ושומרון"],
-                help="בחר את האזור המועדף עליך למגורים - המערכת תציג רק מכרזים באזור הנבחר",
+                index=["דרום", "צפון", "ירושלים", "מרכז", "יהודה ושומרון"].index(st.session_state.profile_data.get('אזור_מועדף', 'דרום')),
+                help="בחר את האזור המועדף עליך למגורים.",
                 key="preferred_area"
             )
             
             spouse_eligible = st.selectbox(
                 "בן/בת זוג זכאי/ת?",
                 options=["לא", "כן"],
-                help="בחר 'כן' אם בן/בת הזוג זכאי/ת להטבות (גם הוא/היא מילואים או נכה) - זה יכול להכפיל את ההטבות שלכם",
+                index=0 if st.session_state.profile_data.get('בן/בת_זוג_זכאי', 'לא') == 'לא' else 1,
+                help="בחר 'כן' אם בן/בת הזוג גם זכאי/ת להטבות.",
                 key="spouse_eligible"
             )
 
@@ -403,12 +486,26 @@ def main():
                     'בן/בת_זוג_זכאי': spouse_eligible
                 }
                 
-                st.session_state.matches = find_matching_tenders(profile_data)
+                matches, validation_errors = find_matching_tenders(profile_data)
+                st.session_state.matches = matches
+                st.session_state.profile_data = profile_data
+                st.session_state.validation_errors = validation_errors
                 st.session_state.search_performed = True
                 st.rerun()
 
     with results_col:
         if st.session_state.search_performed:
+            # Show validation errors if any
+            if st.session_state.validation_errors:
+                for error in st.session_state.validation_errors:
+                    st.error(f"❌ {error}")
+                st.markdown("---")
+            
+            # Show profile summary
+            if st.session_state.profile_data:
+                show_profile_summary(st.session_state.profile_data)
+                st.markdown("---")
+            
             if not st.session_state.matches.empty:
                 st.markdown("### ✅ מכרזים מתאימים לפרופיל שלך")
                 
@@ -416,17 +513,28 @@ def main():
                 st.success(f"נמצאו {len(st.session_state.matches)} מכרזים מתאימים לך!")
                 
                 # Government website link - show prominently at the top
-                st.info("🔗 **על מנת להתקדם להגשה יש להכנס למערכת המכרזים של רמ״י ולפתוח את המכרז שבחרתם לפי מספר המכרז שהוצג למטה.**\n\n**לסיוע בתהליך המלא אנו מזמינים אתכם ליצור קשר עם הצוות שלנו בכתובת הבאה:** yuvalk@apm.law")
+                st.info("""
+🔗 **על מנת להתקדם להגשה יש להכנס למערכת המכרזים של רמ״י ולפתוח את המכרז שבחרתם לפי מספר המכרז שהוצג למטה.**
+
+**לסיוע בתהליך המלא אנו מזמינים אתכם ליצור קשר עם הצוות שלנו בכתובת:** yuvalk@apm.law
+""")
                 
                 st.markdown("---")
                 
                 # Render tender cards using expander
                 for _, tender in st.session_state.matches.iterrows():
                     render_tender_with_streamlit(tender)
+                    st.markdown("---")
                 
             else:
-                st.warning("😔 לא נמצאו מכרזים מתאימים")
-                st.info("נסה לשנות את הקריטריונים או לבדוק שוב מאוחר יותר")
+                if not st.session_state.validation_errors:  # Only show if no validation errors
+                    st.warning("😔 לא נמצאו מכרזים מתאימים לפרופיל שלך")
+                    st.info("""
+**מה אפשר לעשות?**
+• נסה לשנות את האזור המועדף
+• בדוק שוב מאוחר יותר - מכרזים חדשים מתפרסמים באופן קבוע
+• צור קשר עם הצוות שלנו לבדיקה ידנית של האפשרויות
+""")
         else:
             st.info("🏠 **התחל למצוא את המכרז שלך**")
             st.write("מלא את הפרטים בטופס משמאל לקבלת מכרזים מותאמים אישית")
