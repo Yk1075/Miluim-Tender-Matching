@@ -80,17 +80,28 @@ st.markdown("""
     
     /* Button styling */
     .stButton > button {
-        background: #1e3a8a !important;
+        background: #3b82f6 !important;
         color: white !important;
-        border: none !important;
-        border-radius: 6px !important;
+        border: 2px solid #1d4ed8 !important;
+        border-radius: 8px !important;
         padding: 0.75rem 1.5rem !important;
         font-weight: bold !important;
+        font-size: 16px !important;
         width: 100% !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+        transition: all 0.2s ease !important;
     }
     
     .stButton > button:hover {
-        background: #1e40af !important;
+        background: #2563eb !important;
+        border-color: #1e40af !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+        transform: translateY(-1px) !important;
+    }
+    
+    .stButton > button:active {
+        background: #1d4ed8 !important;
+        transform: translateY(0) !important;
     }
     
     /* Form inputs */
@@ -254,7 +265,7 @@ def render_tender_with_streamlit(tender):
         with special_col_right:
             disability_plots = tender.get('מגרשים לנכי צה"ל', 0)
             if disability_plots and str(disability_plots) != 'nan' and str(disability_plots) != '0':
-                st.success(f"🏅 מגרשים לנכי צה"ל: {disability_plots}")
+                st.success(f"🎖️ מגרשים לנכי צה\"ל: {disability_plots}")
         
         # Row 3: Dates - same size as plot count and priority
         date_col_left, date_col_right = st.columns([1, 1])
@@ -287,17 +298,21 @@ def render_tender_with_streamlit(tender):
             st.markdown(f"""
             <a href="https://apps.land.gov.il/MichrazimSite/#/search" target="_blank" style="
                 display: inline-block;
-                padding: 0.5rem 1rem;
-                background-color: #1f2937;
+                padding: 0.75rem 1rem;
+                background-color: #059669;
                 color: white;
                 text-decoration: none;
-                border-radius: 0.375rem;
-                font-weight: 500;
+                border-radius: 8px;
+                border: 2px solid #047857;
+                font-weight: bold;
+                font-size: 14px;
                 text-align: center;
-                border: none;
                 cursor: pointer;
                 width: 100%;
-            ">
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                transition: all 0.2s ease;
+            " onmouseover="this.style.backgroundColor='#047857'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.15)';" 
+              onmouseout="this.style.backgroundColor='#059669'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(0, 0, 0, 0.1)';">
                 🌐 למערכת המכרזים של רמ״י
             </a>
             """, unsafe_allow_html=True)
@@ -373,6 +388,8 @@ def main():
 פשוט עונים על השאלות מטה והמכרזים הרלוונטים כבר יעלו לפניכם כך שתוכלו להתקדם מבלי לבזבז זמן חשוב על נבירה באתר של רמ״י.
 
 **שימו לב:** במרבית המכרזים הפרטים המלאים יופיעו בחוברת המכרז - כך ששווה במציאת המכרזים הרלוונטים לשים לכם תזכורת לתאריך פרסום החוברת ותאריך ההגשה האחרון שלא תפספסו!
+
+**השימוש במידע המופיע באתר אינו מהווה תחליף לקבלת ייעוץ או טיפול משפטי, מקצועי או אחר והסתמכות על האמור בו היא באחריות המשתמש בלבד.**
 """)
     
     with col2:
@@ -387,9 +404,10 @@ def main():
 
 • אפשרות לרכישת מגרשים בתנאים מועדפים
 
-**📞 צריכים עזרה?**
+**כלל ההטבות מפורטות בקישור הבא:**  
+[פירוט מלא של ההטבות לחיילי מילואים](https://www.gov.il/he/pages/pr-miluaim-29042025)
 
-צוות המשרד זמין לליווי בכל התהליך - yuvalk@apm.law
+לכל תקלה באתר או בחיפוש עדכנו אותנו ב- yuvalk@apm.law
 """)
 
     st.markdown("---")
@@ -438,10 +456,15 @@ def main():
                 key="days_in_6_years"
             )
             
+            # Safe index for disability status
+            disability_options = ["אין", "נכות קשה", "100% ומעלה"]
+            disability_value = st.session_state.profile_data.get('סיווג_נכות', 'אין')
+            disability_index = disability_options.index(disability_value) if disability_value in disability_options else 0
+            
             disability_status = st.selectbox(
                 "סיווג נכות",
-                options=["אין", "נכות קשה", "100% ומעלה"],
-                index=["אין", "נכות קשה", "100% ומעלה"].index(st.session_state.profile_data.get('סיווג_נכות', 'אין')),
+                options=disability_options,
+                index=disability_index,
                 help="בחר את סיווג הנכות המתאים לך - זה משפיע על הזכאות למכרזים מיוחדים.",
                 key="disability_status"
             )
@@ -456,10 +479,15 @@ def main():
                 key="housing_status"
             )
             
+            # Safe index for preferred area
+            area_options = ["דרום", "צפון", "ירושלים", "מרכז", "יהודה ושומרון"]
+            area_value = st.session_state.profile_data.get('אזור_מועדף', 'דרום')
+            area_index = area_options.index(area_value) if area_value in area_options else 0
+            
             preferred_area = st.selectbox(
                 "אזור מועדף",
-                options=["דרום", "צפון", "ירושלים", "מרכז", "יהודה ושומרון"],
-                index=["דרום", "צפון", "ירושלים", "מרכז", "יהודה ושומרון"].index(st.session_state.profile_data.get('אזור_מועדף', 'דרום')),
+                options=area_options,
+                index=area_index,
                 help="בחר את האזור המועדף עליך למגורים.",
                 key="preferred_area"
             )
