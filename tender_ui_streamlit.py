@@ -413,7 +413,6 @@ def main():
     st.markdown("---")
 
     # Layout: Search (30%) + Results (70%)
-    # Force refresh
     search_col, results_col = st.columns([0.3, 0.7], gap="medium")
 
     # Initialize session state
