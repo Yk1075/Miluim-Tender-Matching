@@ -409,14 +409,26 @@ def main():
             border: 1px solid #cccccc !important;
         }
         
-        /* Fix help icons */
+        /* Fix help icons - make them dark */
         .stTooltipIcon {
-            color: #000000 !important;
+            color: #333333 !important;
         }
         
-        /* Fix help tooltips */
+        /* Fix help tooltips - question mark icon */
         [data-testid="stTooltipHoverTarget"] {
+            color: #333333 !important;
+        }
+        
+        /* Fix tooltip content background and text */
+        [data-testid="stTooltip"] {
+            background-color: #ffffff !important;
             color: #000000 !important;
+            border: 1px solid #cccccc !important;
+        }
+        
+        /* Fix tooltip arrow */
+        [data-testid="stTooltip"]::before {
+            border-color: #ffffff transparent transparent transparent !important;
         }
         
         /* Fix any other icon buttons */
@@ -459,9 +471,17 @@ def main():
         border: 1px solid #cccccc !important;
     }
     
-    /* Fix help icons globally */
+    /* Fix help icons globally - make them visible */
     .stTooltipIcon, [data-testid="stTooltipHoverTarget"] {
         color: #666666 !important;
+    }
+    
+    /* Fix tooltip content globally */
+    [data-testid="stTooltip"] {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #cccccc !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
     }
     
     /* Fix secondary buttons */
