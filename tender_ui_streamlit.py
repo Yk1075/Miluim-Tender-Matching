@@ -631,7 +631,7 @@ def main():
                 "חסר/ת דיור?",
                 options=["לא", "כן"],
                 index=0 if st.session_state.profile_data.get('חסר_דיור', 'לא') == 'לא' else 1,
-                help="בחר 'כן' אם הינך מוגדר כחסר דיור לפי הגדרות רמ״י.",
+                help="בחר ׳כן׳ במידה והנך עומד בהגדרות המפורטות באתר https://www.gov.il/he/pages/hagdarat_chasrey_dira?chapterIndex=5. שימו לב כי במועד הרשמה למכרז יש לצרף אישור  חסר דיור בניתן להפיק בקישור הבא:https://www.gov.il/he/service/certificate-of-homelessness",
                 key="housing_status"
             )
             
