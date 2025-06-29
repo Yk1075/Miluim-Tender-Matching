@@ -226,6 +226,66 @@ st.markdown("""
         background-color: #ffffff !important;
         color: #000000 !important;
     }
+    
+    /* ULTIMATE TOOLTIP FIX - Override all existing tooltip styles */
+    .stTooltipIcon, [data-testid="stTooltipHoverTarget"] {
+        color: #ffffff !important;
+        background-color: #007acc !important;
+        border: 2px solid #005999 !important;
+        border-radius: 50% !important;
+        padding: 4px !important;
+        font-weight: bold !important;
+        font-size: 14px !important;
+        width: 22px !important;
+        height: 22px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    /* All possible help icon selectors - blue background, white text */
+    button[title*="help"], button[aria-label*="help"], button[kind="helpTooltip"] {
+        color: #ffffff !important;
+        background-color: #007acc !important;
+        border: 2px solid #005999 !important;
+        border-radius: 50% !important;
+        font-weight: bold !important;
+        min-width: 22px !important;
+        min-height: 22px !important;
+    }
+    
+    /* Nuclear option - ALL small buttons that might be help icons */
+    button[type="button"]:not([class*="stButton"]):not([aria-label*="increment"]):not([aria-label*="decrement"]) {
+        color: #ffffff !important;
+        background-color: #007acc !important;
+        border: 2px solid #005999 !important;
+        border-radius: 50% !important;
+        font-size: 12px !important;
+        font-weight: bold !important;
+    }
+    
+    /* Fix the actual tooltip popup content - white background, black text, blue border */
+    [data-testid="stTooltip"], div[role="tooltip"], [class*="tooltip"] {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border: 3px solid #007acc !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.6) !important;
+        padding: 15px !important;
+        border-radius: 10px !important;
+        font-size: 14px !important;
+        font-weight: bold !important;
+        z-index: 99999 !important;
+        max-width: 300px !important;
+    }
+    
+    /* Override any Streamlit emotion-cache classes */
+    [class*="st-emotion-cache"] button:not([class*="stButton"]):not([aria-label*="increment"]):not([aria-label*="decrement"]) {
+        color: #ffffff !important;
+        background-color: #007acc !important;
+        border: 2px solid #005999 !important;
+        border-radius: 50% !important;
+        font-weight: bold !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
