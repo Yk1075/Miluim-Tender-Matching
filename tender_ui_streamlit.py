@@ -145,6 +145,39 @@ st.markdown("""
         background-color: #fee2e2 !important;
         border: 1px solid #dc2626 !important;
     }
+    
+    /* Fix help icons - visible on both light and dark backgrounds */
+    .stTooltipIcon, [data-testid="stTooltipHoverTarget"] {
+        color: #555555 !important;
+    }
+    
+    /* Additional selectors for help icon */
+    button[title*="help"], button[aria-label*="help"] {
+        color: #555555 !important;
+    }
+    
+    /* Try different possible selectors for the question mark */
+    .st-emotion-cache-1gulkj5, .st-emotion-cache-1wmy9hl {
+        color: #555555 !important;
+    }
+    
+    /* Generic help button styling */
+    button[kind="helpTooltip"], button[data-testid*="help"] {
+        color: #555555 !important;
+    }
+    
+    /* Fix tooltips - always readable */
+    [data-testid="stTooltip"] {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #cccccc !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    }
+    
+    /* Ensure labels are readable in dark mode */
+    .stSelectbox > label, .stNumberInput > label {
+        color: #000000 !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -395,6 +428,21 @@ def main():
     
     /* Fix help icons - visible on both light and dark backgrounds */
     .stTooltipIcon, [data-testid="stTooltipHoverTarget"] {
+        color: #555555 !important;
+    }
+    
+    /* Additional selectors for help icon */
+    button[title*="help"], button[aria-label*="help"] {
+        color: #555555 !important;
+    }
+    
+    /* Try different possible selectors for the question mark */
+    .st-emotion-cache-1gulkj5, .st-emotion-cache-1wmy9hl {
+        color: #555555 !important;
+    }
+    
+    /* Generic help button styling */
+    button[kind="helpTooltip"], button[data-testid*="help"] {
         color: #555555 !important;
     }
     
