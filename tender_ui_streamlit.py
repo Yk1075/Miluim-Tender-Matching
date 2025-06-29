@@ -178,6 +178,54 @@ st.markdown("""
     .stSelectbox > label, .stNumberInput > label {
         color: #000000 !important;
     }
+    
+    /* AGGRESSIVE FIX FOR DARK MODE - Force all input fields to have proper colors */
+    .stSelectbox > div > div, .stSelectbox select, .stSelectbox option {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    .stNumberInput > div > div > input {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    /* Force all dropdown menus with baseweb */
+    [data-baseweb="select"] > div, [data-baseweb="select"] div {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    /* Force number input controls with baseweb */
+    [data-baseweb="input"] > div, [data-baseweb="input"] input {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    /* Nuclear option - force ALL input elements */
+    input, select, option {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    /* Specific fix for number input increment/decrement buttons */
+    button[aria-label="increment"], button[aria-label="decrement"] {
+        background-color: #f0f0f0 !important;
+        color: #000000 !important;
+        border: 1px solid #ccc !important;
+    }
+    
+    /* Additional selectors for Streamlit's internal CSS classes */
+    .st-emotion-cache-1wmy9hl input, .st-emotion-cache-1gulkj5 input {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    /* Try to catch any remaining dark elements */
+    div[data-testid="stSelectbox"] > div, div[data-testid="stNumberInput"] > div {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
