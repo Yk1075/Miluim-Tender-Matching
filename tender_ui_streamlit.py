@@ -401,6 +401,30 @@ def main():
         .stSelectbox > label, .stNumberInput > label {
             color: #000000 !important;
         }
+        
+        /* Fix number input buttons (+ and -) */
+        .stNumberInput button {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #cccccc !important;
+        }
+        
+        /* Fix help icons */
+        .stTooltipIcon {
+            color: #000000 !important;
+        }
+        
+        /* Fix help tooltips */
+        [data-testid="stTooltipHoverTarget"] {
+            color: #000000 !important;
+        }
+        
+        /* Fix any other icon buttons */
+        button[kind="secondary"] {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #cccccc !important;
+        }
     }
     
     /* General dark mode text fixes for input elements only */
@@ -426,6 +450,25 @@ def main():
     /* Input field text */
     [data-baseweb="input"] input {
         color: #000000 !important;
+    }
+    
+    /* Fix number input controls */
+    .stNumberInput button {
+        background-color: #f0f0f0 !important;
+        color: #000000 !important;
+        border: 1px solid #cccccc !important;
+    }
+    
+    /* Fix help icons globally */
+    .stTooltipIcon, [data-testid="stTooltipHoverTarget"] {
+        color: #666666 !important;
+    }
+    
+    /* Fix secondary buttons */
+    button[kind="secondary"] {
+        background-color: #f0f0f0 !important;
+        color: #000000 !important;
+        border: 1px solid #cccccc !important;
     }
     </style>
     """, unsafe_allow_html=True)
