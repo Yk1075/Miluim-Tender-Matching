@@ -348,7 +348,7 @@ def show_profile_summary(profile_data):
         st.warning(f"⚠️ **קטגוריה:** {category} - ייתכן ולא תהיה זכאי להטבות מיוחדות")
 
 def main():
-    # Override Streamlit CSS to center everything
+    # Override Streamlit CSS to center everything and support dark mode
     st.markdown("""
     <style>
     .main > div {
@@ -368,6 +368,83 @@ def main():
     }
     .stSubheader {
         text-align: center !important;
+    }
+    
+    /* Dark mode support - force light colors for better readability */
+    .stApp {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    /* Input fields */
+    .stSelectbox > div > div {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    .stNumberInput > div > div > input {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    /* Text areas and labels */
+    .stMarkdown, .stText, label {
+        color: #000000 !important;
+    }
+    
+    /* Info boxes */
+    .stInfo {
+        background-color: #e3f2fd !important;
+        color: #000000 !important;
+    }
+    
+    /* Success/error messages */
+    .stSuccess {
+        background-color: #e8f5e8 !important;
+        color: #000000 !important;
+    }
+    
+    .stError {
+        background-color: #ffebee !important;
+        color: #000000 !important;
+    }
+    
+    .stWarning {
+        background-color: #fff3e0 !important;
+        color: #000000 !important;
+    }
+    
+    /* Buttons */
+    .stButton > button {
+        background-color: #2196f3 !important;
+        color: #ffffff !important;
+        border: none !important;
+    }
+    
+    /* Expander */
+    .streamlit-expanderHeader {
+        background-color: #f5f5f5 !important;
+        color: #000000 !important;
+    }
+    
+    .streamlit-expanderContent {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    /* Sidebar */
+    .css-1d391kg {
+        background-color: #ffffff !important;
+    }
+    
+    /* Force all text to be dark */
+    * {
+        color: #000000 !important;
+    }
+    
+    /* Override for links */
+    a {
+        color: #1976d2 !important;
     }
     </style>
     """, unsafe_allow_html=True)
