@@ -416,14 +416,6 @@ def render_tender_with_streamlit(tender):
                 🌐 למערכת המכרזים של רמ״י
             </a>
             """, unsafe_allow_html=True)
-            
-            # Add clarification text below the button
-            st.markdown("""
-            <div style="margin-top: 10px; padding: 8px; background-color: #f0f8ff; border-radius: 4px; font-size: 12px; color: #333;">
-            הבהרה: המערכת נועדה לסייע באיתור מכרזים פומביים בלבד ואינה מאפשרת הגשה או מהווה מתן חוות דעת על סיכויי זכייה.<br>
-            המידע עודכן לאחרונה ב-29.6.2025. מכרזים שפורסמו לאחר מועד זה לא יופיעו במערכת. השימוש במידע באחריותכם בלבד.
-            </div>
-            """, unsafe_allow_html=True)
 
 def show_profile_summary(profile_data):
     """Show a summary of the user's profile"""
