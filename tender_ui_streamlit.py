@@ -370,136 +370,62 @@ def main():
         text-align: center !important;
     }
     
-    /* Force light theme for all elements */
-    .stApp, .stApp > div, .main, .main > div {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-    }
-    
-    /* Input fields - more specific selectors */
-    .stSelectbox label, .stSelectbox div, .stSelectbox span, .stSelectbox p {
-        color: #000000 !important;
-    }
-    
-    .stSelectbox > div > div, .stSelectbox > div > div > div {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        border: 1px solid #cccccc !important;
-    }
-    
-    .stNumberInput label, .stNumberInput div, .stNumberInput span, .stNumberInput p {
-        color: #000000 !important;
-    }
-    
-    .stNumberInput > div > div > input, .stNumberInput input {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        border: 1px solid #cccccc !important;
-    }
-    
-    /* All text elements */
-    .stMarkdown, .stMarkdown div, .stMarkdown p, .stMarkdown span {
-        color: #000000 !important;
-    }
-    
-    .stText, .stText div, .stText p, .stText span {
-        color: #000000 !important;
-    }
-    
-    label, label div, label p, label span {
-        color: #000000 !important;
-    }
-    
-    /* Info boxes */
-    .stInfo, .stInfo div, .stInfo p {
-        background-color: #e3f2fd !important;
-        color: #000000 !important;
-    }
-    
-    /* Success/error messages */
-    .stSuccess, .stSuccess div, .stSuccess p {
-        background-color: #e8f5e8 !important;
-        color: #000000 !important;
-    }
-    
-    .stError, .stError div, .stError p {
-        background-color: #ffebee !important;
-        color: #000000 !important;
-    }
-    
-    .stWarning, .stWarning div, .stWarning p {
-        background-color: #fff3e0 !important;
-        color: #000000 !important;
-    }
-    
-    /* Buttons */
-    .stButton > button {
-        background-color: #2196f3 !important;
-        color: #ffffff !important;
-        border: none !important;
-    }
-    
-    /* Dropdown/Select specific */
-    [data-baseweb="select"] {
-        background-color: #ffffff !important;
-    }
-    
-    [data-baseweb="select"] > div {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        border: 1px solid #cccccc !important;
-    }
-    
-    [data-baseweb="select"] span {
-        color: #000000 !important;
-    }
-    
-    /* Input specific */
-    [data-baseweb="input"] {
-        background-color: #ffffff !important;
-    }
-    
-    [data-baseweb="input"] > div {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        border: 1px solid #cccccc !important;
-    }
-    
-    [data-baseweb="input"] input {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-    }
-    
-    /* Force all text to be dark - most aggressive approach */
-    * {
-        color: #000000 !important;
-    }
-    
-    /* Override for specific elements that should stay colored */
-    .stButton > button {
-        color: #ffffff !important;
-    }
-    
-    a {
-        color: #1976d2 !important;
-    }
-    
-    /* Dark mode media query override */
+    /* Dark mode specific fixes - only override when in dark mode */
     @media (prefers-color-scheme: dark) {
-        .stApp {
+        /* Input fields text color in dark mode */
+        .stSelectbox label, .stSelectbox div[data-baseweb="select"] span {
+            color: #000000 !important;
+        }
+        
+        .stNumberInput label, .stNumberInput input {
+            color: #000000 !important;
+        }
+        
+        /* Dropdown options */
+        [data-baseweb="select"] > div {
             background-color: #ffffff !important;
             color: #000000 !important;
         }
         
-        * {
-            background-color: inherit !important;
+        [data-baseweb="select"] span {
             color: #000000 !important;
         }
         
-        .stButton > button {
-            background-color: #2196f3 !important;
-            color: #ffffff !important;
+        /* Input fields */
+        [data-baseweb="input"] input {
+            background-color: #ffffff !important;
+            color: #000000 !important;
         }
+        
+        /* Labels only */
+        .stSelectbox > label, .stNumberInput > label {
+            color: #000000 !important;
+        }
+    }
+    
+    /* General dark mode text fixes for input elements only */
+    .stSelectbox div[data-baseweb="select"] {
+        background-color: #ffffff !important;
+    }
+    
+    .stSelectbox div[data-baseweb="select"] > div {
+        color: #000000 !important;
+    }
+    
+    .stNumberInput div[data-baseweb="input"] input {
+        color: #000000 !important;
+        background-color: #ffffff !important;
+    }
+    
+    /* Ensure dropdown text is always dark */
+    [data-baseweb="select"] span,
+    [data-baseweb="select"] div {
+        color: #000000 !important;
+    }
+    
+    /* Input field text */
+    [data-baseweb="input"] input {
+        color: #000000 !important;
     }
     </style>
     """, unsafe_allow_html=True)
