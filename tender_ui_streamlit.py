@@ -348,7 +348,7 @@ def show_profile_summary(profile_data):
         st.warning(f"⚠️ **קטגוריה:** {category} - ייתכן ולא תהיה זכאי להטבות מיוחדות")
 
 def main():
-    # Override Streamlit CSS to center everything and support dark mode
+    # Override Streamlit CSS to center everything and force light theme
     st.markdown("""
     <style>
     .main > div {
@@ -370,113 +370,74 @@ def main():
         text-align: center !important;
     }
     
-    /* Dark mode specific fixes - only override when in dark mode */
-    @media (prefers-color-scheme: dark) {
-        /* Input fields text color in dark mode */
-        .stSelectbox label, .stSelectbox div[data-baseweb="select"] span {
-            color: #000000 !important;
-        }
-        
-        .stNumberInput label, .stNumberInput input {
-            color: #000000 !important;
-        }
-        
-        /* Dropdown options */
-        [data-baseweb="select"] > div {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-        }
-        
-        [data-baseweb="select"] span {
-            color: #000000 !important;
-        }
-        
-        /* Input fields */
-        [data-baseweb="input"] input {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-        }
-        
-        /* Labels only */
-        .stSelectbox > label, .stNumberInput > label {
-            color: #000000 !important;
-        }
-        
-        /* Fix number input buttons (+ and -) */
-        .stNumberInput button {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-            border: 1px solid #cccccc !important;
-        }
-        
-        /* Fix help icons - make them dark */
-        .stTooltipIcon {
-            color: #333333 !important;
-        }
-        
-        /* Fix help tooltips - question mark icon */
-        [data-testid="stTooltipHoverTarget"] {
-            color: #333333 !important;
-        }
-        
-        /* Fix tooltip content background and text */
-        [data-testid="stTooltip"] {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-            border: 1px solid #cccccc !important;
-        }
-        
-        /* Fix tooltip arrow */
-        [data-testid="stTooltip"]::before {
-            border-color: #ffffff transparent transparent transparent !important;
-        }
-        
-        /* Fix any other icon buttons */
-        button[kind="secondary"] {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-            border: 1px solid #cccccc !important;
-        }
+    /* Force light theme for the entire app - override dark mode completely */
+    .stApp {
+        background-color: #ffffff !important;
+        color: #000000 !important;
     }
     
-    /* General dark mode text fixes for input elements only */
-    .stSelectbox div[data-baseweb="select"] {
+    .main .block-container {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    /* Force all text to be dark */
+    * {
+        color: #000000 !important;
+    }
+    
+    /* Input fields - force white background and dark text */
+    .stSelectbox > div > div {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    .stSelectbox label {
+        color: #000000 !important;
+    }
+    
+    .stNumberInput > div > div > input {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    .stNumberInput label {
+        color: #000000 !important;
+    }
+    
+    /* Dropdown specific */
+    [data-baseweb="select"] {
         background-color: #ffffff !important;
     }
     
-    .stSelectbox div[data-baseweb="select"] > div {
-        color: #000000 !important;
-    }
-    
-    .stNumberInput div[data-baseweb="input"] input {
-        color: #000000 !important;
+    [data-baseweb="select"] > div {
         background-color: #ffffff !important;
-    }
-    
-    /* Ensure dropdown text is always dark */
-    [data-baseweb="select"] span,
-    [data-baseweb="select"] div {
         color: #000000 !important;
     }
     
-    /* Input field text */
+    [data-baseweb="select"] span {
+        color: #000000 !important;
+    }
+    
+    /* Input specific */
     [data-baseweb="input"] input {
+        background-color: #ffffff !important;
         color: #000000 !important;
     }
     
-    /* Fix number input controls */
+    /* Number input buttons */
     .stNumberInput button {
         background-color: #f0f0f0 !important;
         color: #000000 !important;
         border: 1px solid #cccccc !important;
     }
     
-    /* Fix help icons globally - make them visible */
+    /* Help icons - always dark gray */
     .stTooltipIcon, [data-testid="stTooltipHoverTarget"] {
         color: #666666 !important;
     }
     
-    /* Fix tooltip content globally */
+    /* Tooltips - always white background with dark text */
     [data-testid="stTooltip"] {
         background-color: #ffffff !important;
         color: #000000 !important;
@@ -484,11 +445,45 @@ def main():
         box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
     }
     
-    /* Fix secondary buttons */
-    button[kind="secondary"] {
-        background-color: #f0f0f0 !important;
-        color: #000000 !important;
-        border: 1px solid #cccccc !important;
+    /* Keep button colors as designed */
+    .stButton > button {
+        color: #ffffff !important;
+    }
+    
+    /* Keep link colors */
+    a {
+        color: #1976d2 !important;
+    }
+    
+    /* Force light theme even in dark mode preference */
+    @media (prefers-color-scheme: dark) {
+        .stApp, .stApp * {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+        }
+        
+        /* Keep button colors */
+        .stButton > button {
+            background-color: #2196f3 !important;
+            color: #ffffff !important;
+        }
+        
+        /* Keep link colors */
+        a {
+            color: #1976d2 !important;
+        }
+        
+        /* Help icons */
+        .stTooltipIcon, [data-testid="stTooltipHoverTarget"] {
+            color: #666666 !important;
+        }
+        
+        /* Tooltips */
+        [data-testid="stTooltip"] {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #cccccc !important;
+        }
     }
     </style>
     """, unsafe_allow_html=True)
