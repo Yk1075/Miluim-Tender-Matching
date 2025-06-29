@@ -348,7 +348,7 @@ def show_profile_summary(profile_data):
         st.warning(f"⚠️ **קטגוריה:** {category} - ייתכן ולא תהיה זכאי להטבות מיוחדות")
 
 def main():
-    # Override Streamlit CSS to center everything and force light theme
+    # Override Streamlit CSS to center everything and fix dark mode issues
     st.markdown("""
     <style>
     .main > div {
@@ -370,120 +370,60 @@ def main():
         text-align: center !important;
     }
     
-    /* Force light theme for the entire app - override dark mode completely */
-    .stApp {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-    }
-    
-    .main .block-container {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-    }
-    
-    /* Force all text to be dark */
-    * {
-        color: #000000 !important;
-    }
-    
-    /* Input fields - force white background and dark text */
-    .stSelectbox > div > div {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-    }
-    
-    .stSelectbox label {
-        color: #000000 !important;
-    }
-    
-    .stNumberInput > div > div > input {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-    }
-    
-    .stNumberInput label {
-        color: #000000 !important;
-    }
-    
-    /* Dropdown specific */
-    [data-baseweb="select"] {
-        background-color: #ffffff !important;
-    }
-    
-    [data-baseweb="select"] > div {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-    }
-    
-    [data-baseweb="select"] span {
-        color: #000000 !important;
-    }
-    
-    /* Input specific */
-    [data-baseweb="input"] input {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-    }
-    
-    /* Number input buttons */
-    .stNumberInput button {
-        background-color: #f0f0f0 !important;
-        color: #000000 !important;
-        border: 1px solid #cccccc !important;
-    }
-    
-    /* Help icons - always dark gray */
-    .stTooltipIcon, [data-testid="stTooltipHoverTarget"] {
-        color: #666666 !important;
-    }
-    
-    /* Tooltips - always white background with dark text */
-    [data-testid="stTooltip"] {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        border: 1px solid #cccccc !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
-    }
-    
-    /* Keep button colors as designed */
-    .stButton > button {
-        color: #ffffff !important;
-    }
-    
-    /* Keep link colors */
-    a {
-        color: #1976d2 !important;
-    }
-    
-    /* Force light theme even in dark mode preference */
+    /* Dark mode specific fixes only */
     @media (prefers-color-scheme: dark) {
-        .stApp, .stApp * {
-            background-color: #ffffff !important;
+        /* Input fields - ensure text is readable */
+        .stSelectbox label {
             color: #000000 !important;
         }
         
-        /* Keep button colors */
-        .stButton > button {
-            background-color: #2196f3 !important;
-            color: #ffffff !important;
+        .stNumberInput label {
+            color: #000000 !important;
         }
         
-        /* Keep link colors */
-        a {
-            color: #1976d2 !important;
+        /* Dropdown text */
+        [data-baseweb="select"] span {
+            color: #000000 !important;
         }
         
-        /* Help icons */
+        /* Input field text */
+        [data-baseweb="input"] input {
+            color: #000000 !important;
+        }
+        
+        /* Help icons - make them visible */
         .stTooltipIcon, [data-testid="stTooltipHoverTarget"] {
-            color: #666666 !important;
+            color: #333333 !important;
         }
         
-        /* Tooltips */
+        /* Tooltips - white background with dark text */
         [data-testid="stTooltip"] {
             background-color: #ffffff !important;
             color: #000000 !important;
             border: 1px solid #cccccc !important;
         }
+    }
+    
+    /* General fixes for input readability */
+    [data-baseweb="select"] span {
+        color: #000000 !important;
+    }
+    
+    [data-baseweb="input"] input {
+        color: #000000 !important;
+    }
+    
+    /* Help icons - always visible */
+    .stTooltipIcon, [data-testid="stTooltipHoverTarget"] {
+        color: #666666 !important;
+    }
+    
+    /* Tooltips - always readable */
+    [data-testid="stTooltip"] {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #cccccc !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
     }
     </style>
     """, unsafe_allow_html=True)
