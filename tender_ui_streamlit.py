@@ -370,46 +370,64 @@ def main():
         text-align: center !important;
     }
     
-    /* Dark mode support - force light colors for better readability */
-    .stApp {
+    /* Force light theme for all elements */
+    .stApp, .stApp > div, .main, .main > div {
         background-color: #ffffff !important;
         color: #000000 !important;
     }
     
-    /* Input fields */
-    .stSelectbox > div > div {
-        background-color: #ffffff !important;
+    /* Input fields - more specific selectors */
+    .stSelectbox label, .stSelectbox div, .stSelectbox span, .stSelectbox p {
         color: #000000 !important;
     }
     
-    .stNumberInput > div > div > input {
+    .stSelectbox > div > div, .stSelectbox > div > div > div {
         background-color: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #cccccc !important;
+    }
+    
+    .stNumberInput label, .stNumberInput div, .stNumberInput span, .stNumberInput p {
         color: #000000 !important;
     }
     
-    /* Text areas and labels */
-    .stMarkdown, .stText, label {
+    .stNumberInput > div > div > input, .stNumberInput input {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #cccccc !important;
+    }
+    
+    /* All text elements */
+    .stMarkdown, .stMarkdown div, .stMarkdown p, .stMarkdown span {
+        color: #000000 !important;
+    }
+    
+    .stText, .stText div, .stText p, .stText span {
+        color: #000000 !important;
+    }
+    
+    label, label div, label p, label span {
         color: #000000 !important;
     }
     
     /* Info boxes */
-    .stInfo {
+    .stInfo, .stInfo div, .stInfo p {
         background-color: #e3f2fd !important;
         color: #000000 !important;
     }
     
     /* Success/error messages */
-    .stSuccess {
+    .stSuccess, .stSuccess div, .stSuccess p {
         background-color: #e8f5e8 !important;
         color: #000000 !important;
     }
     
-    .stError {
+    .stError, .stError div, .stError p {
         background-color: #ffebee !important;
         color: #000000 !important;
     }
     
-    .stWarning {
+    .stWarning, .stWarning div, .stWarning p {
         background-color: #fff3e0 !important;
         color: #000000 !important;
     }
@@ -421,30 +439,67 @@ def main():
         border: none !important;
     }
     
-    /* Expander */
-    .streamlit-expanderHeader {
-        background-color: #f5f5f5 !important;
+    /* Dropdown/Select specific */
+    [data-baseweb="select"] {
+        background-color: #ffffff !important;
+    }
+    
+    [data-baseweb="select"] > div {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #cccccc !important;
+    }
+    
+    [data-baseweb="select"] span {
         color: #000000 !important;
     }
     
-    .streamlit-expanderContent {
+    /* Input specific */
+    [data-baseweb="input"] {
+        background-color: #ffffff !important;
+    }
+    
+    [data-baseweb="input"] > div {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #cccccc !important;
+    }
+    
+    [data-baseweb="input"] input {
         background-color: #ffffff !important;
         color: #000000 !important;
     }
     
-    /* Sidebar */
-    .css-1d391kg {
-        background-color: #ffffff !important;
-    }
-    
-    /* Force all text to be dark */
+    /* Force all text to be dark - most aggressive approach */
     * {
         color: #000000 !important;
     }
     
-    /* Override for links */
+    /* Override for specific elements that should stay colored */
+    .stButton > button {
+        color: #ffffff !important;
+    }
+    
     a {
         color: #1976d2 !important;
+    }
+    
+    /* Dark mode media query override */
+    @media (prefers-color-scheme: dark) {
+        .stApp {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+        }
+        
+        * {
+            background-color: inherit !important;
+            color: #000000 !important;
+        }
+        
+        .stButton > button {
+            background-color: #2196f3 !important;
+            color: #ffffff !important;
+        }
     }
     </style>
     """, unsafe_allow_html=True)
