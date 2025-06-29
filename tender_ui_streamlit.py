@@ -370,60 +370,45 @@ def main():
         text-align: center !important;
     }
     
-    /* Dark mode specific fixes only */
-    @media (prefers-color-scheme: dark) {
-        /* Input fields - ensure text is readable */
-        .stSelectbox label {
-            color: #000000 !important;
-        }
-        
-        .stNumberInput label {
-            color: #000000 !important;
-        }
-        
-        /* Dropdown text */
-        [data-baseweb="select"] span {
-            color: #000000 !important;
-        }
-        
-        /* Input field text */
-        [data-baseweb="input"] input {
-            color: #000000 !important;
-        }
-        
-        /* Help icons - make them visible */
-        .stTooltipIcon, [data-testid="stTooltipHoverTarget"] {
-            color: #333333 !important;
-        }
-        
-        /* Tooltips - white background with dark text */
-        [data-testid="stTooltip"] {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-            border: 1px solid #cccccc !important;
-        }
+    /* Fix input fields readability in dark mode */
+    [data-baseweb="select"] {
+        background-color: #ffffff !important;
     }
     
-    /* General fixes for input readability */
+    [data-baseweb="select"] > div {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
     [data-baseweb="select"] span {
         color: #000000 !important;
     }
     
+    [data-baseweb="input"] {
+        background-color: #ffffff !important;
+    }
+    
     [data-baseweb="input"] input {
+        background-color: #ffffff !important;
         color: #000000 !important;
     }
     
-    /* Help icons - always visible */
+    /* Fix help icons - visible on both light and dark backgrounds */
     .stTooltipIcon, [data-testid="stTooltipHoverTarget"] {
-        color: #666666 !important;
+        color: #555555 !important;
     }
     
-    /* Tooltips - always readable */
+    /* Fix tooltips - always readable */
     [data-testid="stTooltip"] {
         background-color: #ffffff !important;
         color: #000000 !important;
         border: 1px solid #cccccc !important;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    }
+    
+    /* Ensure labels are readable in dark mode */
+    .stSelectbox > label, .stNumberInput > label {
+        color: #000000 !important;
     }
     </style>
     """, unsafe_allow_html=True)
