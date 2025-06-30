@@ -254,7 +254,7 @@ def render_tender_with_streamlit(tender):
         with special_col_right:
             disability_plots = tender.get('מגרשים לנכי צה"ל', 0)
             if disability_plots and str(disability_plots) != 'nan' and str(disability_plots) != '0':
-                st.success(f"🏅 מגרשים לנכי צה"ל: {disability_plots}")
+                st.success(f"🏅 מגרשים לנכי צה\"ל: {disability_plots}")
         
         # Row 3: Dates - same size as plot count and priority
         date_col_left, date_col_right = st.columns([1, 1])
@@ -366,13 +366,11 @@ def main():
     
     with col1:
         st.info("""
-**איך זה עובד?**
+רשות מקרקעי ישראל (רמ"י) פרסמה בחודשים האחרונים מכרזים מיוחדים המעניקים הטבות למשרתי ומשרתות המילואים ברכישת מגרשים לבנייה. כדי לסייע לכם למצוא בקלות את המכרזים הרלוונטיים עבורכם, יצרנו מערכת חכמה המתאימה את המכרזים הרלוונטיים על פי תשובותיכם לשאלות מטה. אנו מקווים שתמצאו במערכת כלי שימושי ונשמח ללוות אתכם בתהליך לבניית בית חלומותיכם.
 
-על בסיס תנאי הזכאות והמכרזים שפורסמו על ידי רשות מקרקעי ישראל המערכת יודעת להתאים לך את המכרזים הייעודיים עם התאמה מקסימלית. 
+**שימו לב:** הפרטים המלאים והמדויקים נמצאים בדרך כלל בחוברת המכרז עצמה. מומלץ לסמן לעצמכם תזכורת לתאריך פרסום החוברת ולמועד האחרון להגשת ההצעות.
 
-פשוט עונים על השאלות מטה והמכרזים הרלוונטים כבר יעלו לפניכם כך שתוכלו להתקדם מבלי לבזבז זמן חשוב על נבירה באתר של רמ״י.
-
-**שימו לב:** במרבית המכרזים הפרטים המלאים יופיעו בחוברת המכרז - כך ששווה במציאת המכרזים הרלוונטים לשים לכם תזכורת לתאריך פרסום החוברת ותאריך ההגשה האחרון שלא תפספסו!
+**המידע באתר מוצג כפי שהוא (as is) ומבוסס על פרסומי רשות מקרקעי ישראל (רמ"י). אין לראות במידע זה תחליף לייעוץ משפטי, מקצועי או אחר, והשימוש בו והסתמכות על האמור בו נעשה על אחריות המשתמש בלבד. האתר אינו קשור באופן רשמי לרשות מקרקעי ישראל.**
 """)
     
     with col2:
