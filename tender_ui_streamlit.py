@@ -304,7 +304,8 @@ def find_matching_tenders(profile_data):
                     'מועד אחרון להגשה': tender['מועד אחרון להגשת הצעות'],
                     'אזור עדיפות': tender['אזור עדיפות'],
                     'מי רשאי להגיש': tender['מי רשאי להגיש'],
-                    'סטטוס דיור נדרש': tender['סטטוס דיור נדרש']
+                    'סטטוס דיור נדרש': tender['סטטוס דיור נדרש'],
+                    'קישור למכרז': tender['קישור למכרז ']
                 })
         
         return pd.DataFrame(matching_tenders), []
@@ -394,9 +395,14 @@ def render_tender_with_streamlit(tender):
         button_col_left, button_col_right = st.columns([1, 1])
         
         with button_col_left:
-            # Direct link button - opens immediately without additional clicks
+            # Get the specific tender link - fallback to general search if not available
+            tender_link = tender.get('קישור למכרז', 'https://apps.land.gov.il/MichrazimSite/#/search')
+            if not tender_link or str(tender_link).strip() == '' or str(tender_link) == 'nan':
+                tender_link = 'https://apps.land.gov.il/MichrazimSite/#/search'
+            
+            # Direct link button - opens the specific tender page
             st.markdown(f"""
-            <a href="https://apps.land.gov.il/MichrazimSite/#/search" target="_blank" style="
+            <a href="{tender_link}" target="_blank" style="
                 display: inline-block;
                 padding: 0.75rem 1rem;
                 background-color: #059669;
@@ -413,7 +419,7 @@ def render_tender_with_streamlit(tender):
                 transition: all 0.2s ease;
             " onmouseover="this.style.backgroundColor='#047857'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.15)';" 
               onmouseout="this.style.backgroundColor='#059669'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(0, 0, 0, 0.1)';">
-                🌐 למערכת המכרזים של רמ״י
+                🌐 לדף המכרז ברמ״י
             </a>
             """, unsafe_allow_html=True)
 
