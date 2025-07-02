@@ -274,7 +274,7 @@ def find_matching_tenders(profile_data):
             return pd.DataFrame(), validation_errors
         
         # Load tender data
-        tenders_df = pd.read_csv('data/csv_output/טבלת מכרזים ניסיון שני_.csv')
+        tenders_df = pd.read_excel('data/טבלת מכרזים מתוקנת .xlsx')
         
         # Create profile series
         profile = pd.Series(profile_data)

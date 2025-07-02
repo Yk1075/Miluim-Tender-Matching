@@ -70,7 +70,7 @@ def create_comprehensive_matching_table():
     """Create comprehensive matching table with detailed information"""
     # Load data
     profiles_df = pd.read_csv('data/csv_output/טבלת הפרופילים.csv')
-    tenders_df = pd.read_csv('data/csv_output/טבלת מכרזים ניסיון שני_.csv')
+    tenders_df = pd.read_excel('data/טבלת מכרזים מתוקנת .xlsx')
     
     # Add profile categories
     profiles_df['קטגוריה'] = profiles_df.apply(get_profile_category, axis=1)
