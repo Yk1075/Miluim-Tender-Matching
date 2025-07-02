@@ -536,7 +536,6 @@ def main():
     
     # Use Streamlit's built-in title and subheader
     st.title("🏠 מילואים וזוכים - מערכת התאמת מכרזים")
-    st.subheader("מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך")
     
     # Info sections using Streamlit columns
     col1, col2 = st.columns(2)
