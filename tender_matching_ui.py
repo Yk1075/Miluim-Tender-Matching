@@ -277,6 +277,9 @@ def render_tender_with_streamlit(tender):
         with req_col_right:
             housing_req = tender.get('סטטוס דיור נדרש', 'לא צוין')
             if housing_req and str(housing_req) != 'nan':
+                # Show "עדיפות לחסרי דיור" instead of "לא צוין"
+                if housing_req == 'לא צוין':
+                    housing_req = 'עדיפות לחסרי דיור'
                 st.markdown(f"🏠 **דרישת דיור:** {housing_req}")
         
         # Row 5: Button on the left side
