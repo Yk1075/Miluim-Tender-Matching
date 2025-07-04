@@ -7,6 +7,7 @@ from create_comprehensive_matches import (
     check_eligibility_match, 
     check_housing_match
 )
+from datetime import datetime, timedelta
 
 # Set page configuration
 st.set_page_config(
@@ -203,6 +204,43 @@ def find_matching_tenders(profile_data):
     except Exception as e:
         return pd.DataFrame(), [f"אירעה שגיאה בעת חיפוש המכרזים: {str(e)}"]
 
+def format_israeli_date(date_input):
+    """Convert date from any format to Israeli format DD.M.YYYY בשעה HH:MM"""
+    if not date_input or str(date_input) == 'nan' or str(date_input) == 'לא צוין':
+        return 'לא צוין'
+    
+    try:
+        # Handle pandas timestamp or datetime objects directly
+        if hasattr(date_input, 'day') and hasattr(date_input, 'month'):
+            dt = date_input
+        else:
+            # Convert to string and try to parse
+            date_str = str(date_input).strip()
+            
+            # Try different date formats
+            if 'T' in date_str:
+                # ISO format with T
+                dt = datetime.fromisoformat(date_str.replace('T', ' ').split('.')[0])
+            elif len(date_str) == 10:
+                # YYYY-MM-DD format
+                dt = datetime.strptime(date_str, '%Y-%m-%d')
+            else:
+                # YYYY-MM-DD HH:MM:SS format
+                dt = datetime.strptime(date_str.split('.')[0], '%Y-%m-%d %H:%M:%S')
+        
+        # Format to Israeli style: DD.M.YYYY בשעה HH:MM
+        day = dt.day
+        month = dt.month
+        year = dt.year
+        hour = dt.hour if hasattr(dt, 'hour') else 0
+        minute = dt.minute if hasattr(dt, 'minute') else 0
+        
+        return f"{day}.{month}.{year} בשעה {hour:02d}:{minute:02d}"
+        
+    except (ValueError, TypeError, AttributeError) as e:
+        # If parsing fails, return original string
+        return str(date_input)
+
 def render_tender_with_streamlit(tender):
     """Render tender card with blue background using expander"""
     
@@ -261,11 +299,13 @@ def render_tender_with_streamlit(tender):
         
         with date_col_left:
             publish_date = tender.get('תאריך פרסום חוברת המכרז', 'לא צוין')
-            st.markdown(f"📅 **תאריך פרסום חוברת:** {publish_date}")
+            formatted_publish_date = format_israeli_date(publish_date)
+            st.markdown(f"📅 **תאריך פרסום חוברת:** {formatted_publish_date}")
         
         with date_col_right:
             deadline = tender.get('מועד אחרון להגשה', 'לא צוין')
-            st.markdown(f"⏰ **מועד אחרון:** {deadline}")
+            formatted_deadline = format_israeli_date(deadline)
+            st.markdown(f"⏰ **מועד אחרון:** {formatted_deadline}")
         
         # Row 4: Eligibility and housing requirements
         req_col_left, req_col_right = st.columns([1, 1])
