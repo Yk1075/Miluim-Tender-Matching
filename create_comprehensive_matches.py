@@ -39,7 +39,9 @@ def check_eligibility_match(profile_category, tender_eligibility):
     
     # Check specific categories
     if profile_category == 'נכי צהל':
-        return 'נכי צה"ל' in tender_eligibility or 'נכי צהל' in tender_eligibility
+        return ('נכי צה"ל' in tender_eligibility or 
+                'נכי צהל' in tender_eligibility or
+                'נכי צה״ל' in tender_eligibility)  # Hebrew quotation mark
     elif profile_category == 'חיילי מילואים':
         return 'חיילי מילואים' in tender_eligibility
     
