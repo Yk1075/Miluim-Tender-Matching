@@ -433,6 +433,8 @@ def main():
 **📞 צריכים עזרה?**
 
 צוות המשרד זמין לליווי בכל התהליך - yuvalk@apm.law
+
+[למדיניות הפרטיות](https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG)     [לתקנון](https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn)
 """)
 
     st.markdown("---")

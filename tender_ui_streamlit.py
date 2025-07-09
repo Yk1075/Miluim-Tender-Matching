@@ -612,6 +612,8 @@ def main():
 [פירוט מלא של ההטבות לחיילי מילואים](https://www.gov.il/he/pages/pr-miluaim-29042025)
 
 לכל תקלה באתר או בחיפוש עדכנו אותנו ב- yuvalk@apm.law
+
+[למדיניות הפרטיות](https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG)     [לתקנון](https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn)
 """)
 
     st.markdown("---")
