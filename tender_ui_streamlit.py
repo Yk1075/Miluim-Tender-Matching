@@ -590,36 +590,9 @@ def main():
 **שימו לב:** הפרטים המלאים והמדויקים נמצאים בדרך כלל בחוברת המכרז עצמה. מומלץ לסמן לעצמכם תזכורת לתאריך פרסום החוברת ולמועד האחרון להגשת ההצעות.
 
 **המידע באתר מוצג כפי שהוא (as is) ומבוסס על פרסומי רשות מקרקעי ישראל (רמ"י). אין לראות במידע זה תחליף לייעוץ משפטי, מקצועי או אחר, והשימוש בו והסתמכות על האמור בו נעשה על אחריות המשתמש בלבד. האתר אינו קשור באופן רשמי לרשות מקרקעי ישראל.**
+
+[למדיניות הפרטיות](https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG)                                     [לתקנון](https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn)
 """)
-        
-        # קישורים למדיניות פרטיות ותקנון
-        st.markdown("""
-        <div style="text-align: center; margin: 20px 0; padding: 15px; background-color: #f0f0f0; border-radius: 8px;">
-            <a href="https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG" target="_blank" style="
-                display: inline-block;
-                margin: 0 10px;
-                padding: 8px 16px;
-                background-color: #2563eb;
-                color: white;
-                text-decoration: none;
-                border-radius: 6px;
-                font-weight: bold;
-                font-size: 14px;
-            ">📋 מדיניות פרטיות</a>
-            
-            <a href="https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn" target="_blank" style="
-                display: inline-block;
-                margin: 0 10px;
-                padding: 8px 16px;
-                background-color: #059669;
-                color: white;
-                text-decoration: none;
-                border-radius: 6px;
-                font-weight: bold;
-                font-size: 14px;
-            ">📜 תקנון</a>
-        </div>
-        """, unsafe_allow_html=True)
     
     with col2:
         st.info("""
