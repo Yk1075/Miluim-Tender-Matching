@@ -400,12 +400,9 @@ def main():
     </style>
     """, unsafe_allow_html=True)
     
-    # Use Streamlit's built-in title and subheader  
+    # Use Streamlit's built-in title and subheader
     st.title("🏠 מילואים וזוכים - מערכת התאמת מכרזים")
     st.subheader("מצא את המכרז המושלם עבורך בהתאם לפרופיל השירות והעדפותיך")
-    
-    # Debug: Show which file is running
-    st.caption("קובץ: tender_matching_ui.py - עדכון אחרון")
     
     # Info sections using Streamlit columns
     col1, col2 = st.columns(2)
@@ -417,6 +414,8 @@ def main():
 **שימו לב:** הפרטים המלאים והמדויקים נמצאים בדרך כלל בחוברת המכרז עצמה. מומלץ לסמן לעצמכם תזכורת לתאריך פרסום החוברת ולמועד האחרון להגשת ההצעות.
 
 **המידע באתר מוצג כפי שהוא (as is) ומבוסס על פרסומי רשות מקרקעי ישראל (רמ"י). אין לראות במידע זה תחליף לייעוץ משפטי, מקצועי או אחר, והשימוש בו והסתמכות על האמור בו נעשה על אחריות המשתמש בלבד. האתר אינו קשור באופן רשמי לרשות מקרקעי ישראל.**
+
+[מדיניות פרטיות](https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[תקנון](https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn)
 """)
     
     with col2:
@@ -433,8 +432,6 @@ def main():
 **📞 צריכים עזרה?**
 
 צוות המשרד זמין לליווי בכל התהליך - yuvalk@apm.law
-
-[למדיניות הפרטיות](https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG)     [לתקנון](https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn)
 """)
 
     st.markdown("---")
@@ -557,12 +554,38 @@ def main():
                 # Show messages BEFORE the tender cards
                 st.success(f"נמצאו {len(st.session_state.matches)} מכרזים מתאימים לך!")
                 
-                # Government website link
-                st.info("""
+                # Government website link - show prominently at the top
+                info_col1, info_col2 = st.columns([0.85, 0.15])
+                
+                with info_col1:
+                    st.info("""
 🔗 **על מנת להתקדם להגשה יש להכנס למערכת המכרזים של רמ״י ולפתוח את המכרז שבחרתם לפי מספר המכרז שהוצג למטה.**
 
 **לסיוע בתהליך המלא אנו מזמינים אתכם ליצור קשר עם הצוות שלנו בכתובת:** yuvalk@apm.law
 """)
+                
+                with info_col2:
+                    st.markdown("&nbsp;")  # Add some space
+                    st.markdown(f"""
+                    <a href="https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG" target="_blank" style="
+                        display: inline-block;
+                        padding: 0.5rem 1rem;
+                        background-color: #4f46e5;
+                        color: white;
+                        text-decoration: none;
+                        border-radius: 6px;
+                        font-weight: bold;
+                        font-size: 14px;
+                        text-align: center;
+                        cursor: pointer;
+                        width: 100%;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        transition: all 0.2s ease;
+                    " onmouseover="this.style.backgroundColor='#3730a3'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.15)';" 
+                      onmouseout="this.style.backgroundColor='#4f46e5'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(0, 0, 0, 0.1)';">
+                        🔒 מדיניות הפרטיות
+                    </a>
+                    """, unsafe_allow_html=True)
                 
                 st.markdown("---")
                 
