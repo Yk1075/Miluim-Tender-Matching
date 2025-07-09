@@ -594,8 +594,32 @@ def main():
         
         # קישורים למדיניות פרטיות ותקנון
         st.markdown("""
-        [מדיניות פרטיות](https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG)  [תקנון](https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn)
-        """)
+        <div style="text-align: center; margin: 20px 0; padding: 15px; background-color: #f0f0f0; border-radius: 8px;">
+            <a href="https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG" target="_blank" style="
+                display: inline-block;
+                margin: 0 10px;
+                padding: 8px 16px;
+                background-color: #2563eb;
+                color: white;
+                text-decoration: none;
+                border-radius: 6px;
+                font-weight: bold;
+                font-size: 14px;
+            ">📋 מדיניות פרטיות</a>
+            
+            <a href="https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn" target="_blank" style="
+                display: inline-block;
+                margin: 0 10px;
+                padding: 8px 16px;
+                background-color: #059669;
+                color: white;
+                text-decoration: none;
+                border-radius: 6px;
+                font-weight: bold;
+                font-size: 14px;
+            ">📜 תקנון</a>
+        </div>
+        """, unsafe_allow_html=True)
     
     with col2:
         st.info("""
