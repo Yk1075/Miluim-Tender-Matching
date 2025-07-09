@@ -580,6 +580,9 @@ def main():
     # Use Streamlit's built-in title and subheader
     st.title("🏠 מילואים וזוכים - מערכת התאמת מכרזים")
     
+    # Debug: Show which file is running
+    st.caption("קובץ: tender_ui_streamlit.py - עדכון אחרון")
+    
     # Info sections using Streamlit columns
     col1, col2 = st.columns(2)
     
@@ -590,8 +593,6 @@ def main():
 **שימו לב:** הפרטים המלאים והמדויקים נמצאים בדרך כלל בחוברת המכרז עצמה. מומלץ לסמן לעצמכם תזכורת לתאריך פרסום החוברת ולמועד האחרון להגשת ההצעות.
 
 **המידע באתר מוצג כפי שהוא (as is) ומבוסס על פרסומי רשות מקרקעי ישראל (רמ"י). אין לראות במידע זה תחליף לייעוץ משפטי, מקצועי או אחר, והשימוש בו והסתמכות על האמור בו נעשה על אחריות המשתמש בלבד. האתר אינו קשור באופן רשמי לרשות מקרקעי ישראל.**
-
-[למדיניות הפרטיות](https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG)                                     [לתקנון](https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn)
 """)
     
     with col2:
