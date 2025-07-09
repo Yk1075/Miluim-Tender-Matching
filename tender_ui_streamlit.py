@@ -742,11 +742,37 @@ def main():
                 st.success(f"נמצאו {len(st.session_state.matches)} מכרזים מתאימים לך!")
                 
                 # Government website link - show prominently at the top
-                st.info("""
+                info_col1, info_col2 = st.columns([0.85, 0.15])
+                
+                with info_col1:
+                    st.info("""
 **משרד עמית, פולק, מטלון מעריך ומוקיר את מערך משרתי ומשרתות המילואים ומאחלים לשובם של כל חיילי צה"ל בשלום הבייתה יחד עם החטופים והחטופות.**
 
 הבהרה: המערכת נועדה לסייע באיתור מכרזים פומביים ואינה מאפשרת הגשה, אינה מהווה התחייבות לתאריכים שפורסמו ואינה מהווה מתן חוות דעת על סיכויי הזכייה. המידע עודכן לאחרונה ב-30.6.2025. מכרזים שפורסמו לאחר מועד זה לא יופיעו במערכת. השימוש במידע באחריותכם בלבד.
 """)
+                
+                with info_col2:
+                    st.markdown("&nbsp;")  # Add some space
+                    st.markdown(f"""
+                    <a href="https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG" target="_blank" style="
+                        display: inline-block;
+                        padding: 0.5rem 1rem;
+                        background-color: #4f46e5;
+                        color: white;
+                        text-decoration: none;
+                        border-radius: 6px;
+                        font-weight: bold;
+                        font-size: 14px;
+                        text-align: center;
+                        cursor: pointer;
+                        width: 100%;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        transition: all 0.2s ease;
+                    " onmouseover="this.style.backgroundColor='#3730a3'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.15)';" 
+                      onmouseout="this.style.backgroundColor='#4f46e5'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(0, 0, 0, 0.1)';">
+                        🔒 מדיניות הפרטיות
+                    </a>
+                    """, unsafe_allow_html=True)
                 
                 st.markdown("---")
                 
