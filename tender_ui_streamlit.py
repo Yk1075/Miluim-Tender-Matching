@@ -580,9 +580,6 @@ def main():
     # Use Streamlit's built-in title and subheader
     st.title("🏠 מילואים וזוכים - מערכת התאמת מכרזים")
     
-    # Debug: Show which file is running
-    st.caption("קובץ: tender_ui_streamlit.py - עדכון אחרון")
-    
     # Info sections using Streamlit columns
     col1, col2 = st.columns(2)
     
@@ -593,6 +590,8 @@ def main():
 **שימו לב:** הפרטים המלאים והמדויקים נמצאים בדרך כלל בחוברת המכרז עצמה. מומלץ לסמן לעצמכם תזכורת לתאריך פרסום החוברת ולמועד האחרון להגשת ההצעות.
 
 **המידע באתר מוצג כפי שהוא (as is) ומבוסס על פרסומי רשות מקרקעי ישראל (רמ"י). אין לראות במידע זה תחליף לייעוץ משפטי, מקצועי או אחר, והשימוש בו והסתמכות על האמור בו נעשה על אחריות המשתמש בלבד. האתר אינו קשור באופן רשמי לרשות מקרקעי ישראל.**
+
+[למדיניות הפרטיות](https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG)                                     [לתקנון](https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn)
 """)
     
     with col2:
@@ -612,8 +611,6 @@ def main():
 [פירוט מלא של ההטבות לחיילי מילואים](https://www.gov.il/he/pages/pr-miluaim-29042025)
 
 לכל תקלה באתר או בחיפוש עדכנו אותנו ב- yuvalk@apm.law
-
-[למדיניות הפרטיות](https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG)     [לתקנון](https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn)
 """)
 
     st.markdown("---")
@@ -746,12 +743,38 @@ def main():
                 # Show messages BEFORE the tender cards
                 st.success(f"נמצאו {len(st.session_state.matches)} מכרזים מתאימים לך!")
                 
-                # Government website link
-                st.info("""
+                # Government website link - show prominently at the top
+                info_col1, info_col2 = st.columns([0.85, 0.15])
+                
+                with info_col1:
+                    st.info("""
 **משרד עמית, פולק, מטלון מעריך ומוקיר את מערך משרתי ומשרתות המילואים ומאחלים לשובם של כל חיילי צה"ל בשלום הבייתה יחד עם החטופים והחטופות.**
 
 הבהרה: המערכת נועדה לסייע באיתור מכרזים פומביים ואינה מאפשרת הגשה, אינה מהווה התחייבות לתאריכים שפורסמו ואינה מהווה מתן חוות דעת על סיכויי הזכייה. המידע עודכן לאחרונה ב-30.6.2025. מכרזים שפורסמו לאחר מועד זה לא יופיעו במערכת. השימוש במידע באחריותכם בלבד.
 """)
+                
+                with info_col2:
+                    st.markdown("&nbsp;")  # Add some space
+                    st.markdown(f"""
+                    <a href="https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG" target="_blank" style="
+                        display: inline-block;
+                        padding: 0.5rem 1rem;
+                        background-color: #4f46e5;
+                        color: white;
+                        text-decoration: none;
+                        border-radius: 6px;
+                        font-weight: bold;
+                        font-size: 14px;
+                        text-align: center;
+                        cursor: pointer;
+                        width: 100%;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        transition: all 0.2s ease;
+                    " onmouseover="this.style.backgroundColor='#3730a3'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.15)';" 
+                      onmouseout="this.style.backgroundColor='#4f46e5'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(0, 0, 0, 0.1)';">
+                        🔒 מדיניות הפרטיות
+                    </a>
+                    """, unsafe_allow_html=True)
                 
                 st.markdown("---")
                 
