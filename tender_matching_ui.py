@@ -415,7 +415,7 @@ def main():
 
 **המידע באתר מוצג כפי שהוא (as is) ומבוסס על פרסומי רשות מקרקעי ישראל (רמ"י). אין לראות במידע זה תחליף לייעוץ משפטי, מקצועי או אחר, והשימוש בו והסתמכות על האמור בו נעשה על אחריות המשתמש בלבד. האתר אינו קשור באופן רשמי לרשות מקרקעי ישראל.**
 
-[מדיניות פרטיות](https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[תקנון](https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn)
+[מדיניות פרטיות](https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG)      [תקנון](https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn)
 """)
     
     with col2:
