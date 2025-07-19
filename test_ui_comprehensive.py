@@ -56,7 +56,7 @@ class TenderMatchingTestSuite:
         print("=" * 50)
         
         required_files = [
-            'data/טבלת מכרזים יוני 25.xlsx',
+            'data/טבלת מכרזים יולי 25.xlsx',
             'data/csv_output/טבלת הפרופילים.csv',
             'data/csv_output/טבלת_התאמות_מקיפה.csv'
         ]
@@ -80,7 +80,7 @@ class TenderMatchingTestSuite:
             self.log_test("טעינת טבלת פרופילים", True, f"{len(profiles_df)} פרופילים")
             
             # Load tenders
-            tenders_df = pd.read_excel('data/טבלת מכרזים יוני 25.xlsx')
+            tenders_df = pd.read_excel('data/טבלת מכרזים יולי 25.xlsx')
             self.log_test("טעינת טבלת מכרזים", True, f"{len(tenders_df)} מכרזים")
             
             # Load matches
