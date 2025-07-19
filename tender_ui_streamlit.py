@@ -747,7 +747,7 @@ def main():
                 
                 # Government website link - show prominently at the top
                 st.info("""
-### **משרד עמית, פולק, מטלון ושות׳ מעריך ומוקיר את מערך משרתי ומשרתות המילואים ומאחל לשובם של כל חיילי צה"ל בשלום הבייתה יחד עם החטופים והחטופות.**
+### **משרד עמית, פולק, מטלון ושות׳ מעריך ומוקיר את מערך משרתי ומשרתות המילואים ומאחל לשובם של כל חיילי צה"ל בשלום הבייתה יחד עם החטופים והחטופות 🙏🏼**
 """)
                 
                 st.markdown("---")
