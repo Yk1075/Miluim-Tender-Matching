@@ -10,19 +10,24 @@ def get_profile_category(row):
     """Determine profile category based on disability and miluim status"""
     disability = row['סיווג_נכות']
     
-    # Check for disability categories
-    if disability in ['נכות קשה', '100% ומעלה']:
-        return 'נכי צהל'
+    # Check if qualifies as disabled veteran
+    is_disabled = disability in ['נכות קשה', '100% ומעלה']
     
     # Check for miluim soldier status
     days_since_oct = row['ימי_מילואים_מ-7.10.23']
     has_active_card = row['תעודת_מילואים_פעיל'] == 'כן'
     days_in_6_years = row['ימי_מילואים_ב-6_שנים']
+    is_miluim = is_miluim_soldier(days_since_oct, has_active_card, days_in_6_years)
     
-    if is_miluim_soldier(days_since_oct, has_active_card, days_in_6_years):
+    # Check for both categories - NEW: dual eligibility!
+    if is_disabled and is_miluim:
+        return 'נכי צהל וחיילי מילואים'
+    elif is_disabled:
+        return 'נכי צהל'
+    elif is_miluim:
         return 'חיילי מילואים'
-    
-    return 'אחר'
+    else:
+        return 'אחר'
 
 def check_area_match(profile_area, tender_area):
     """Check if profile preferred area matches tender geographical area"""
@@ -37,8 +42,19 @@ def check_eligibility_match(profile_category, tender_eligibility):
     if 'כולם' in tender_eligibility:
         return True
     
-    # Check specific categories
-    if profile_category == 'נכי צהל':
+    # NEW: Check for dual eligibility - gets access to ALL relevant tenders
+    if profile_category == 'נכי צהל וחיילי מילואים':
+        # Eligible for disabled veterans tenders
+        disabled_match = ('נכי צה"ל' in tender_eligibility or 
+                         'נכי צהל' in tender_eligibility or
+                         'נכי צה״ל' in tender_eligibility)
+        # Eligible for reservists tenders
+        miluim_match = 'חיילי מילואים' in tender_eligibility
+        # Return True if eligible for either category
+        return disabled_match or miluim_match
+    
+    # Check specific single categories
+    elif profile_category == 'נכי צהל':
         return ('נכי צה"ל' in tender_eligibility or 
                 'נכי צהל' in tender_eligibility or
                 'נכי צה״ל' in tender_eligibility)  # Hebrew quotation mark

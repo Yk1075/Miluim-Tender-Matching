@@ -489,7 +489,10 @@ def show_profile_summary(profile_data):
     profile_series = pd.Series(profile_data)
     category = get_profile_category(profile_series)
     
-    if category == 'נכי צהל':
+    if category == 'נכי צהל וחיילי מילואים':
+        st.balloons()  # Special celebration for dual eligibility!
+        st.success(f"🎖️ **קטגוריה:** {category} - זכאי לכל ההטבות המיוחדות! מכרזי נכי צה״ל + מילואים + כולם!")
+    elif category == 'נכי צהל':
         st.success(f"✅ **קטגוריה:** {category} - זכאי להטבות מיוחדות!")
     elif category == 'חיילי מילואים':
         st.success(f"✅ **קטגוריה:** {category} - זכאי להטבות מילואים!")
