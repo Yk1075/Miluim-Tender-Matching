@@ -582,27 +582,23 @@ def main():
     # Use Streamlit's built-in title and subheader
     st.title("🏠 מילואים וזוכים - מערכת התאמת מכרזים")
     
-    # Info section - centered using columns
-    col1, col2, col3 = st.columns([1, 3, 1])
-    with col2:
-        st.info("""
-        בהמשך להטבות ברכישת קרקע למילואימניקים ונכי צה"ל שפרסמה רשות מקרקעי ישראל, יצרנו עבורכם מערכת ייעודית לחיפוש המכרזים הרלוונטים לפי העדפותיכם. אנו מקווים שתמצאו במערכת כלי שימושי ונשמח ללוות אתכם בתהליך לבניית בית חלומותיכם.
+    # Info section
+    st.info("""
+בהמשך להטבות ברכישת קרקע למילואימניקים ונכי צה"ל שפרסמה רשות מקרקעי ישראל, יצרנו עבורכם מערכת ייעודית לחיפוש המכרזים הרלוונטים לפי העדפותיכם. אנו מקווים שתמצאו במערכת כלי שימושי ונשמח ללוות אתכם בתהליך לבניית בית חלומותיכם.
 
-        **ההטבות כוללות בין השאר:** מכרזים סגורים רק לאנשי המילואים ונכי צה״ל, הפחתה של 10% בשיעורי התשלום הקבועים באזורי עדיפות לאומית והנחה נוספת של 10%-35% על מחיר המגרש, בהתאם לאזור העדיפות הלאומית (בכפוף לתקרות המפורטות באתר).
+**ההטבות כוללות בין השאר:** מכרזים סגורים רק לאנשי המילואים ונכי צה״ל, הפחתה של 10% בשיעורי התשלום הקבועים באזורי עדיפות לאומית והנחה נוספת של 10%-35% על מחיר המגרש, בהתאם לאזור העדיפות הלאומית (בכפוף לתקרות המפורטות באתר).
 
-        **אנו מזמינים אתכם להתעמק בפרטי ההטבה [באתר של רשות מקרקעי ישראל](https://www.gov.il/he/pages/pr-miluaim-29042025).**
+**אנו מזמינים אתכם להתעמק בפרטי ההטבה [באתר של רשות מקרקעי ישראל](https://www.gov.il/he/pages/pr-miluaim-29042025).**
 
-        [למדיניות הפרטיות](https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG) | [לתקנון](https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn)
-        """)
+[למדיניות הפרטיות](https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG) | [לתקנון](https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn)
+""")
 
-    # Warning/Legal disclaimer section - centered using columns  
-    col1, col2, col3 = st.columns([1, 3, 1])
-    with col2:
-        st.warning("""
-        **המידע באתר מוצג כפי שהוא (as is) ומבוסס על פרסומי רשות מקרקעי ישראל (רמ"י).** אין לראות במידע זה תחליף לייעוץ משפטי, מקצועי או אחר, והשימוש בו והסתמכות על האמור בו נעשה על אחריות המשתמש בלבד. האתר אינו קשור באופן רשמי לרשות מקרקעי ישראל.
+    # Warning/Legal disclaimer section
+    st.warning("""
+**המידע באתר מוצג כפי שהוא (as is) ומבוסס על פרסומי רשות מקרקעי ישראל (רמ"י).** אין לראות במידע זה תחליף לייעוץ משפטי, מקצועי או אחר, והשימוש בו והסתמכות על האמור בו נעשה על אחריות המשתמש בלבד. האתר אינו קשור באופן רשמי לרשות מקרקעי ישראל.
 
-        לכל תקלה באתר או בחיפוש עדכנו אותנו ב- yuvalk@apm.law
-        """)
+לכל תקלה באתר או בחיפוש עדכנו אותנו ב- yuvalk@apm.law
+""")
 
     st.markdown("---")
 
