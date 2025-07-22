@@ -593,12 +593,7 @@ def main():
 [למדיניות הפרטיות](https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG) | [לתקנון](https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn)
 """)
 
-    # Warning/Legal disclaimer section
-    st.warning("""
-**המידע באתר מוצג כפי שהוא (as is) ומבוסס על פרסומי רשות מקרקעי ישראל (רמ"י).** אין לראות במידע זה תחליף לייעוץ משפטי, מקצועי או אחר, והשימוש בו והסתמכות על האמור בו נעשה על אחריות המשתמש בלבד. האתר אינו קשור באופן רשמי לרשות מקרקעי ישראל.
 
-לכל תקלה באתר או בחיפוש עדכנו אותנו ב- yuvalk@apm.law
-""")
 
     st.markdown("---")
 
@@ -733,6 +728,13 @@ def main():
                 # Government website link - show prominently at the top
                 st.info("""
 ### **משרד עמית, פולק, מטלון ושות׳ מעריך ומוקיר את מערך משרתי ומשרתות המילואים ומאחל לשובם של כל חיילי צה"ל בשלום הבייתה יחד עם החטופים והחטופות 🙏🏼**
+""")
+                
+                # Warning/Legal disclaimer section - shown after results
+                st.warning("""
+**המידע באתר מוצג כפי שהוא (as is) ומבוסס על פרסומי רשות מקרקעי ישראל (רמ"י).** אין לראות במידע זה תחליף לייעוץ משפטי, מקצועי או אחר, והשימוש בו והסתמכות על האמור בו נעשה על אחריות המשתמש בלבד. האתר אינו קשור באופן רשמי לרשות מקרקעי ישראל.
+
+לכל תקלה באתר או בחיפוש עדכנו אותנו ב- yuvalk@apm.law
 """)
                 
                 st.markdown("---")
