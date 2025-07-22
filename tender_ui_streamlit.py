@@ -595,6 +595,15 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
+    # Warning/Legal disclaimer section
+    st.markdown("""
+    <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; text-align: center; font-size: 100%; border: 1px solid #ffeaa7; margin-top: 15px;">
+        <p><strong>המידע באתר מוצג כפי שהוא (as is) ומבוסס על פרסומי רשות מקרקעי ישראל (רמ"י). אין לראות במידע זה תחליף לייעוץ משפטי, מקצועי או אחר, והשימוש בו והסתמכות על האמור בו נעשה על אחריות המשתמש בלבד. האתר אינו קשור באופן רשמי לרשות מקרקעי ישראל.</strong></p>
+        
+        <p>לכל תקלה באתר או בחיפוש עדכנו אותנו ב- <a href="mailto:yuvalk@apm.law">yuvalk@apm.law</a></p>
+    </div>
+    """, unsafe_allow_html=True)
+
     st.markdown("---")
 
     # Layout: Search (30%) + Results (70%)
