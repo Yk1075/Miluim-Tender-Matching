@@ -588,9 +588,7 @@ def main():
 
 **ההטבות כוללות בין השאר:** מכרזים סגורים רק לאנשי המילואים ונכי צה״ל, הפחתה של 10% בשיעורי התשלום הקבועים באזורי עדיפות לאומית והנחה נוספת של 10%-35% על מחיר המגרש, בהתאם לאזור העדיפות הלאומית (בכפוף לתקרות המפורטות באתר).
 
-**אנו מזמינים אתכם להתעמק בפרטי ההטבה באתר של רשות מקרקעי ישראל.**
-
-🔗 [פרטי ההטבות ברשות מקרקעי ישראל](https://www.gov.il/he/pages/pr-miluaim-29042025)
+**אנו מזמינים אתכם להתעמק בפרטי ההטבה [באתר של רשות מקרקעי ישראל](https://www.gov.il/he/pages/pr-miluaim-29042025).**
 
 [למדיניות הפרטיות](https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG)     |     [לתקנון](https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn)
 """)
