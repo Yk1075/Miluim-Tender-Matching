@@ -583,26 +583,24 @@ def main():
     st.title("🏠 מילואים וזוכים - מערכת התאמת מכרזים")
     
     # Info section
-    st.markdown("""
-    <div style="background-color: #e6f3ff; padding: 20px; border-radius: 8px; text-align: center; font-size: 120%; border: 1px solid #b3d9ff;">
-        <p>בהמשך להטבות ברכישת קרקע למילואימניקים ונכי צה"ל שפרסמה <a href="https://www.gov.il/he/pages/pr-miluaim-29042025" target="_blank">רשות מקרקעי ישראל</a>, יצרנו עבורכם מערכת ייעודית לחיפוש המכרזים הרלוונטים לפי העדפותיכם. אנו מקווים שתמצאו במערכת כלי שימושי ונשמח ללוות אתכם בתהליך לבניית בית חלומותיכם.</p>
-        
-        <p><strong>ההטבות כוללות בין השאר:</strong> מכרזים סגורים רק לאנשי המילואים ונכי צה״ל, הפחתה של 10% בשיעורי התשלום הקבועים באזורי עדיפות לאומית והנחה נוספת של 10%-35% על מחיר המגרש, בהתאם לאזור העדיפות הלאומית (בכפוף לתקרות המפורטות באתר).</p>
-        
-        <p><strong>אנו מזמינים אתכם להתעמק בפרטי ההטבה באתר של <a href="https://www.gov.il/he/pages/pr-miluaim-29042025" target="_blank">רשות מקרקעי ישראל</a>.</strong></p>
-        
-        <p><a href="https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG" target="_blank">למדיניות הפרטיות</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn" target="_blank">לתקנון</a></p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.info("""
+בהמשך להטבות ברכישת קרקע למילואימניקים ונכי צה"ל שפרסמה רשות מקרקעי ישראל, יצרנו עבורכם מערכת ייעודית לחיפוש המכרזים הרלוונטים לפי העדפותיכם. אנו מקווים שתמצאו במערכת כלי שימושי ונשמח ללוות אתכם בתהליך לבניית בית חלומותיכם.
+
+**ההטבות כוללות בין השאר:** מכרזים סגורים רק לאנשי המילואים ונכי צה״ל, הפחתה של 10% בשיעורי התשלום הקבועים באזורי עדיפות לאומית והנחה נוספת של 10%-35% על מחיר המגרש, בהתאם לאזור העדיפות הלאומית (בכפוף לתקרות המפורטות באתר).
+
+**אנו מזמינים אתכם להתעמק בפרטי ההטבה באתר של רשות מקרקעי ישראל.**
+
+🔗 [פרטי ההטבות ברשות מקרקעי ישראל](https://www.gov.il/he/pages/pr-miluaim-29042025)
+
+[למדיניות הפרטיות](https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG)     |     [לתקנון](https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn)
+""")
 
     # Warning/Legal disclaimer section
-    st.markdown("""
-    <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; text-align: center; font-size: 100%; border: 1px solid #ffeaa7; margin-top: 15px;">
-        <p><strong>המידע באתר מוצג כפי שהוא (as is) ומבוסס על פרסומי רשות מקרקעי ישראל (רמ"י). אין לראות במידע זה תחליף לייעוץ משפטי, מקצועי או אחר, והשימוש בו והסתמכות על האמור בו נעשה על אחריות המשתמש בלבד. האתר אינו קשור באופן רשמי לרשות מקרקעי ישראל.</strong></p>
-        
-        <p>לכל תקלה באתר או בחיפוש עדכנו אותנו ב- <a href="mailto:yuvalk@apm.law">yuvalk@apm.law</a></p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.warning("""
+**המידע באתר מוצג כפי שהוא (as is) ומבוסס על פרסומי רשות מקרקעי ישראל (רמ"י).** אין לראות במידע זה תחליף לייעוץ משפטי, מקצועי או אחר, והשימוש בו והסתמכות על האמור בו נעשה על אחריות המשתמש בלבד. האתר אינו קשור באופן רשמי לרשות מקרקעי ישראל.
+
+לכל תקלה באתר או בחיפוש עדכנו אותנו ב- yuvalk@apm.law
+""")
 
     st.markdown("---")
 
