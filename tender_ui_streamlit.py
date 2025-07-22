@@ -583,15 +583,17 @@ def main():
     st.title("🏠 מילואים וזוכים - מערכת התאמת מכרזים")
     
     # Info section
-    st.info("""
-בהמשך להטבות ברכישת קרקע למילואימניקים ונכי צה"ל שפרסמה [רשות מקרקעי ישראל](https://www.gov.il/he/pages/pr-miluaim-29042025), יצרנו עבורכם מערכת ייעודית לחיפוש המכרזים הרלוונטים לפי העדפותיכם. אנו מקווים שתמצאו במערכת כלי שימושי ונשמח ללוות אתכם בתהליך לבניית בית חלומותיכם.
-
-ההטבות כוללות בין השאר: מכרזים סגורים רק לאנשי המילואים ונכי צה״ל, הפחתה של 10% בשיעורי התשלום הקבועים באזורי עדיפות לאומית והנחה נוספת של 10%-35% על מחיר המגרש, בהתאם לאזור העדיפות הלאומית (בכפוף לתקרות המפורטות באתר).
-
-אנו מזמינים אתכם להתעמק בפרטי ההטבה באתר של [רשות מקרקעי ישראל](https://www.gov.il/he/pages/pr-miluaim-29042025).
-
-[למדיניות הפרטיות](https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG)                                       [לתקנון](https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn)
-""")
+    st.markdown("""
+    <div style="background-color: #e6f3ff; padding: 20px; border-radius: 8px; text-align: center; font-size: 120%; border: 1px solid #b3d9ff;">
+        <p>בהמשך להטבות ברכישת קרקע למילואימניקים ונכי צה"ל שפרסמה <a href="https://www.gov.il/he/pages/pr-miluaim-29042025" target="_blank">רשות מקרקעי ישראל</a>, יצרנו עבורכם מערכת ייעודית לחיפוש המכרזים הרלוונטים לפי העדפותיכם. אנו מקווים שתמצאו במערכת כלי שימושי ונשמח ללוות אתכם בתהליך לבניית בית חלומותיכם.</p>
+        
+        <p><strong>ההטבות כוללות בין השאר:</strong> מכרזים סגורים רק לאנשי המילואים ונכי צה״ל, הפחתה של 10% בשיעורי התשלום הקבועים באזורי עדיפות לאומית והנחה נוספת של 10%-35% על מחיר המגרש, בהתאם לאזור העדיפות הלאומית (בכפוף לתקרות המפורטות באתר).</p>
+        
+        <p><strong>אנו מזמינים אתכם להתעמק בפרטי ההטבה באתר של <a href="https://www.gov.il/he/pages/pr-miluaim-29042025" target="_blank">רשות מקרקעי ישראל</a>.</strong></p>
+        
+        <p><a href="https://drive.google.com/uc?export=download&id=1CUQc8SVnwxVdZe0-eHwQQfKg2hjEL6qG" target="_blank">למדיניות הפרטיות</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://drive.google.com/uc?export=download&id=15Ui-erPaWxitHOdQR7vouyZkSXfpoTcn" target="_blank">לתקנון</a></p>
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("---")
 
